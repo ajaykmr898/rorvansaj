@@ -1,25 +1,25 @@
-import { apiHandler, usersRepo } from 'helpers/api';
-
+import { apiHandler } from "helpers/api";
+import { usersRepo } from "repos";
 export default apiHandler({
-    get: getById,
-    put: update,
-    delete: _delete
+  get: getById,
+  put: update,
+  delete: _delete,
 });
 
 async function getById(req, res) {
-    const user = await usersRepo.getById(req.query.id);
+  const user = await usersRepo.getById(req.query.id);
 
-    if (!user) throw 'User Not Found';
+  if (!user) throw "User Not Found";
 
-    return res.status(200).json(user);
+  return res.status(200).json(user);
 }
 
 async function update(req, res) {
-    await usersRepo.update(req.query.id, req.body);
-    return res.status(200).json({});
+  await usersRepo.update(req.query.id, req.body);
+  return res.status(200).json({});
 }
 
 async function _delete(req, res) {
-    await usersRepo.delete(req.query.id);
-    return res.status(200).json({});
+  await usersRepo.delete(req.query.id);
+  return res.status(200).json({});
 }
