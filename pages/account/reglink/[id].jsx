@@ -28,9 +28,14 @@ function Reglink() {
         if (y) {
           // update
           let z = { ...x, isSignedUp: true, regExpTime: "" };
-          userService.updateUser(z).then(() => {
-            setValid(y);
-          });
+          userService
+            .updateUser(z)
+            .then(() => {
+              setValid(y);
+            })
+            .catch(() => {
+              alertService.error("An error occurred");
+            });
         } else {
           setValid(y);
         }
