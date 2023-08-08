@@ -22,6 +22,8 @@ export const userService = {
   getByRegLink,
   update,
   delete: _delete,
+  sendRegMail: sendRegMail,
+  updateUser: updateUser,
 };
 
 async function login(email, password) {
@@ -47,6 +49,10 @@ async function register(user) {
   await fetchWrapper.post(`${baseUrl}/register`, user);
 }
 
+async function sendRegMail(user) {
+  // send mail
+}
+
 async function getAll() {
   return await fetchWrapper.get(baseUrl);
 }
@@ -57,6 +63,10 @@ async function getById(id) {
 
 async function getByRegLink(regLink) {
   return await fetchWrapper.post(`${baseUrl}/signup`, { regLink });
+}
+
+async function updateUser(params) {
+  await fetchWrapper.put(`${baseUrl}/signup`, params);
 }
 
 async function update(id, params) {

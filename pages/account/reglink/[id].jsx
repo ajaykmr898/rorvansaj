@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Layout, AddEdit } from "components/users";
 import { userService, alertService } from "services";
 import Link from "next/link";
+import moment from "moment";
 
 export default Reglink;
 
@@ -22,8 +23,17 @@ function Reglink() {
       .getByRegLink(id)
       .then((x) => {
         setUser(x);
-        let y = true;
-        setValid(y);
+        let y =
+          moment(x.regExpTime).isAfter(moment()) && x.isSignedUp === "false";
+        if (y) {
+          // update
+          let z = { ...x, isSignedUp: true, regExpTime: "" };
+          userService.updateUser(z).then(() => {
+            setValid(y);
+          });
+        } else {
+          setValid(y);
+        }
       })
       .catch(alertService.error);
   }, [router]);

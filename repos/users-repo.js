@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { db } from "helpers/api";
+import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 
 const User = db.User;
 
@@ -53,6 +55,10 @@ async function create(params) {
     user.hash = bcrypt.hashSync(params.password, 10);
   }
 
+  user.regLink = uuidv4();
+  user.regExpTime = moment().add("2", "hours");
+  user.isSignedUp = "false";
+
   // save user
   await user.save();
 }
@@ -85,6 +91,6 @@ async function _delete(id) {
 }
 
 async function getByRegLink({ regLink }) {
-  //let filter = { regLink: regLink };
-  return await User.findById(regLink);
+  let filter = { regLink: regLink };
+  return await User.findOne(filter);
 }

@@ -31,8 +31,10 @@ function Register() {
     return userService
       .register(user)
       .then(() => {
-        alertService.success("Registration successful", true);
-        router.push("login");
+        userService.sendRegMail(user).then(() => {
+          alertService.success("Registration successful. Mail sent", true);
+          router.push("login");
+        });
       })
       .catch(alertService.error);
   }
