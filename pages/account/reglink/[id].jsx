@@ -35,13 +35,17 @@ function Reglink() {
           setValid(y);
         }
       })
-      .catch(alertService.error);
+      .catch(() => {
+        setValid(false);
+        setUser({});
+        alertService.error("An error occurred or link not valid");
+      });
   }, [router]);
 
   return (
     <div className="p-4">
       <div className="container">
-        <h1>Hi {user ? user?.firstName : ""}!</h1>
+        <h1>Hi {user ? user?.firstName : "user"}!</h1>
         {valid ? (
           <p>You have been signed up</p>
         ) : valid === false ? (
