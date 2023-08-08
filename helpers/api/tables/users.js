@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { boolean } from "yup";
 
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.Promise = global.Promise;
@@ -11,10 +12,17 @@ export function userModel() {
       hash: { type: String, required: true },
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
+      dob: { type: String, required: false },
+      regLink: { type: String, required: false },
+      regExpTime: { type: String, required: false },
+      isSignedUp: { type: String, required: false },
+      resetPassLink: { type: String, required: false },
+      passExpTime: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps
       timestamps: true,
+      strict: false,
     }
   );
 

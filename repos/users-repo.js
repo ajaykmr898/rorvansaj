@@ -9,6 +9,7 @@ export const usersRepo = {
   getAll,
   getById,
   create,
+  getByRegLink,
   update,
   delete: _delete,
 };
@@ -81,4 +82,9 @@ async function update(id, params) {
 
 async function _delete(id) {
   await User.findByIdAndRemove(id);
+}
+
+async function getByRegLink({ regLink }) {
+  //let filter = { regLink: regLink };
+  return await User.findById(regLink);
 }

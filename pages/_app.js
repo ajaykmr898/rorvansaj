@@ -36,11 +36,31 @@ function App({ Component, pageProps }) {
     const publicPaths = ["/account/login", "/account/register"];
     const path = url.split("?")[0];
     if (!userService.userValue && !publicPaths.includes(path)) {
-      setAuthorized(false);
-      router.push({
-        pathname: "/account/login",
-        query: { returnUrl: router.asPath },
-      });
+      // sign up
+      let spath = path.split("/reglink/");
+      if (
+        path.includes("reglink") &&
+        spath.length === 2 &&
+        !spath[1].includes("/")
+      ) {
+        setAuthorized(true);
+      } else {
+        // pass change
+        let spath = path.split("/resetpasslink/");
+        if (
+          path.includes("resetpasslink") &&
+          spath.length === 2 &&
+          !spath[1].includes("/")
+        ) {
+          setAuthorized(true);
+        } else {
+          setAuthorized(false);
+          router.push({
+            pathname: "/account/login",
+            //query: { returnUrl: router.asPath },
+          });
+        }
+      }
     } else {
       setAuthorized(true);
     }
