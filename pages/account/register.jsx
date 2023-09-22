@@ -60,7 +60,7 @@ function Register() {
   return (
     <div>
       <div className="row">
-        <div className="col-md-6 offset-md-3">
+        <div className="col-sm-6 offset-sm-3">
           <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex-row">
               <input
