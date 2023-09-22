@@ -50,9 +50,9 @@ function Reglink() {
   return (
     <div className="p-4">
       <div className="container">
-        <h1>Hi {user ? user?.firstName : "user"}!</h1>
+        <h1>Hi {user && user.firstName ? user?.firstName : "user"}!</h1>
         {valid ? (
-          <p>You have been signed up</p>
+          <p>You have been signed up correctly</p>
         ) : valid === false ? (
           <p>Link not valid</p>
         ) : (

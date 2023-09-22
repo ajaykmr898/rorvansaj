@@ -14,7 +14,7 @@ function Login() {
 
   // form validation rules
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required("Email is required"),
+    email: Yup.string().email("Email not valid").required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };

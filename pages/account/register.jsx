@@ -16,7 +16,7 @@ function Register() {
   const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
-    email: Yup.string().required("Email is required"),
+    email: Yup.string().email("Email not valid").required("Email is required"),
     password: Yup.string()
       .required("Password is required")
       .min(6, "Password must be at least 6 characters"),
@@ -28,15 +28,29 @@ function Register() {
   const { errors } = formState;
 
   function onSubmit(user) {
-    return userService
-      .register(user)
-      .then(() => {
-        userService.sendRegMail(user).then(() => {
-          alertService.success("Registration successful. Mail sent", true);
-          router.push("login");
-        });
-      })
-      .catch(alertService.error);
+    alertService.clear();
+    if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
+      user.firstName = user.firstName.trim();
+      user.lastName = user.lastName.trim();
+      return userService
+        .register(user)
+        .then(() => {
+          userService
+            .sendRegMail(user)
+            .then(() => {
+              alertService.success("Registration successful, Mail sent", true);
+              router.push("login");
+            })
+            .catch((err) =>
+              alertService.error(
+                "User Registration successful, Error while sending mail"
+              )
+            );
+        })
+        .catch((err) => alertService.error(err));
+    } else {
+      alertService.error("Firstname and Lastname must not be empty");
+    }
   }
 
   return (

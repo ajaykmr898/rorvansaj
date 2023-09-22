@@ -3,6 +3,8 @@ import Router from "next/router";
 
 import { fetchWrapper } from "helpers";
 import { alertService } from "./alert.service";
+import axios from "axios";
+//import nodemailer from "nodemailer";
 
 const baseUrl = `/api/users`;
 const userSubject = new BehaviorSubject(
@@ -50,7 +52,39 @@ async function register(user) {
 }
 
 async function sendRegMail(user) {
-  // send mail
+  let data = {
+    service_id: "service_anfkdec",
+    template_id: "template_px4i2lf",
+    user_id: "m9YvzMj0HDLG1qHK_",
+    template_params: {
+      emailOrPhone: "1",
+      depFrom: "",
+      arrTo: "",
+      depArrDate: "",
+      adultNum: "",
+      childNum: "",
+      infantNum: "",
+      stopType: "",
+      classType: "",
+      oneWayRound: "",
+    },
+  };
+
+  const options = {
+    method: "post",
+    url: "https://api.e1mailjs.com/api/v1.0/email/send",
+    data: data,
+    contentType: "application/json",
+  };
+
+  // send the request
+  return axios(options)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      throw err;
+    });
 }
 
 async function getAll() {

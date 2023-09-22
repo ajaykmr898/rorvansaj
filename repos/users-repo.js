@@ -23,6 +23,10 @@ async function authenticate({ email, password }) {
     throw "Email or password is incorrect";
   }
 
+  if (!(user && user.isSignedUp === "true")) {
+    throw "User not activated";
+  }
+
   // create a jwt token that is valid for 7 days
   const token = jwt.sign({ sub: user.id }, "secret", {
     expiresIn: "7d",
@@ -55,8 +59,10 @@ async function create(params) {
     user.hash = bcrypt.hashSync(params.password, 10);
   }
 
+  user.password = "";
+
   user.regLink = uuidv4();
-  user.regExpTime = moment().add("2", "hours");
+  user.regExpTime = moment().add("2", "years");
   user.isSignedUp = "false";
 
   // save user
