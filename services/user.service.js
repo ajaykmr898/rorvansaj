@@ -57,22 +57,15 @@ async function sendRegMail(user) {
     template_id: "template_px4i2lf",
     user_id: "m9YvzMj0HDLG1qHK_",
     template_params: {
-      emailOrPhone: "1",
-      depFrom: "",
-      arrTo: "",
-      depArrDate: "",
-      adultNum: "",
-      childNum: "",
-      infantNum: "",
-      stopType: "",
-      classType: "",
-      oneWayRound: "",
+      userMail: user.email,
+      regLinkMail: user.regLinkMail,
+      firstName: user.firstName,
     },
   };
 
   const options = {
     method: "post",
-    url: "https://api.e1mailjs.com/api/v1.0/email/send",
+    url: "https://api.emailjs.com/api/v1.0/email/send",
     data: data,
     contentType: "application/json",
   };

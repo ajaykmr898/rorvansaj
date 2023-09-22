@@ -6,6 +6,7 @@ import * as Yup from "yup";
 
 import { Layout } from "components/account";
 import { userService, alertService } from "services";
+import { v4 as uuidv4 } from "uuid";
 
 export default Register;
 
@@ -32,6 +33,9 @@ function Register() {
     if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
       user.firstName = user.firstName.trim();
       user.lastName = user.lastName.trim();
+      user.regLink = uuidv4();
+      user.regLinkMail =
+        "https://" + window.location.host + "/account/reglink/" + user.regLink;
       return userService
         .register(user)
         .then(() => {
