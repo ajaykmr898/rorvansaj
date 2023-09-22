@@ -1,23 +1,19 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-import { userService } from 'services';
+import { userService } from "services";
 
 export { Layout };
 
 function Layout({ children }) {
-    const router = useRouter();
+  const router = useRouter();
 
-    useEffect(() => {
-        // redirect to home if already logged in
-        if (userService.userValue) {
-            router.push('/');
-        }
-    }, []);
+  useEffect(() => {
+    // redirect to home if already logged in
+    if (userService.userValue) {
+      router.push("/");
+    }
+  }, []);
 
-    return (
-        <div className="col-md-6 offset-md-3 mt-5">
-            {children}
-        </div>
-    );
+  return <div className="col-md-6 offset-md-3 mt-5"></div>;
 }

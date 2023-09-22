@@ -36,52 +36,40 @@ function Login() {
   }
 
   return (
-    <Layout>
-      <div className="card">
-        <h4 className="card-header">Login</h4>
-        <div className="card-body">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
-              <label className="form-label">Email</label>
+    <div>
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex-row">
               <input
+                placeholder="Email"
                 name="email"
                 type="text"
                 {...register("email")}
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                className={`lf--input form-control ${
+                  errors.email ? "is-invalid" : ""
+                }`}
               />
-              <div className="invalid-feedback">{errors.email?.message}</div>
             </div>
-            <div className="mb-3">
-              <label className="form-label">Password</label>
+            <div className="flex-row">
               <input
+                placeholder="Password"
                 name="password"
                 type="password"
                 {...register("password")}
-                className={`form-control ${
+                className={`lf--input form-control ${
                   errors.password ? "is-invalid" : ""
                 }`}
               />
-              <div className="invalid-feedback">{errors.password?.message}</div>
             </div>
-            <div className="text-center">
-              <button
-                disabled={formState.isSubmitting}
-                className="btn btn-primary text-center"
-              >
-                {formState.isSubmitting && (
-                  <span className="spinner-border spinner-border-sm me-1"></span>
-                )}
-                Login
-              </button>
-            </div>
-            {
-              <Link href="/account/register" className="btn btn-link">
-                Register
-              </Link>
-            }
+            <input className="lf--submit" type="submit" value="Login" />
+            <br />
+            <Link href="/account/register" className="btn btn-link lf--forgot">
+              Register
+            </Link>
           </form>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }
