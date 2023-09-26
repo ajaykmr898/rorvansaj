@@ -2,7 +2,6 @@ import { BehaviorSubject } from "rxjs";
 import Router from "next/router";
 
 import { fetchWrapper } from "helpers";
-import { alertService } from "./alert.service";
 import axios from "axios";
 //import nodemailer from "nodemailer";
 
@@ -40,7 +39,6 @@ async function login(email, password) {
 }
 
 function logout() {
-  alertService.clear();
   // remove user from local storage, publish null to user subscribers and redirect to login page
   localStorage.removeItem("user");
   userSubject.next(null);

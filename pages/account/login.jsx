@@ -24,7 +24,6 @@ function Login() {
   const { errors } = formState;
 
   function onSubmit({ email, password }) {
-    alertService.clear();
     return userService
       .login(email, password)
       .then(() => {
@@ -32,7 +31,7 @@ function Login() {
         const returnUrl = router.query.returnUrl || "/";
         router.push(returnUrl);
       })
-      .catch(alertService.error);
+      .catch((err) => alertService.error(err));
   }
 
   return (

@@ -5,7 +5,7 @@ export { jwtMiddleware };
 
 function jwtMiddleware(req, res) {
   const middleware = expressjwt({
-    secret: "secret",
+    secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
   }).unless({
     path: [

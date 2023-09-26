@@ -34,7 +34,7 @@ function Reglink() {
               setValid(y);
             })
             .catch(() => {
-              alertService.error("An error occurred");
+              alertService.error("An error occurred while updating user");
             });
         } else {
           setValid(y);
@@ -43,7 +43,7 @@ function Reglink() {
       .catch(() => {
         setValid(false);
         setUser({});
-        alertService.error("An error occurred or link not valid");
+        alertService.error("An error occurred or link not valid, please retry");
       });
   }, [router]);
 

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import "styles/globals.css";
 import { userService } from "services";
-import { Nav, Alert } from "components";
+import { Nav } from "components";
 
 export default App;
 
@@ -78,7 +78,6 @@ function App({ Component, pageProps }) {
           <section id="content-wrapper">
             <div className="row">
               <div className="col-lg-12">
-                <Alert />
                 {authorized && <Component {...pageProps} />}
               </div>
             </div>

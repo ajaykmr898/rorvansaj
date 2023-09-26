@@ -1,39 +1,22 @@
-import { BehaviorSubject } from 'rxjs';
-
-const alertSubject = new BehaviorSubject(null);
+import Swal from "sweetalert2";
 
 export const alertService = {
-    alert: alertSubject.asObservable(),
-    success,
-    error,
-    clear
+  success,
+  error,
 };
 
-function success(message, showAfterRedirect = false) {
-    alertSubject.next({
-        type: 'alert-success',
-        message,
-        showAfterRedirect
-    });
+function success(message, title) {
+  Swal.fire({
+    icon: "success",
+    title: title || "Success",
+    text: message,
+  });
 }
 
-function error(message, showAfterRedirect = false) {
-    alertSubject.next({
-        type: 'alert-danger',
-        message,
-        showAfterRedirect
-    });
-}
-
-// clear alerts
-function clear() {
-    // if showAfterRedirect flag is true the alert is not cleared 
-    // for one route change (e.g. after successful registration)
-    let alert = alertSubject.value;
-    if (alert?.showAfterRedirect) {
-        alert.showAfterRedirect = false;
-    } else {
-        alert = null;
-    }
-    alertSubject.next(alert);
+function error(message, title) {
+  Swal.fire({
+    icon: "error",
+    title: title || "Error",
+    text: message,
+  });
 }

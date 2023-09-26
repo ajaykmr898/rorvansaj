@@ -29,7 +29,6 @@ function Register() {
   const { errors } = formState;
 
   function onSubmit(user) {
-    alertService.clear();
     if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
       user.firstName = user.firstName.trim();
       user.lastName = user.lastName.trim();
@@ -42,12 +41,14 @@ function Register() {
           userService
             .sendRegMail(user)
             .then(() => {
-              alertService.success("Registration successful, Mail sent", true);
+              alertService.success(
+                "User registered successfully, please follow the instructions received by email"
+              );
               router.push("login");
             })
             .catch((err) =>
               alertService.error(
-                "User Registration successful, Error while sending mail"
+                "An error occurred. Please recreate your account."
               )
             );
         })

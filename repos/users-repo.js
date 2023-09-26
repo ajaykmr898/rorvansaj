@@ -19,15 +19,15 @@ async function authenticate({ email, password }) {
   const user = await User.findOne({ email });
 
   if (!(user && bcrypt.compareSync(password, user.hash))) {
-    throw "Email or password is incorrect";
+    throw "Email or password are not correct";
   }
 
   if (!(user && user.isSignedUp === "true")) {
-    throw "User not activated";
+    throw "Account not activated, please check your email and activate your account first";
   }
 
   // create a jwt token that is valid for 7 days
-  const token = jwt.sign({ sub: user.id }, "secret", {
+  const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 
@@ -48,7 +48,7 @@ async function getById(id) {
 async function create(params) {
   // validate
   if (await User.findOne({ email: params.email })) {
-    throw 'Email "' + params.email + '" is already taken';
+    throw 'Email "' + params.email + '" is not available';
   }
 
   const user = new User(params);
@@ -75,7 +75,7 @@ async function update(id, params) {
     user.email !== params.email &&
     (await User.findOne({ email: params.email }))
   ) {
-    throw 'Email "' + params.email + '" is already taken';
+    throw 'Email "' + params.email + '" is not available';
   }
 
   // hash password if it was entered

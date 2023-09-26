@@ -1,0 +1,87 @@
+- db
+	[generic]
+		- country
+			- id
+			- name
+		- state
+			- id
+			- country_id
+			- name
+		- province
+			- id
+			- country_id
+			- state_id
+			- name
+		- city
+			- id
+			- country_id
+			- state_id
+			- province_id
+			- name
+	[relations]
+		- users
+			- id
+			- name
+			- surname
+			- dob
+			- gender
+			- residence_city_id
+			- birth_place_city_id
+		 	- email
+		 	- password
+		 	- otp
+		 	- level
+		- user_relations
+			- id
+			- user_id
+			- related_user_id
+			- relation
+		- relation
+			- id
+			- name -> father, brother, mother, sister ...
+		- level
+			- id
+			- name -> admin, sub-admin ...
+	[offers/ads/news]
+		- offers
+			- id
+			- type
+			- user_id
+			- title
+			- description
+			- from
+			- to
+			- visibility -> in % ?
+			- charge -> cost of owner
+			- viewed -> how many times sent to FE
+			- likes?
+		- attachments
+			- offer_id
+			- blob
+		- range
+			- id
+			- offer_id
+			- city_id
+
+endpoints
+	- register user
+	- login user
+	- update user
+	- delete user
+	- add otp
+	- check user otp for confirmation
+	- change password
+	- forgot password
+
+	- get relations
+	- get relations by user
+	- add relation
+	- remove relation
+	- update relation
+
+	- get offers
+	- get offers by area
+	- get offers by user
+	- add offer
+	- update offer
+	- remove offer

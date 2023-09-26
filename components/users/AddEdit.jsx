@@ -35,7 +35,6 @@ function AddEdit(props) {
   const { errors } = formState;
 
   async function onSubmit(data) {
-    alertService.clear();
     try {
       // create or update user based on user prop
       let message;
@@ -49,7 +48,7 @@ function AddEdit(props) {
 
       // redirect to user list with success message
       router.push("/users");
-      alertService.success(message, true);
+      alertService.success(message);
     } catch (error) {
       alertService.error(error);
       console.error(error);

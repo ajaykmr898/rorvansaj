@@ -18,7 +18,7 @@ function Edit() {
     userService
       .getById(id)
       .then((x) => setUser(x))
-      .catch(alertService.error);
+      .catch((err) => alertService.error(err));
   }, [router]);
 
   return (
