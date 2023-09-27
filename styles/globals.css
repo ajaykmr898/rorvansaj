@@ -6,6 +6,12 @@
 html,
 body {
   height: 100%;
+  color: #dbdfea;
+}
+
+a,
+Link {
+  color: #00d6b7;
 }
 
 body {
@@ -14,8 +20,14 @@ body {
   flex-direction: column;
   position: relative;
 
-  background: linear-gradient(135deg, #242e4d, #897e79);
+  background: #12486b;
   font-family: "Roboto", helvetica, arial, sans-serif;
+}
+
+#content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding-right: 15px;
 }
 
 .login-form {
