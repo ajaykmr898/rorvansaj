@@ -6,11 +6,17 @@ import * as Yup from "yup";
 
 import { Layout } from "components/account";
 import { userService, alertService } from "services";
+import { useState } from "react";
 
 export default Login;
 
 function Login() {
   const router = useRouter();
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
 
   // form validation rules
   const validationSchema = Yup.object().shape({
@@ -24,6 +30,8 @@ function Login() {
   const { errors } = formState;
 
   function onSubmit({ email, password }) {
+    setButtonDisabled(true);
+    setIsLoading(true);
     return userService
       .login(email, password)
       .then(() => {
@@ -31,7 +39,14 @@ function Login() {
         const returnUrl = router.query.returnUrl || "/";
         router.push(returnUrl);
       })
-      .catch((err) => alertService.error(err));
+      .catch((err) => {
+        setIsError(true);
+        setError(err);
+      })
+      .finally(() => {
+        setButtonDisabled(false);
+        setIsLoading(false);
+      });
   }
 
   return (
@@ -61,9 +76,18 @@ function Login() {
                 }`}
               />
             </div>
-            <input className="lf--submit" type="submit" value="Login" />
+            <span className="is-invalid text-center">
+              {" "}
+              {isError ? error : ""}
+            </span>
+            <input
+              className="lf--submit"
+              type="submit"
+              disabled={buttonDisabled}
+              value={isLoading ? "Logging..." : "Login"}
+            />
             <br />
-            <Link href="/account/register" className="btn btn-link lf--forgot">
+            <Link href="/account/register" className="btn btn-link lf--link">
               Register
             </Link>
           </form>

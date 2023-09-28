@@ -7,11 +7,16 @@ import * as Yup from "yup";
 import { Layout } from "components/account";
 import { userService, alertService } from "services";
 import { v4 as uuidv4 } from "uuid";
+import { useState } from "react";
 
 export default Register;
 
 function Register() {
   const router = useRouter();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
 
   // form validation rules
   const validationSchema = Yup.object().shape({
@@ -30,6 +35,8 @@ function Register() {
 
   function onSubmit(user) {
     if (user.firstName.trim().length > 0 && user.lastName.trim().length > 0) {
+      setButtonDisabled(true);
+      setIsLoading(true);
       user.firstName = user.firstName.trim();
       user.lastName = user.lastName.trim();
       user.regLink = uuidv4();
@@ -37,7 +44,7 @@ function Register() {
         "https://" + window.location.host + "/account/reglink/" + user.regLink;
       return userService
         .register(user)
-        .then(() => {
+        .then((res) => {
           userService
             .sendRegMail(user)
             .then(() => {
@@ -46,15 +53,25 @@ function Register() {
               );
               router.push("login");
             })
-            .catch((err) =>
+            .catch((err) => {
+              // @todo manage user delete without login
+              // userService.delete(res.id).catch();
               alertService.error(
                 "An error occurred. Please recreate your account."
-              )
-            );
+              );
+            });
         })
-        .catch((err) => alertService.error(err));
+        .catch((err) => {
+          setIsError(true);
+          setError(err);
+        })
+        .finally(() => {
+          setButtonDisabled(false);
+          setIsLoading(false);
+        });
     } else {
-      alertService.error("Firstname and Lastname must not be empty");
+      setIsError(true);
+      setError("Firstname and Lastname are required");
     }
   }
 
@@ -112,9 +129,18 @@ function Register() {
               />
             </div>
             <div className="invalid-feedback">{errors.password?.message}</div>
-            <input className="lf--submit" type="submit" value="Sign Up" />
+            <span className="is-invalid text-center">
+              {" "}
+              {isError ? error : ""}
+            </span>
+            <input
+              className="lf--submit"
+              type="submit"
+              disabled={buttonDisabled}
+              value={isLoading ? "Signing Up..." : "Sign up"}
+            />
             <br />
-            <Link href="/account/login" className="btn btn-link lf--forgot">
+            <Link href="/account/login" className="btn btn-link lf--link">
               Login
             </Link>
           </form>

@@ -24,7 +24,7 @@ function Nav() {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container">
         <Link className="navbar-brand" href="/">
-          Ror
+          Ror Vanshaj BO
         </Link>
         <button
           className="navbar-toggler"

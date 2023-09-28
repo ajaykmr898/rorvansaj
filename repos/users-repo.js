@@ -63,7 +63,11 @@ async function create(params) {
   user.isSignedUp = "false";
 
   // save user
-  await user.save();
+  try {
+    return await user.save();
+  } catch (err) {
+    throw "An error occurred while saving user";
+  }
 }
 
 async function update(id, params) {

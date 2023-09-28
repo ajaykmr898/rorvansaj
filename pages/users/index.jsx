@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 import { Layout } from "components/users";
 import { userService } from "services";
+import { Spinner } from "../../components";
+import { Empty } from "../../components/Empty";
 
 export default Index;
 
@@ -74,14 +76,14 @@ function Index() {
           {!users && (
             <tr>
               <td colSpan="4">
-                <p>loading...</p>
+                <Spinner />
               </td>
             </tr>
           )}
           {users && !users.length && (
             <tr>
-              <td colSpan="4" className="text-center">
-                <div className="p-2">No Users To Display</div>
+              <td colSpan="4">
+                <Empty text="no users found" />
               </td>
             </tr>
           )}

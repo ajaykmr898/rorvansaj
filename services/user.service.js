@@ -42,11 +42,11 @@ function logout() {
   // remove user from local storage, publish null to user subscribers and redirect to login page
   localStorage.removeItem("user");
   userSubject.next(null);
-  Router.push("/account/login");
+  Router.push({ pathname: "/account/login" });
 }
 
 async function register(user) {
-  await fetchWrapper.post(`${baseUrl}/register`, user);
+  return await fetchWrapper.post(`${baseUrl}/register`, user);
 }
 
 async function sendRegMail(user) {

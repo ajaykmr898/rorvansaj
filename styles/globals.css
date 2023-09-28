@@ -74,7 +74,7 @@ body {
 
   background: linear-gradient(to right, #35c3c1, #00d6b7);
   border: 0;
-  color: #fff;
+  color: #dbdfea;
   cursor: pointer;
   font-weight: 600;
   text-shadow: 0 1px 0 #2d2d2d;
@@ -86,7 +86,7 @@ body {
   }
 }
 
-.lf--forgot {
+.lf--link {
   color: #00d6b7;
   text-align: center;
   position: relative;
@@ -94,4 +94,13 @@ body {
 
 ::placeholder {
   color: gray;
+}
+
+.is-invalid {
+  color: #d71b1b;
+}
+
+.table {
+  --bs-table-striped-color: #ffead2;
+  color: #dbdfea;
 }
