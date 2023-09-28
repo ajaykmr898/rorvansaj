@@ -76,10 +76,8 @@ function App({ Component, pageProps }) {
         <div id="wrapper">
           <Nav />
           <section id="content-wrapper">
-            <div className="row">
-              <div className="col-lg-12">
-                {authorized && <Component {...pageProps} />}
-              </div>
+            <div className="col-lg-12">
+              {authorized && <Component {...pageProps} />}
             </div>
           </section>
         </div>

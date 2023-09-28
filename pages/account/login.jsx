@@ -1,16 +1,21 @@
+import * as React from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { userService } from "services";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { Layout } from "components/account";
-import { userService, alertService } from "services";
-import { useState } from "react";
+const defaultTheme = createTheme();
 
-export default Login;
-
-function Login() {
+export default function Login() {
   const router = useRouter();
 
   const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -18,16 +23,21 @@ function Login() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
 
-  // form validation rules
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email("Email not valid").required("Email is required"),
-    password: Yup.string().required("Password is required"),
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: (values) => {
+      onSubmit(values);
+    },
   });
-  const formOptions = { resolver: yupResolver(validationSchema) };
-
-  // get functions to build form with useForm() hook
-  const { register, handleSubmit, formState } = useForm(formOptions);
-  const { errors } = formState;
 
   function onSubmit({ email, password }) {
     setButtonDisabled(true);
@@ -50,49 +60,77 @@ function Login() {
   }
 
   return (
-    <div>
-      <div className="row">
-        <div className="col-sm-6 offset-sm-3">
-          <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex-row">
-              <input
-                placeholder="Email"
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage:
+              "url(https://thumbs.dreamstime.com/b/acronym-ror-wooden-balls-bright-blue-background-concept-text-spheras-beautiful-business-copy-space-short-rate-return-254795953.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <h3>Sign in</h3>
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
                 name="email"
-                type="text"
-                {...register("email")}
-                className={`lf--input form-control ${
-                  errors.email ? "is-invalid" : ""
-                }`}
+                {...formik.getFieldProps("email")}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
               />
-            </div>
-            <div className="flex-row">
-              <input
-                placeholder="Password"
+              <TextField
+                margin="normal"
+                required
+                fullWidth
                 name="password"
+                label="Password"
                 type="password"
-                {...register("password")}
-                className={`lf--input form-control ${
-                  errors.password ? "is-invalid" : ""
-                }`}
+                id="password"
+                {...formik.getFieldProps("password")}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={formik.touched.password && formik.errors.password}
               />
-            </div>
-            <span className="is-invalid text-center">
-              {" "}
-              {isError ? error : ""}
-            </span>
-            <input
-              className="lf--submit"
-              type="submit"
-              disabled={buttonDisabled}
-              value={isLoading ? "Logging..." : "Login"}
-            />
-            <br />
-            <Link href="/account/register" className="btn btn-link lf--link">
-              Register
-            </Link>
-          </form>
-        </div>
-      </div>
-    </div>
+              <Typography className="is-invalid text-center">
+                {isError ? error : ""}
+              </Typography>
+              <Button
+                disabled={buttonDisabled}
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                {isLoading ? "Logging..." : "Login"}
+              </Button>
+              <Link href="/account/register" className="btn btn-link">
+                Register
+              </Link>
+            </form>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }
