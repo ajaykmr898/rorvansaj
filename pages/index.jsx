@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { userService } from "services";
 import { Layout } from "../components/users";
+import { Place } from "../components/maps";
 
 export default Home;
 
@@ -12,6 +13,7 @@ function Home() {
       <p>
         <Link href="/users">Manage Users</Link>
       </p>
+      <Place />
     </Layout>
   );
 }

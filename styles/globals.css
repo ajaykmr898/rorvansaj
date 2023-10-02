@@ -109,3 +109,56 @@ body {
 .is-invalid {
   color: #d71b1b;
 }
+
+/* Custom styles for the Google Places Autocomplete input field */
+.pac-container {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  font-family: Arial, sans-serif;
+}
+
+/* Custom styles for the Google Places Autocomplete suggestions */
+.pac-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pac-item:hover {
+  background-color: #f5f5f5;
+}
+
+/* Custom styles for the selected suggestion in the dropdown */
+.pac-item-selected {
+  background-color: #e9e9e9;
+}
+
+/* Custom styles for the text inside the suggestions */
+.pac-item span {
+  font-weight: bold;
+}
+
+/* Remove Google Maps' default background image for the input field */
+.pac-container::after {
+  background-image: none;
+}
+
+.loc-input {
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.loc-input:hover {
+  border-color: #707070;
+}
+
+.loc-input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+}
