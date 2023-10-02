@@ -76,7 +76,7 @@ function Nav(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" sx={{ backgroundColor: "#339999" }}>
+      <AppBar component="nav" sx={{ backgroundColor: "#212529" }}>
         <Toolbar>
           <IconButton
             color="inherit"
