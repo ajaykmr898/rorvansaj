@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { userService } from "services";
 import { Layout } from "../components/users";
-import { Place } from "../components/maps";
+import { Place } from "../components/maps/Place";
 
 export default Home;
 
