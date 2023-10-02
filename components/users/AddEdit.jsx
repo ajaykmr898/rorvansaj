@@ -5,6 +5,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 
 import { userService, alertService } from "services";
+import { useFormik } from "formik";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import * as React from "react";
 
 export { AddEdit };
 
@@ -12,27 +21,29 @@ function AddEdit(props) {
   const user = props?.user;
   const router = useRouter();
 
-  // form validation rules
-  const validationSchema = Yup.object().shape({
-    firstName: Yup.string().required("First Name is required"),
-    lastName: Yup.string().required("Last Name is required"),
-    email: Yup.string().required("Email is required"),
-    password: Yup.string()
-      .transform((x) => (x === "" ? undefined : x))
-      // password optional in edit mode
-      .concat(user ? null : Yup.string().required("Password is required"))
-      .min(6, "Password must be at least 6 characters"),
+  const formik = useFormik({
+    initialValues: {
+      firstName: user?.firstName ? user.firstName : "",
+      lastName: user?.lastName ? user.lastName : "",
+      email: user?.email ? user.email : "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      firstName: Yup.string().required("First Name is required"),
+      lastName: Yup.string().required("Last Name is required"),
+      email: Yup.string().required("Email is required"),
+      password: Yup.string()
+        .transform((x) => (x === "" ? undefined : x))
+        // password optional in edit mode
+        .concat(
+          user?.firstName ? null : Yup.string().required("Password is required")
+        )
+        .min(6, "Password must be at least 6 characters"),
+    }),
+    onSubmit: (values) => {
+      onSubmit(values);
+    },
   });
-  const formOptions = { resolver: yupResolver(validationSchema) };
-
-  // set default form values if in edit mode
-  if (user) {
-    formOptions.defaultValues = props.user;
-  }
-
-  // get functions to build form with useForm() hook
-  const { register, handleSubmit, reset, formState } = useForm(formOptions);
-  const { errors } = formState;
 
   async function onSubmit(data) {
     try {
@@ -54,81 +65,76 @@ function AddEdit(props) {
       console.error(error);
     }
   }
+  const defaultTheme = createTheme();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="row">
-        <div className="mb-3 col">
-          <label className="form-label">First Name</label>
-          <input
-            name="firstName"
-            type="text"
-            {...register("firstName")}
-            className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{errors.firstName?.message}</div>
-        </div>
-        <div className="mb-3 col">
-          <label className="form-label">Last Name</label>
-          <input
-            name="lastName"
-            type="text"
-            {...register("lastName")}
-            className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{errors.lastName?.message}</div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="mb-3 col">
-          <label className="form-label">Email</label>
-          <input
-            name="email"
-            type="text"
-            {...register("email")}
-            className={`form-control ${errors.email ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{errors.email?.message}</div>
-        </div>
-        <div className="mb-3 col">
-          <label className="form-label">
-            Password
-            {user && (
-              <em className="ms-1">(Leave blank to keep the same password)</em>
-            )}
-          </label>
-          <input
-            name="password"
-            type="password"
-            {...register("password")}
-            className={`form-control ${errors.password ? "is-invalid" : ""}`}
-          />
-          <div className="invalid-feedback">{errors.password?.message}</div>
-        </div>
-      </div>
-      <div className="mb-3">
-        <button
+    <ThemeProvider theme={defaultTheme}>
+      <form onSubmit={formik.handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="given-name"
+              name="firstName"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+              {...formik.getFieldProps("firstName")}
+              error={
+                formik.touched.firstName && Boolean(formik.errors.firstName)
+              }
+              helperText={formik.touched.firstName && formik.errors.firstName}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="lastName"
+              autoComplete="family-name"
+              {...formik.getFieldProps("lastName")}
+              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              helperText={formik.touched.lastName && formik.errors.lastName}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              {...formik.getFieldProps("email")}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              {...formik.getFieldProps("password")}
+            />
+            {user && <em>leave blank to keep same</em>}
+          </Grid>
+        </Grid>
+        <Button
           type="submit"
-          disabled={formState.isSubmitting}
-          className="btn btn-primary me-2"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
         >
-          {formState.isSubmitting && (
-            <span className="spinner-border spinner-border-sm me-1"></span>
-          )}
           Save
-        </button>
-        <button
-          onClick={() => reset(formOptions.defaultValues)}
-          type="button"
-          disabled={formState.isSubmitting}
-          className="btn btn-secondary"
-        >
-          Reset
-        </button>
-        <Link href="/users" className="btn btn-link lf--link">
-          Cancel
-        </Link>
-      </div>
-    </form>
+        </Button>
+        <Link href="/users">Cancel</Link>
+      </form>
+    </ThemeProvider>
   );
 }
