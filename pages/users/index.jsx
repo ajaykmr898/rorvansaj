@@ -9,11 +9,14 @@ import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import MergeIcon from "@mui/icons-material/Merge";
+import RelationsDialog from "../../components/users/Relations";
 
 export default Index;
 
 function Index() {
   const [users, setUsers] = useState(null);
+  const [isDialogOpen, setDialogOpen] = useState(false);
   const columns = [
     { name: "idd", label: "Id" },
     {
@@ -48,12 +51,12 @@ function Index() {
           return (
             <>
               <Button
-                color="error"
+                color="secondary"
                 variant="outlined"
                 onClick={() => {
-                  deleteUser(dataIndex);
+                  setDialogOpen(true);
                 }}
-                startIcon={<DeleteIcon sx={{ marginLeft: "8px" }} />}
+                startIcon={<MergeIcon sx={{ marginLeft: "12px" }} />}
               ></Button>
               &nbsp;
               <Button
@@ -61,7 +64,16 @@ function Index() {
                 onClick={() => {
                   editUser(dataIndex);
                 }}
-                startIcon={<EditIcon sx={{ marginLeft: "8px" }} />}
+                startIcon={<EditIcon sx={{ marginLeft: "12px" }} />}
+              ></Button>
+              &nbsp;
+              <Button
+                color="error"
+                variant="outlined"
+                onClick={() => {
+                  deleteUser(dataIndex);
+                }}
+                startIcon={<DeleteIcon sx={{ marginLeft: "12px" }} />}
               ></Button>
             </>
           );
@@ -69,6 +81,10 @@ function Index() {
       },
     },
   ];
+
+  const closeDialog = () => {
+    setDialogOpen(false);
+  };
 
   const CustomToolbar = ({ displayData }) => {
     return (
@@ -137,20 +153,10 @@ function Index() {
 
   return (
     <Layout>
-      {!users && (
-        <tr>
-          <td colSpan="12">
-            <Spinner />
-          </td>
-        </tr>
+      {isDialogOpen && (
+        <RelationsDialog users={users} open={true} onClose={closeDialog} />
       )}
-      {users && !users.length && (
-        <tr>
-          <td colSpan="4">
-            <Empty text="no users found" />
-          </td>
-        </tr>
-      )}
+      {!users && <Spinner />}
       {users && users.length > 0 && (
         <MUIDataTable
           title="Users"

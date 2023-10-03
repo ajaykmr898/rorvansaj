@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { boolean } from "yup";
 
 mongoose.connect(process.env.MONGODB_URI);
 mongoose.Promise = global.Promise;
