@@ -21,28 +21,25 @@ function RelationsDialog(props) {
   };
 
   return (
-    <Dialog open={open} onClose={props?.onClose}>
-      <DialogTitle>Add Relation</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          {users.map((u) => {
-            return (
-              <>
-                {u.email}
-                <br />
-              </>
-            );
-          })}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleClose} color="primary">
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <div>
+      <Dialog open={open} onClose={props?.onClose}>
+        <DialogTitle>Add Relation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {users.map((u, i) => {
+              return <div key={i}>{u.email}</div>;
+            })}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }

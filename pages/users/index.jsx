@@ -117,6 +117,7 @@ function Index() {
 
   useEffect(() => {
     userService.getAll().then((x) => {
+      x = x.filter((xx) => xx.email !== userService?.userValue?.email);
       x.map((xx, k) => {
         xx.idd = k + 1;
       });
