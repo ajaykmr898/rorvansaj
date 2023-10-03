@@ -10,7 +10,7 @@ function Place(props) {
   const placeholder = props?.placeholder || "Enter location";
   const onAddressChange = props?.onAddressChange || (() => {});
   const defaultValue = props?.defaultValue || "";
-  const [place, setPlace] = useState("");
+  const [place, setPlace] = useState({});
 
   const router = useRouter();
   const autoCompleteRef = useRef();
@@ -76,9 +76,9 @@ function Place(props) {
         });
       }
 
-      setPlace(JSON.stringify(total, null, 2));
+      setPlace(total);
       onAddressChange(total, id);
-      console.log(place, total);
+      calculate(total);
     });
   }, []);
 
@@ -100,24 +100,28 @@ function Place(props) {
     onAddressChange({}, id);
   };
 
-  function calculate() {
+  function calculate(place) {
     // Example usage
     let lat1 = 29.9548018; // Latitude of the first place
     let lon1 = 76.7931478; // Longitude of the first place
-    let lat2 = 29.8853701; // Latitude of the second place
-    let lon2 = 76.62105389; // Longitude of the second place
+    let lat2 = place.latitude; // Latitude of the second place
+    let lon2 = place.longitude; // Longitude of the second place
 
     let distance = calculateDistance(lat1, lon1, lat2, lon2);
-    alert(distance.toFixed(2) + " km distance between mirzapur/dhand");
+    alert(
+      distance.toFixed(2) + " km distance between mirzapur/" + place.location
+    );
   }
 
   return (
     <div>
-      {/*<button onClick={() => calculate()}>Calculate Distance</button>
-      <br />
-      <br />
-      <pre>{place}</pre>
-      */}
+      {!props?.id && (
+        <div>
+          <br />
+          <br />
+          <pre>{JSON.stringify(place, null, 2)}</pre>
+        </div>
+      )}
       <input
         id={id}
         placeholder={placeholder}
