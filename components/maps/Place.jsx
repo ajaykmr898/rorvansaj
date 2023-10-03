@@ -1,12 +1,15 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { userService } from "services";
-import TextField from "@mui/material/TextField";
 import * as React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export { Place };
 
-function Place({ children }) {
+function Place(props) {
+  const id = props?.id || uuidv4();
+  const placeholder = props?.placeholder || "Enter location";
+  const onAddressChange = props?.onAddressChange || (() => {});
+  const defaultValue = props?.defaultValue || "";
   const [place, setPlace] = useState("");
 
   const router = useRouter();
@@ -25,7 +28,8 @@ function Place({ children }) {
       const latitude = location?.lat() || "";
       const longitude = location?.lng() || "";
       const placeId = place?.place_id;
-      let total = { placeId, latitude, longitude };
+      const formattedAddress = place?.formatted_address;
+      let total = { placeId, latitude, longitude, formattedAddress };
       if (place?.address_components) {
         const pac = place?.address_components;
         pac.map((el) => {
@@ -73,7 +77,8 @@ function Place({ children }) {
       }
 
       setPlace(JSON.stringify(total, null, 2));
-      //console.log(place, total);
+      onAddressChange(total, id);
+      console.log(place, total);
     });
   }, []);
 
@@ -91,6 +96,10 @@ function Place({ children }) {
     return R * c; // Distance in kilometers
   }
 
+  const handleChange = () => {
+    onAddressChange({}, id);
+  };
+
   function calculate() {
     // Example usage
     let lat1 = 29.9548018; // Latitude of the first place
@@ -104,12 +113,22 @@ function Place({ children }) {
 
   return (
     <div>
-      <button onClick={() => calculate()}>Calculate Distance</button>
+      {/*<button onClick={() => calculate()}>Calculate Distance</button>
       <br />
       <br />
-      <label>Location:</label>
-      <input className="loc-input" type="text" ref={inputRef} />
       <pre>{place}</pre>
+      */}
+      <input
+        id={id}
+        placeholder={placeholder}
+        name={id}
+        className="loc-input"
+        type="text"
+        ref={inputRef}
+        required
+        defaultValue={defaultValue}
+        onChange={handleChange}
+      />
     </div>
   );
 }

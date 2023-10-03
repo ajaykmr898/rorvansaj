@@ -29,7 +29,7 @@
 			- birth_place_city_id
 		 	- email
 		 	- password
-		 	- otp
+		 	- otp -> for change password -> as table?
 		 	- level
 		- user_relations
 			- id

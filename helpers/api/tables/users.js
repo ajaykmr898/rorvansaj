@@ -18,6 +18,10 @@ export function userModel() {
       isSignedUp: { type: String, required: false },
       resetPassLink: { type: String, required: false },
       passExpTime: { type: String, required: false },
+      pob: { type: Schema.Types.Mixed, required: false },
+      por: { type: Schema.Types.Mixed, required: false },
+      level: { type: String, required: false },
+      gender: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps

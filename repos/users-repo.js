@@ -89,7 +89,8 @@ async function update(id, params) {
 
   // copy params properties to user
   Object.assign(user, params);
-
+  user.pob = params.pob;
+  user.por = params.por;
   await user.save();
 }
 
