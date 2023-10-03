@@ -22,14 +22,12 @@ function RelationsDialog(props) {
 
   return (
     <div>
-      <Dialog open={open} onClose={props?.onClose}>
+      <Dialog open={open} onClose={props?.onClose} maxWidth="md" fullWidth>
         <DialogTitle>Add Relation</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {users.map((u, i) => {
-              return <div key={i}>{u.email}</div>;
-            })}
-          </DialogContentText>
+          {users.map((u, i) => {
+            return <div key={i}>{u.email}</div>;
+          })}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
