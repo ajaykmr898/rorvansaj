@@ -108,9 +108,12 @@ function Place(props) {
     let lon2 = place.longitude; // Longitude of the second place
 
     let distance = calculateDistance(lat1, lon1, lat2, lon2);
-    alert(
-      distance.toFixed(2) + " km distance between mirzapur/" + place.location
-    );
+    !props?.id &&
+      alert(
+        distance.toFixed(2) +
+          " km distance between mirzapur -> " +
+          place.location
+      );
   }
 
   return (
