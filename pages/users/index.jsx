@@ -10,8 +10,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import MergeIcon from "@mui/icons-material/Merge";
 import InfoIcon from "@mui/icons-material/Info";
-import { RelationsDialog } from "../../components/users/Relations/Relations";
-import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
+import { RelationsDialog } from "../../components/users";
+import { RelationsMapDialog } from "../../components/users";
 
 export default Index;
 
