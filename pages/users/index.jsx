@@ -186,6 +186,7 @@ function Index() {
           {
             data: {
               id: "node" + i,
+              rel: r.id,
               label: user.firstName + " " + user.lastName,
             },
           },

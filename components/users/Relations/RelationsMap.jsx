@@ -46,7 +46,16 @@ const RelationsMap = (props) => {
         },
       });
     });
-
+    cy.on("click", "node", function (event) {
+      const node = event.target;
+      // Remove the clicked node
+      if (node.id() !== "central") {
+        //console.log(node.data("rel"));
+        let id = node.data("rel");
+        props?.remove(id);
+        cy.remove(node);
+      }
+    });
     return () => {
       cy.destroy();
     };

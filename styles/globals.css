@@ -96,8 +96,12 @@ body {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
 .lf--link {
-  color: #00d6b7;
+  color: #000000;
   text-align: center;
   position: relative;
 }
