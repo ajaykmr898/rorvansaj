@@ -22,6 +22,7 @@ function Reglink() {
     userService
       .getByRegLink(id)
       .then((x) => {
+        x = x.data;
         setUser(x);
         let y =
           moment(x.regExpTime).isAfter(moment()) && x.isSignedUp === "false";

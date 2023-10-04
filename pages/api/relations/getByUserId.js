@@ -1,4 +1,4 @@
-import { apiHandler } from "helpers/api";
+import { apiHandler, success } from "helpers/api";
 import { relationsRepo } from "repos";
 
 export default apiHandler({
@@ -7,5 +7,5 @@ export default apiHandler({
 
 async function getByUserId(req, res) {
   const userRelations = await relationsRepo.getByUserId(req.body.userId);
-  return res.status(200).json(userRelations);
+  return res.status(200).json({ ...success, data: userRelations });
 }

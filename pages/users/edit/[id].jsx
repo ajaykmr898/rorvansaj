@@ -17,7 +17,7 @@ function Edit() {
     // fetch user and set default form values if in edit mode
     userService
       .getById(id)
-      .then((x) => setUser(x))
+      .then((x) => setUser(x.data))
       .catch((err) => alertService.error(err));
   }, [router]);
 

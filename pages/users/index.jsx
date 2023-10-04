@@ -133,6 +133,7 @@ function Index() {
 
   useEffect(() => {
     userService.getAll().then((x) => {
+      x = x.data;
       //x = x.filter((xx) => xx.email !== userService?.userValue?.email);
       x.map((xx, k) => {
         xx.idd = k + 1;
@@ -171,6 +172,7 @@ function Index() {
   const getRelationsByUserId = (user) => {
     relationsService.getByUserId(user.id).then((res) => {
       console.log(res);
+      res = res.data;
 
       let elementsT = [
         {
