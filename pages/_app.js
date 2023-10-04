@@ -69,7 +69,7 @@ function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Ror Vanshaj</title>
+        <title>Ror Vanshaj BO</title>
       </Head>
 
       <div className={`app-container ${user ? "bg-light" : ""}`}>
