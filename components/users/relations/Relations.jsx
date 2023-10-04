@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import { relationsService } from "../../services";
+import { relationsService } from "../../../services";
 import Typography from "@mui/material/Typography";
 
 export { RelationsDialog };
