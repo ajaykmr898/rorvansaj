@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import { relationsService } from "../../services";
 import Typography from "@mui/material/Typography";
 
-export default RelationsDialog;
+export { RelationsDialog };
 function RelationsDialog(props) {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");

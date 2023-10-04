@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Layout } from "components/users";
+import { Layout, RelationsMapDialog, RelationsDialog } from "components/users";
 import { userService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
@@ -10,7 +10,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import MergeIcon from "@mui/icons-material/Merge";
 import InfoIcon from "@mui/icons-material/Info";
-import RelationsDialog from "../../components/users/Relations";
 
 export default Index;
 
@@ -18,6 +17,7 @@ function Index() {
   const [users, setUsers] = useState(null);
   const [current, setCurrent] = useState(null);
   const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
+  const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
   const columns = [
     { name: "idd", label: "Id" },
     {
@@ -56,7 +56,7 @@ function Index() {
                 variant="outlined"
                 onClick={() => {
                   setCurrent(users[dataIndex]);
-                  setRelationsDialogOpen(true);
+                  setRelationsMapOpen(true);
                 }}
                 startIcon={<InfoIcon sx={{ marginLeft: "12px" }} />}
               ></Button>
@@ -97,7 +97,9 @@ function Index() {
   const closeDialog = () => {
     setRelationsDialogOpen(false);
   };
-
+  const closeMapDialog = () => {
+    setRelationsMapOpen(false);
+  };
   const CustomToolbar = ({ displayData }) => {
     return (
       <Button
@@ -166,6 +168,9 @@ function Index() {
 
   return (
     <Layout>
+      {isRelationsMapOpen && (
+        <RelationsMapDialog open={true} onClose={closeMapDialog} />
+      )}
       {isRelationsDialogOpen && (
         <RelationsDialog
           current={current}
