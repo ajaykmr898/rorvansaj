@@ -18,7 +18,7 @@ const RelationsMapDialog = (props) => {
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
         <DialogTitle>Relations</DialogTitle>
         <DialogContent>
-          <RelationsMap />
+          <RelationsMap elements={props?.elements} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

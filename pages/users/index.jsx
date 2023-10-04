@@ -16,6 +16,7 @@ export default Index;
 function Index() {
   const [users, setUsers] = useState(null);
   const [current, setCurrent] = useState(null);
+  const [elements, setElements] = useState(null);
   const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
   const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
   const columns = [
@@ -56,7 +57,6 @@ function Index() {
                 variant="outlined"
                 onClick={() => {
                   getRelationsByUserId(users[dataIndex]);
-                  setRelationsMapOpen(true);
                 }}
                 startIcon={<InfoIcon sx={{ marginLeft: "12px" }} />}
               ></Button>
@@ -169,13 +169,47 @@ function Index() {
   const getRelationsByUserId = (user) => {
     relationsService.getByUserId(user.id).then((res) => {
       console.log(res);
+
+      let elementsT = [
+        {
+          data: { id: "central", label: user.firstName + " " + user.lastName },
+        },
+      ];
+      res.map((r, i) => {
+        let user = r.relatedUserId;
+        let label = relationsService.relations.filter(
+          (rr) => rr.value.toString() === r.relation.toString()
+        )[0].label;
+        elementsT.push(
+          {
+            data: {
+              id: "node" + i,
+              label: user.firstName + " " + user.lastName,
+            },
+          },
+          {
+            data: {
+              id: "edge" + i,
+              label: label,
+              source: "central",
+              target: "node" + i,
+            },
+          }
+        );
+      });
+      setElements(elementsT);
+      setRelationsMapOpen(true);
     });
   };
 
   return (
     <Layout>
       {isRelationsMapOpen && (
-        <RelationsMapDialog open={true} onClose={closeMapDialog} />
+        <RelationsMapDialog
+          elements={elements}
+          open={true}
+          onClose={closeMapDialog}
+        />
       )}
       {isRelationsDialogOpen && (
         <RelationsDialog
