@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Layout, RelationsMapDialog, RelationsDialog } from "components/users";
+import { Layout } from "components/users";
 import { userService, relationsService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
@@ -10,6 +10,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import MergeIcon from "@mui/icons-material/Merge";
 import InfoIcon from "@mui/icons-material/Info";
+import { RelationsDialog } from "../../components/users/Relations/Relations";
+import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
 
 export default Index;
 
