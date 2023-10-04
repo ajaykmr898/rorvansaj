@@ -64,10 +64,10 @@
 			- city_id
 
 endpoints
-	- register user
-	- login user
-	- update user
-	- delete user
+	- register user // Ok
+	- login user // Ok
+	- update user // Ok
+	- delete user // Ok
 	- add otp
 	- check user otp for confirmation
 	- change password
@@ -76,7 +76,7 @@ endpoints
 	- get relations // Ok
 	- get relations by user // Ok
 	- add relation  // Ok
-	- remove relation //
+	- remove relation // Ok
 	- update relation // not needed, only remove
 
 	- get offers

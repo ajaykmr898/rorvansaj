@@ -225,7 +225,7 @@ function Index() {
       {!users && <Spinner />}
       {users && users.length > 0 && (
         <MUIDataTable
-          title="Users"
+          title="Rors"
           data={users}
           columns={columns}
           options={options}

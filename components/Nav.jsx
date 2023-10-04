@@ -15,16 +15,19 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-
+import HomeIcon from "@mui/icons-material/Home";
+import UserIcon from "@mui/icons-material/People";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import ListItemIcon from "@mui/material/ListItemIcon";
 export { Nav };
 
 const drawerWidth = 240;
 const navItems = [
-  { name: "Home", href: "/" },
-  { name: "Users", href: "/users" },
+  { name: "Home", icon: <HomeIcon />, href: "/" },
+  { name: "Rors", icon: <UserIcon />, href: "/users" },
   {
     name: "Log out",
+    icon: <ExitToAppIcon />,
     href: "",
     click: () => {
       userService.logout();
@@ -56,6 +59,7 @@ function Nav(props) {
               href={item.href}
               sx={{ textAlign: "center" }}
             >
+              <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
@@ -131,44 +135,4 @@ function Nav(props) {
       </nav>
     </Box>
   );
-
-  /*return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container">
-        <Link className="navbar-brand" href="/">
-          Ror Vanshaj BO
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link className="nav-link" href="/">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" href="/users">
-                Users
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" href="#" onClick={userService.logout}>
-                Log out
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );*/
 }
