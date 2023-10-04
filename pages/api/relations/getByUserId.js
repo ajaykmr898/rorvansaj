@@ -6,6 +6,6 @@ export default apiHandler({
 });
 
 async function getByUserId(req, res) {
-  const userRelations = await relationsRepo.getByUserId(req.userId);
+  const userRelations = await relationsRepo.getByUserId(req.body.userId);
   return res.status(200).json(userRelations);
 }

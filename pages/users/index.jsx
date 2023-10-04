@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Layout, RelationsMapDialog, RelationsDialog } from "components/users";
-import { userService } from "services";
+import { userService, relationsService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
@@ -55,7 +55,7 @@ function Index() {
                 color="primary"
                 variant="outlined"
                 onClick={() => {
-                  setCurrent(users[dataIndex]);
+                  getRelationsByUserId(users[dataIndex]);
                   setRelationsMapOpen(true);
                 }}
                 startIcon={<InfoIcon sx={{ marginLeft: "12px" }} />}
@@ -165,6 +165,12 @@ function Index() {
       });
     }
   }
+
+  const getRelationsByUserId = (user) => {
+    relationsService.getByUserId(user.id).then((res) => {
+      console.log(res);
+    });
+  };
 
   return (
     <Layout>

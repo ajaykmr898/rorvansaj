@@ -34,8 +34,8 @@ async function getAll() {
   return await fetchWrapper.get(baseUrl);
 }
 
-async function getByUserId(params) {
-  return await fetchWrapper.post(`${baseUrl}/getByUserId`, params);
+async function getByUserId(userId) {
+  return await fetchWrapper.post(`${baseUrl}/getByUserId`, { userId });
 }
 
 async function create(params) {

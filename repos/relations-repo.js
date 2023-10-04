@@ -10,7 +10,30 @@ export const relationsRepo = {
 };
 
 async function getByUserId(userId) {
-  return await UserRelations.find({ userId: userId });
+  /*let query = [
+    {
+      $match: {
+        $and: [
+          {
+            userId: userId,
+          },
+        ],
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "relatedUserId",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+  ];
+  //return await UserRelations.aggregate(query);
+  return await UserRelations.find({ userId: userId });*/
+  return await UserRelations.find({ userId: userId })
+    .populate("relatedUserId") // Populate the related user data
+    .exec();
 }
 
 async function getAll() {
