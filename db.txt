@@ -73,11 +73,11 @@ endpoints
 	- change password
 	- forgot password
 
-	- get relations
-	- get relations by user
-	- add relation
-	- remove relation
-	- update relation
+	- get relations // getAll
+	- get relations by user // getByUserId
+	- add relation  // add post
+	- remove relation // _delete
+	- update relation // not needed, only remove
 
 	- get offers
 	- get offers by area

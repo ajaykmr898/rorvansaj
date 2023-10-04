@@ -7,7 +7,7 @@ export function userRelationsModel() {
   const Schema = mongoose.Schema;
   const schema = new Schema(
     {
-      userId: { type: mongoose.Schema.ObjectId, unique: true, required: true },
+      userId: { type: mongoose.Schema.ObjectId, required: true },
       relatedUserId: { type: mongoose.Schema.ObjectId, required: true },
       relation: { type: String, required: true },
     },

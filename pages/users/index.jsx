@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Layout } from "components/users";
 import { userService } from "services";
 import { Spinner } from "../../components";
-import { Empty } from "../../components/Empty";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import Button from "@mui/material/Button";
@@ -10,13 +9,15 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import MergeIcon from "@mui/icons-material/Merge";
+import InfoIcon from "@mui/icons-material/Info";
 import RelationsDialog from "../../components/users/Relations";
 
 export default Index;
 
 function Index() {
   const [users, setUsers] = useState(null);
-  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [current, setCurrent] = useState(null);
+  const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
   const columns = [
     { name: "idd", label: "Id" },
     {
@@ -51,10 +52,21 @@ function Index() {
           return (
             <>
               <Button
+                color="primary"
+                variant="outlined"
+                onClick={() => {
+                  setCurrent(users[dataIndex]);
+                  setRelationsDialogOpen(true);
+                }}
+                startIcon={<InfoIcon sx={{ marginLeft: "12px" }} />}
+              ></Button>
+              &nbsp;
+              <Button
                 color="secondary"
                 variant="outlined"
                 onClick={() => {
-                  setDialogOpen(true);
+                  setCurrent(users[dataIndex]);
+                  setRelationsDialogOpen(true);
                 }}
                 startIcon={<MergeIcon sx={{ marginLeft: "12px" }} />}
               ></Button>
@@ -83,7 +95,7 @@ function Index() {
   ];
 
   const closeDialog = () => {
-    setDialogOpen(false);
+    setRelationsDialogOpen(false);
   };
 
   const CustomToolbar = ({ displayData }) => {
@@ -117,7 +129,7 @@ function Index() {
 
   useEffect(() => {
     userService.getAll().then((x) => {
-      x = x.filter((xx) => xx.email !== userService?.userValue?.email);
+      //x = x.filter((xx) => xx.email !== userService?.userValue?.email);
       x.map((xx, k) => {
         xx.idd = k + 1;
       });
@@ -154,8 +166,13 @@ function Index() {
 
   return (
     <Layout>
-      {isDialogOpen && (
-        <RelationsDialog users={users} open={true} onClose={closeDialog} />
+      {isRelationsDialogOpen && (
+        <RelationsDialog
+          current={current}
+          users={users}
+          open={true}
+          onClose={closeDialog}
+        />
       )}
       {!users && <Spinner />}
       {users && users.length > 0 && (
