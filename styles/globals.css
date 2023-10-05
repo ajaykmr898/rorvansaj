@@ -6,6 +6,7 @@
 html,
 body {
   color: #000;
+  background: linear-gradient(135deg, #96a4ce, #bdbdbd) !important;
 }
 
 body {
@@ -36,8 +37,9 @@ body {
 }
 
 #content-wrapper {
-  width: 99%;
+  width: 100%;
   position: absolute;
+  background: linear-gradient(135deg, #96a4ce, #bdbdbd) !important;
 }
 
 .login-form {
@@ -54,8 +56,6 @@ body {
     left: 0;
     height: 2px;
     width: 100%;
-
-    background: linear-gradient(to right, #35c3c1, #00d6b7);
   }
 }
 
@@ -81,8 +81,6 @@ body {
   display: block;
   padding: 1em;
   width: 100%;
-
-  background: linear-gradient(to right, #35c3c1, #00d6b7);
   border: 0;
   color: #dbdfea;
   cursor: pointer;
@@ -150,12 +148,14 @@ body {
 }
 
 .loc-input {
+  color: #16171a;
   width: 100%;
   font-size: 16px;
-  border: 1px solid #ced4da;
+  border: 1px solid #888b95;
   border-radius: 4px;
   box-sizing: border-box;
   padding: 16px 14px;
+  background: initial;
 }
 
 .loc-input:hover {

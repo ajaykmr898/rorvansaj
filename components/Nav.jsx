@@ -46,20 +46,36 @@ function Nav(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        Ror Vanshaj BO
-      </Typography>
-      <Divider />
+    <Box
+      onClick={handleDrawerToggle}
+      sx={{
+        textAlign: "center",
+        height: "100vh",
+      }}
+    >
+      <div>
+        <Typography
+          variant="h6"
+          sx={{
+            my: 2,
+            backgroundColor: "#212529",
+            padding: "16px",
+            marginTop: "0",
+            color: "#fff",
+          }}
+        >
+          Ror Vanshaj BO
+        </Typography>
+      </div>
       <List>
         {navItems.map((item, k) => (
           <ListItem key={k} disablePadding>
             <ListItemButton
               onClick={item.click}
               href={item.href}
-              sx={{ textAlign: "center" }}
+              sx={{ textAlign: "center", color: "#fff" }}
             >
-              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: "#fff" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>

@@ -12,6 +12,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 
 const defaultTheme = createTheme();
 
@@ -61,25 +63,17 @@ export default function Login() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{ height: "99vh" }}>
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://thumbs.dreamstime.com/b/acronym-ror-wooden-balls-bright-blue-background-concept-text-spheras-beautiful-business-copy-space-short-rate-return-254795953.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Box
+        sx={{
+          height: "100vh",
+          display: "flex",
+        }}
+      >
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
           <Box
             sx={{
-              my: 8,
-              mx: 4,
+              marginTop: 8,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -129,8 +123,8 @@ export default function Login() {
               </Link>
             </form>
           </Box>
-        </Grid>
-      </Grid>
+        </Container>
+      </Box>
     </ThemeProvider>
   );
 }
