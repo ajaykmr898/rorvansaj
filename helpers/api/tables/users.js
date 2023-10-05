@@ -21,6 +21,7 @@ export function userModel() {
       por: { type: Schema.Types.Mixed, required: false },
       level: { type: String, required: false },
       gender: { type: String, required: false },
+      phone: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps

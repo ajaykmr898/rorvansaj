@@ -35,6 +35,7 @@ function AddEdit(props) {
       dob: user?.dob ? user.dob : "",
       gender: user?.gender ? user.gender : "",
       level: user?.level ? user.level : "",
+      phone: user?.phone ? user.phone : "",
       email: user?.email ? user.email : "",
       password: "",
     },
@@ -44,6 +45,7 @@ function AddEdit(props) {
       dob: Yup.date().required("Date of birth is required"),
       gender: Yup.string().required("Gender is required"),
       level: Yup.string().required("Level is required"),
+      phone: Yup.string(),
       email: Yup.string().required("Email is required"),
       password: Yup.string()
         .transform((x) => (x === "" ? undefined : x))
@@ -209,24 +211,16 @@ function AddEdit(props) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="fixed-upper-label-input" shrink>
-                Level *
-              </InputLabel>
-              <Select
-                required
-                fullWidth
-                id="level"
-                label="Level"
-                name="level"
-                autoComplete="level"
-                {...formik.getFieldProps("level")}
-                error={formik.touched.level && Boolean(formik.errors.level)}
-              >
-                <MenuItem value="1">Admin</MenuItem>
-                <MenuItem value="2">User</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              fullWidth
+              id="phone"
+              label="Phone"
+              name="phone"
+              autoComplete="phone"
+              {...formik.getFieldProps("phone")}
+              error={formik.touched.phone && Boolean(formik.errors.phone)}
+              helperText={formik.touched.phone && formik.errors.phone}
+            ></TextField>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField

@@ -75,7 +75,7 @@ endpoints
 
 	- get relations // Ok
 	- get relations by user // Ok
-	- add relation  // Ok
+	- add relation  // Ok -> manage bidirectional relation father -> also son
 	- remove relation // Ok
 	- update relation // not needed, only remove
 
