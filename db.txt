@@ -85,3 +85,7 @@ endpoints
 	- add offer
 	- update offer
 	- remove offer
+
+
+deleted nodes
+sign up link

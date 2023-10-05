@@ -4,23 +4,86 @@ import { userService, relationsService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
-import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import MergeIcon from "@mui/icons-material/Merge";
 import InfoIcon from "@mui/icons-material/Info";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
-
+import { Button, Menu, MenuItem } from "@mui/material";
 export default Index;
 
 function Index() {
   const [users, setUsers] = useState(null);
   const [current, setCurrent] = useState(null);
   const [elements, setElements] = useState(null);
+  const [index, setIndex] = useState(null);
   const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
   const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event, dataIndex) => {
+    setIndex(dataIndex);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const CustomBodyRender = (dataIndex) => {
+    return (
+      <>
+        <Button
+          color="primary"
+          variant="outlined"
+          onClick={(e) => handleClick(e, dataIndex)}
+          startIcon={<MoreVertIcon sx={{ marginLeft: "12px" }} />}
+        ></Button>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem
+            onClick={() => {
+              getRelationsByUserId(users[index]);
+              handleClose();
+            }}
+          >
+            <InfoIcon sx={{ marginRight: "12px" }} /> Info
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setCurrent(users[index]);
+              setRelationsDialogOpen(true);
+              handleClose();
+            }}
+          >
+            <MergeIcon sx={{ marginRight: "12px" }} /> Merge
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              editUser(index);
+              handleClose();
+            }}
+          >
+            <EditIcon sx={{ marginRight: "12px" }} /> Edit
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              deleteUser(index);
+              handleClose();
+            }}
+          >
+            <DeleteIcon sx={{ marginRight: "12px" }} /> Delete
+          </MenuItem>
+        </Menu>
+      </>
+    );
+  };
+
   const columns = [
     { name: "idd", label: "Id" },
     {
@@ -52,45 +115,7 @@ function Index() {
       label: "Actions",
       options: {
         customBodyRenderLite: (dataIndex) => {
-          return (
-            <>
-              <Button
-                color="primary"
-                variant="outlined"
-                onClick={() => {
-                  getRelationsByUserId(users[dataIndex]);
-                }}
-                startIcon={<InfoIcon sx={{ marginLeft: "12px" }} />}
-              ></Button>
-              &nbsp;
-              <Button
-                color="secondary"
-                variant="outlined"
-                onClick={() => {
-                  setCurrent(users[dataIndex]);
-                  setRelationsDialogOpen(true);
-                }}
-                startIcon={<MergeIcon sx={{ marginLeft: "12px" }} />}
-              ></Button>
-              &nbsp;
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  editUser(dataIndex);
-                }}
-                startIcon={<EditIcon sx={{ marginLeft: "12px" }} />}
-              ></Button>
-              &nbsp;
-              <Button
-                color="error"
-                variant="outlined"
-                onClick={() => {
-                  deleteUser(dataIndex);
-                }}
-                startIcon={<DeleteIcon sx={{ marginLeft: "12px" }} />}
-              ></Button>
-            </>
-          );
+          return CustomBodyRender(dataIndex);
         },
       },
     },
@@ -176,7 +201,10 @@ function Index() {
 
       let elementsT = [
         {
-          data: { id: "central", label: user.firstName + " " + user.lastName },
+          data: {
+            id: "central",
+            label: user?.firstName + " " + user?.lastName,
+          },
         },
       ];
       res.map((r, i) => {
@@ -189,7 +217,7 @@ function Index() {
             data: {
               id: "node" + i,
               rel: r.id,
-              label: user.firstName + " " + user.lastName,
+              label: user?.firstName + " " + user?.lastName,
             },
           },
           {
