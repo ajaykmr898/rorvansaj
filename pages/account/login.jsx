@@ -66,7 +66,6 @@ export default function Login() {
       <Box
         sx={{
           height: "100vh",
-          display: "flex",
         }}
       >
         <Container component="main" maxWidth="xs">

@@ -3,7 +3,6 @@ import Router from "next/router";
 
 import { fetchWrapper } from "helpers";
 import axios from "axios";
-//import nodemailer from "nodemailer";
 
 const baseUrl = `/api/users`;
 const userSubject = new BehaviorSubject(
@@ -14,6 +13,9 @@ export const userService = {
   user: userSubject.asObservable(),
   get userValue() {
     return userSubject.value;
+  },
+  get name() {
+    return `${userSubject.value?.firstName} ${userSubject.value?.lastName}`;
   },
   login,
   logout,
