@@ -49,6 +49,7 @@ function Nav(props) {
     <Box
       onClick={handleDrawerToggle}
       sx={{
+        background: "linear-gradient(135deg, #96a4ce, #bdbdbd) !important",
         textAlign: "center",
         height: "100vh",
       }}
@@ -73,9 +74,9 @@ function Nav(props) {
             <ListItemButton
               onClick={item.click}
               href={item.href}
-              sx={{ textAlign: "center", color: "#fff" }}
+              sx={{ textAlign: "center", color: "#212529" }}
             >
-              <ListItemIcon sx={{ color: "#fff" }}>{item.icon}</ListItemIcon>
+              <ListItemIcon sx={{ color: "#212529" }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
