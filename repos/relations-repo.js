@@ -7,6 +7,7 @@ export const relationsRepo = {
   getByUserId,
   create,
   delete: _delete,
+  deleteByUserId,
 };
 
 async function getByUserId(userId) {
@@ -51,4 +52,10 @@ async function create(params) {
 }
 async function _delete(id) {
   await UserRelations.findByIdAndRemove(id);
+}
+
+async function deleteByUserId(userId) {
+  return await UserRelations.deleteMany({
+    $or: [{ userId: userId }, { relatedUserId: userId }],
+  });
 }

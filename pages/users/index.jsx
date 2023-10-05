@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Layout } from "components/users";
-import { userService, relationsService } from "services";
+import { userService, relationsService, alertService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
@@ -13,6 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
 import { Button, Menu, MenuItem } from "@mui/material";
+
 export default Index;
 
 function Index() {
@@ -27,11 +28,9 @@ function Index() {
     setIndex(dataIndex);
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const CustomBodyRender = (dataIndex) => {
     return (
       <>
@@ -52,7 +51,7 @@ function Index() {
               handleClose();
             }}
           >
-            <InfoIcon sx={{ marginRight: "12px" }} /> Info
+            <InfoIcon sx={{ marginRight: "12px" }} /> Relations
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -61,7 +60,7 @@ function Index() {
               handleClose();
             }}
           >
-            <MergeIcon sx={{ marginRight: "12px" }} /> Merge
+            <MergeIcon sx={{ marginRight: "12px" }} /> Add Relation
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -73,8 +72,14 @@ function Index() {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              deleteUser(index);
-              handleClose();
+              alertService.confirm({
+                message:
+                  "By this action the user will be deleted with all his relations(only)",
+                save: () => {
+                  deleteUser(index);
+                  handleClose();
+                },
+              });
             }}
           >
             <DeleteIcon sx={{ marginRight: "12px" }} /> Delete
@@ -190,6 +195,8 @@ function Index() {
       );
       userService.delete(id).then(() => {
         setUsers((users) => users.filter((x) => x.id !== id));
+        // delete relations
+        relationsService.deleteByUserId(id).then();
       });
     }
   }

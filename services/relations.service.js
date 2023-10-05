@@ -28,6 +28,7 @@ export const relationsService = {
   getByUserId,
   create,
   delete: _delete,
+  deleteByUserId,
 };
 
 async function getAll() {
@@ -36,6 +37,10 @@ async function getAll() {
 
 async function getByUserId(userId) {
   return await fetchWrapper.post(`${baseUrl}/getByUserId`, { userId });
+}
+
+async function deleteByUserId(userId) {
+  return await fetchWrapper.put(`${baseUrl}/getByUserId`, { userId });
 }
 
 async function create(params) {

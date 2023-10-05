@@ -88,4 +88,4 @@ endpoints
 
 
 deleted nodes
-sign up link
+bidirectional relation
