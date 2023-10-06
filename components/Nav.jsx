@@ -19,6 +19,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Avatar from "@mui/material/Avatar";
 import { Menu, MenuItem } from "@mui/material";
+import { useRouter } from "next/router";
 export { Nav };
 
 const drawerWidth = 240;
@@ -38,6 +39,7 @@ const navItemsMenu = [
 ];
 
 function Nav(props) {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [name, setName] = useState("Logged User");
   const title = "Ror Vanshaj BO";
@@ -45,19 +47,21 @@ function Nav(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    handleClose();
+  }, [router.pathname]);
+
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-  const [openMenu, setOpenMenu] = useState(null);
 
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
-    setOpenMenu(1);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-    setOpenMenu(0);
   };
 
   const drawer = (
@@ -156,7 +160,8 @@ function Nav(props) {
               onClick={handleAvatarClick}
             />
             <Menu
-              open={openMenu ? openMenu === 1 : false}
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
               onClose={handleClose}
               anchorOrigin={{
                 vertical: "bottom",
