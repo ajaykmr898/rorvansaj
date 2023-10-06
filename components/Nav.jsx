@@ -37,6 +37,7 @@ const navItems = [
 
 function Nav(props) {
   const [user, setUser] = useState(null);
+  const title = "Ror Vanshaj BO";
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -65,7 +66,7 @@ function Nav(props) {
             color: "#fff",
           }}
         >
-          Ror Vanshaj BO
+          {title}
         </Typography>
       </div>
       <List>
@@ -108,12 +109,13 @@ function Nav(props) {
           >
             <MenuIcon />
           </IconButton>
+          <Typography sx={{ flexGrow: 1, display: { sm: "none" } }}>
+            {title}
+          </Typography>
           <Typography
-            variant="h6"
-            component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Ror Vanshaj BO
+            {title}
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item, k) => (

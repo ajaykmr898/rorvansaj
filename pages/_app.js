@@ -11,6 +11,7 @@ function App({ Component, pageProps }) {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
+  const title = "Ror Vanshaj BO";
 
   useEffect(() => {
     // on initial load - run auth check
@@ -69,7 +70,7 @@ function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Ror Vanshaj BO</title>
+        <title>{title}</title>
       </Head>
 
       <div className={`app-container ${user ? "bg-light" : ""}`}>

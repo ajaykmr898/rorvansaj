@@ -13,7 +13,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
 import { Button, Menu, MenuItem } from "@mui/material";
-
 export default Index;
 
 function Index() {
@@ -25,6 +24,7 @@ function Index() {
   const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
   const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const handleClick = (event, dataIndex) => {
     setIndex(dataIndex);
     setAnchorEl(event.currentTarget);
@@ -170,6 +170,7 @@ function Index() {
         xx.idd = k + 1;
       });
       setUsers([...x]);
+      setIsLoading(false);
     });
     relationsService.getAll().then((r) => {
       r = r.data;
@@ -246,7 +247,7 @@ function Index() {
   };
 
   return (
-    <Layout>
+    <Layout isLoading={isLoading}>
       {isRelationsMapOpen && (
         <RelationsMapDialog
           elements={elements}
