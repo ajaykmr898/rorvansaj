@@ -41,9 +41,15 @@ function RelationsDialog(props) {
   };
 
   const handle = async () => {
+    console.log(selectedPerson.id, current.id);
     if (!selectedPerson || !selectedRelation) {
       setIsError(true);
       setError("Select both fields to save relation");
+      return;
+    }
+    if (selectedPerson.value === current.id) {
+      setIsError(true);
+      setError("Person cannot be related to themselves, please change person");
       return;
     }
     let data = {
