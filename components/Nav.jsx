@@ -4,8 +4,6 @@ import { userService } from "services";
 import Link from "next/link";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -19,12 +17,16 @@ import HomeIcon from "@mui/icons-material/Home";
 import UserIcon from "@mui/icons-material/People";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import Avatar from "@mui/material/Avatar";
+import { Menu, MenuItem } from "@mui/material";
 export { Nav };
 
 const drawerWidth = 240;
 const navItems = [
   { name: "Home", icon: <HomeIcon />, href: "/" },
   { name: "Rors", icon: <UserIcon />, href: "/users" },
+];
+const navItemsMenu = [
   {
     name: "Log out",
     icon: <ExitToAppIcon />,
@@ -37,13 +39,23 @@ const navItems = [
 
 function Nav(props) {
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("Logged User");
   const title = "Ror Vanshaj BO";
-
+  const userAvatarUrl = "/logo.jpg";
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+  const [openMenu, setOpenMenu] = useState(false);
+
+  const handleAvatarClick = (event) => {
+    setOpenMenu(true);
+  };
+
+  const handleClose = () => {
+    setOpenMenu(false);
   };
 
   const drawer = (
@@ -66,11 +78,11 @@ function Nav(props) {
             color: "#fff",
           }}
         >
-          {title}
+          {name}
         </Typography>
       </div>
       <List>
-        {navItems.map((item, k) => (
+        {[...navItems, ...navItemsMenu].map((item, k) => (
           <ListItem key={k} disablePadding>
             <ListItemButton
               onClick={item.click}
@@ -87,7 +99,11 @@ function Nav(props) {
   );
 
   useEffect(() => {
-    const subscription = userService.user.subscribe((x) => setUser(x));
+    const subscription = userService.user.subscribe((x) => {
+      setUser(x);
+      let n = `${x?.firstName} ${x?.lastName}`;
+      setName(n);
+    });
     return () => subscription.unsubscribe();
   }, []);
 
@@ -129,6 +145,38 @@ function Nav(props) {
                 {item.name}
               </Link>
             ))}
+          </Box>
+          <Box sx={{ display: { xs: "none", sm: "flex" }, marginLeft: "12px" }}>
+            <Avatar
+              alt="User Avatar"
+              src={userAvatarUrl}
+              sx={{ cursor: "pointer", marginRight: 1 }}
+              onClick={handleAvatarClick}
+            />
+            <Menu
+              open={openMenu}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              {navItemsMenu.map((item, k) => (
+                <MenuItem
+                  className="menuItems"
+                  onClick={item.click}
+                  href={item.href}
+                  key={k}
+                >
+                  <ListItemIcon> {item.icon} </ListItemIcon>
+                  {item.name}
+                </MenuItem>
+              ))}
+            </Menu>
           </Box>
         </Toolbar>
       </AppBar>
