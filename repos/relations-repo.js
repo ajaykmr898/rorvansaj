@@ -1,7 +1,7 @@
 import { db } from "helpers/api";
 
 const UserRelations = db.UserRelations;
-
+const Relations = db.Relations;
 export const relationsRepo = {
   getAll,
   getByUserId,
@@ -34,11 +34,12 @@ async function getByUserId(userId) {
   return await UserRelations.find({ userId: userId });*/
   return await UserRelations.find({ userId: userId })
     .populate("relatedUserId") // Populate the related user data
+    .populate("relation")
     .exec();
 }
 
 async function getAll() {
-  return await UserRelations.find();
+  return await Relations.find();
 }
 
 async function create(params) {

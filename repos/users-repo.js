@@ -5,6 +5,7 @@ import moment from "moment";
 
 const User = db.User;
 
+const UserRelations = db.UserRelations;
 export const usersRepo = {
   authenticate,
   getAll,
@@ -18,6 +19,12 @@ export const usersRepo = {
 async function authenticate({ email, password }) {
   const user = await User.findOne({ email });
 
+  let r = new UserRelations({
+    userId: "651f15914b0c27f7a5512875",
+    relation: "651faf29648f6128b6a992a6",
+    relatedUserId: "64d191213838cb644ecf0ca2",
+  });
+  await r.save();
   if (!(user && bcrypt.compareSync(password, user.hash))) {
     throw "Email or password are not correct";
   }

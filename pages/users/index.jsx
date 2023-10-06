@@ -18,6 +18,7 @@ export default Index;
 
 function Index() {
   const [users, setUsers] = useState(null);
+  const [relations, setRelations] = useState(null);
   const [current, setCurrent] = useState(null);
   const [elements, setElements] = useState(null);
   const [index, setIndex] = useState(null);
@@ -138,7 +139,7 @@ function Index() {
         startIcon={<AddIcon />}
         color="primary"
         onClick={() => {
-          window.open("/users/add", "_blank");
+          window.location.href = "/users/add";
         }}
       ></Button>
     );
@@ -170,6 +171,10 @@ function Index() {
       });
       setUsers([...x]);
     });
+    relationsService.getAll().then((r) => {
+      r = r.data;
+      setRelations(r);
+    });
   }, []);
 
   function editUser(id) {
@@ -177,7 +182,7 @@ function Index() {
     console.log(id);
     let user = users.filter((u, i) => i === id);
     if (user) {
-      window.open("/users/edit/" + user[0].id, "_blank");
+      window.location.href = "/users/edit/" + user[0].id;
     }
   }
 
@@ -216,9 +221,7 @@ function Index() {
       ];
       res.map((r, i) => {
         let user = r.relatedUserId;
-        let label = relationsService.relations.filter(
-          (rr) => rr.value.toString() === r.relation.toString()
-        )[0].label;
+        let label = r.relation?.relation;
         elementsT.push(
           {
             data: {
@@ -255,6 +258,7 @@ function Index() {
         <RelationsDialog
           current={current}
           users={users}
+          relations={relations}
           open={true}
           onClose={closeDialog}
         />

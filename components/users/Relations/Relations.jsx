@@ -22,7 +22,10 @@ function RelationsDialog(props) {
       label: `${u?.firstName} ${u?.lastName}`,
     };
   });
-  const options = relationsService.relations;
+  const options = props?.relations.map((r) => ({
+    value: r.id,
+    label: r.relation,
+  }));
   const [open, setOpen] = useState(props?.open || false);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [selectedRelation, setSelectedRelation] = useState(null);
