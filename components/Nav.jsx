@@ -44,18 +44,20 @@ function Nav(props) {
   const userAvatarUrl = "/logo.jpg";
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  const [anchorEl, setAnchorEl] = useState(null);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
 
   const handleAvatarClick = (event) => {
-    setOpenMenu(true);
+    setAnchorEl(event.currentTarget);
+    setOpenMenu(1);
   };
 
   const handleClose = () => {
-    setOpenMenu(false);
+    setAnchorEl(null);
+    setOpenMenu(0);
   };
 
   const drawer = (
@@ -154,7 +156,7 @@ function Nav(props) {
               onClick={handleAvatarClick}
             />
             <Menu
-              open={openMenu}
+              open={openMenu ? openMenu === 1 : false}
               onClose={handleClose}
               anchorOrigin={{
                 vertical: "bottom",
