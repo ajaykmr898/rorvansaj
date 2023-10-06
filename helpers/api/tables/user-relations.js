@@ -18,6 +18,7 @@ export function userRelationsModel() {
         required: true,
         ref: "Relations",
       },
+      generation: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps

@@ -8,7 +8,8 @@ export function relationsModel() {
   const schema = new Schema(
     {
       relation: { type: String, required: true },
-      nodes: { type: String, required: true }, // how many times this relation may repeat -> father only ones
+      nodes: { type: String, required: false }, // how many times a person can use this relation -> father is only one
+      maxGenerations: { type: String, required: false }, // how many generations behind -> 1 is current, 2, 3 etc
     },
     {
       // add createdAt and updatedAt timestamps
