@@ -5,7 +5,6 @@ import moment from "moment";
 
 const User = db.User;
 
-const UserRelations = db.UserRelations;
 export const usersRepo = {
   authenticate,
   getAll,

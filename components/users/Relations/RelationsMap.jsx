@@ -24,8 +24,9 @@ const RelationsMap = (props) => {
           selector: "edge",
           style: {
             width: 2,
+            "curve-style": "bezier",
             "line-color": "#ccc",
-            "target-arrow-color": "#ccc",
+            "target-arrow-color": "#7ac5b7",
             "target-arrow-shape": "triangle",
             label: "data(label)",
           },

@@ -1,4 +1,5 @@
 import { fetchWrapper } from "helpers";
+
 const baseUrl = `/api/relations`;
 
 export const relationsService = {
@@ -14,7 +15,18 @@ async function getAll() {
 }
 
 async function getByUserId(userId) {
-  return await fetchWrapper.post(`${baseUrl}/getByUserId`, { userId });
+  const temp = await fetchWrapper.post(`${baseUrl}/getByUserId`, { userId });
+  const res = [temp.data].map((t) => {
+    return t.map((tt) => {
+      console.log(userId, tt?.relatedUserId?.id);
+      return {
+        ...tt,
+        primary: tt?.relatedUserId?.id !== userId ? "relatedUserId" : "userId",
+      };
+    });
+  });
+  //return temp;
+  return { ...temp, data: res.length ? res[0] : [] };
 }
 
 async function deleteByUserId(userId) {

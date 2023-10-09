@@ -10,6 +10,7 @@ export function relationsModel() {
       relation: { type: String, required: true },
       nodes: { type: String, required: false }, // how many times a person can use this relation -> father is only one
       maxGenerations: { type: String, required: false }, // how many generations behind -> 1 is current, 2, 3 etc
+      counterRelation: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps

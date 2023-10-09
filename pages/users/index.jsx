@@ -221,8 +221,11 @@ function Index() {
         },
       ];
       res.map((r, i) => {
-        let user = r.relatedUserId;
-        let label = r.relation?.relation;
+        let user = r.primary === "relatedUserId" ? r.relatedUserId : r.userId;
+        let label =
+          r.primary === "relatedUserId"
+            ? r.relation?.relation
+            : r.relation?.counterRelation;
         elementsT.push(
           {
             data: {
@@ -235,8 +238,8 @@ function Index() {
             data: {
               id: "edge" + i,
               label: label,
-              source: "central",
-              target: "node" + i,
+              target: "central",
+              source: "node" + i,
             },
           }
         );

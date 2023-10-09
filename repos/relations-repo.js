@@ -32,9 +32,12 @@ async function getByUserId(userId) {
   ];
   //return await UserRelations.aggregate(query);
   return await UserRelations.find({ userId: userId });*/
-  return await UserRelations.find({ userId: userId })
+  return await UserRelations.find({
+    $or: [{ userId: userId }, { relatedUserId: userId }],
+  })
     .populate("relatedUserId") // Populate the related user data
     .populate("relation")
+    .populate("userId")
     .exec();
 }
 

@@ -87,8 +87,8 @@ endpoints
 	- remove offer
 
 
-deleted nodes
-bidirectional relation -> row?
+X deleted nodes
+X bidirectional relation -> row?
 relation old generation 1,2,3,4,5,6
 relation max nodes 1,N
 find relation between 2 people
