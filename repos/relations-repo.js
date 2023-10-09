@@ -8,30 +8,10 @@ export const relationsRepo = {
   create,
   delete: _delete,
   deleteByUserId,
+  findRelations,
 };
 
 async function getByUserId(userId) {
-  /*let query = [
-    {
-      $match: {
-        $and: [
-          {
-            userId: userId,
-          },
-        ],
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "relatedUserId",
-        foreignField: "_id",
-        as: "user",
-      },
-    },
-  ];
-  //return await UserRelations.aggregate(query);
-  return await UserRelations.find({ userId: userId });*/
   return await UserRelations.find({
     $or: [{ userId: userId }, { relatedUserId: userId }],
   })
@@ -41,6 +21,11 @@ async function getByUserId(userId) {
     .exec();
 }
 
+async function findRelations(userId) {
+  return await UserRelations.find({
+    $or: [{ userId: userId }, { relatedUserId: userId }],
+  }).exec();
+}
 async function getAll() {
   return await Relations.find();
 }

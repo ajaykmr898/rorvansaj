@@ -64,6 +64,14 @@ function Index() {
             <MergeIcon sx={{ marginRight: "12px" }} /> Add Relation
           </MenuItem>
           <MenuItem
+            onClick={async () => {
+              await findRelation(users[index]);
+              handleClose();
+            }}
+          >
+            <InfoIcon sx={{ marginRight: "12px" }} /> Find Relation
+          </MenuItem>
+          <MenuItem
             onClick={() => {
               editUser(index);
               handleClose();
@@ -177,6 +185,12 @@ function Index() {
       setRelations(r);
     });
   }, []);
+
+  async function findRelation(user) {
+    let a = await relationsService.findRelations(user.id);
+    let b = await relationsService.findRelations("64d1900fc061405027e5b962");
+    console.log(a, b);
+  }
 
   function editUser(id) {
     // search user

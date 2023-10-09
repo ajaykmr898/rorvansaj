@@ -1,5 +1,4 @@
 import { fetchWrapper } from "helpers";
-
 const baseUrl = `/api/relations`;
 
 export const relationsService = {
@@ -8,6 +7,7 @@ export const relationsService = {
   create,
   delete: _delete,
   deleteByUserId,
+  findRelations,
 };
 
 async function getAll() {
@@ -27,6 +27,13 @@ async function getByUserId(userId) {
   });
   //return temp;
   return { ...temp, data: res.length ? res[0] : [] };
+}
+
+async function findRelations(userId) {
+  const temp = await fetchWrapper.post(`${baseUrl}/getRelations`, {
+    userId,
+  });
+  return [...temp];
 }
 
 async function deleteByUserId(userId) {
