@@ -13,6 +13,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
 import { Button, Menu, MenuItem } from "@mui/material";
+import { Empty } from "../../components/Empty";
+import { FindRelationsDialog } from "../../components/users/Relations/FindRelations";
 export default Index;
 
 function Index() {
@@ -22,6 +24,8 @@ function Index() {
   const [elements, setElements] = useState(null);
   const [index, setIndex] = useState(null);
   const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
+  const [isFindRelationsDialogOpen, setIsFindRelationsDialogOpen] =
+    useState(false);
   const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,7 +69,8 @@ function Index() {
           </MenuItem>
           <MenuItem
             onClick={async () => {
-              await findRelation(users[index]);
+              setCurrent(users[index]);
+              setIsFindRelationsDialogOpen(true);
               handleClose();
             }}
           >
@@ -138,6 +143,9 @@ function Index() {
   const closeDialog = () => {
     setRelationsDialogOpen(false);
   };
+  const closeFindDialog = () => {
+    setIsFindRelationsDialogOpen(false);
+  };
   const closeMapDialog = () => {
     setRelationsMapOpen(false);
   };
@@ -185,14 +193,6 @@ function Index() {
       setRelations(r);
     });
   }, []);
-
-  async function findRelation(user) {
-    let a = await relationsService.findRelations(
-      user.id,
-      "651fb90ac155175721986e88"
-    );
-    console.log(a);
-  }
 
   function editUser(id) {
     // search user
@@ -283,6 +283,14 @@ function Index() {
           onClose={closeDialog}
         />
       )}
+      {isFindRelationsDialogOpen && (
+        <FindRelationsDialog
+          current={current}
+          users={users}
+          open={true}
+          onClose={closeFindDialog}
+        />
+      )}
       {!users && <Spinner />}
       {users && users.length > 0 && (
         <MUIDataTable
@@ -292,6 +300,7 @@ function Index() {
           options={options}
         />
       )}
+      {users && users.length === 0 && <Empty text="No users found" />}
     </Layout>
   );
 }

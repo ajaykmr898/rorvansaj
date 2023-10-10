@@ -52,7 +52,6 @@ async function findRelations(userId1, userId2) {
   let ids2 = [...new Set([...ids])];
   let found = ids.includes(userId1) && ids2.includes(userId2);
   if (found) {
-    output = "Relation found, but error while retriving";
     let res = await getByUserId(userId1);
     if (res?.data.length) {
       let rel = [...res?.data].filter((rr) => {
@@ -71,7 +70,11 @@ async function findRelations(userId1, userId2) {
             ? r.relation?.relation
             : r.relation?.counterRelation;
         output = `${userA.firstName} ${userA.lastName} is ${label} of ${userB.firstName} ${userB.lastName}`;
+      } else {
+        output = "Nested relation found";
       }
+    } else {
+      output = "Relation found, error while retrieving";
     }
   }
   return output;
