@@ -187,9 +187,11 @@ function Index() {
   }, []);
 
   async function findRelation(user) {
-    let a = await relationsService.findRelations(user.id);
-    let b = await relationsService.findRelations("64d1900fc061405027e5b962");
-    console.log(a, b);
+    let a = await relationsService.findRelations(
+      user.id,
+      "651fb90ac155175721986e88"
+    );
+    console.log(a);
   }
 
   function editUser(id) {
