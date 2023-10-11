@@ -4,6 +4,7 @@ import { Layout } from "../components/users";
 import { Place } from "../components/maps";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import MapDialog from "../components/users/Relations/RelationsMap";
 
 export default Home;
 

@@ -24,6 +24,8 @@ function FindRelationsDialog(props) {
       label: `${u?.firstName} ${u?.lastName}`,
     };
   });
+
+  const [map, setMap] = useState(null);
   const [open, setOpen] = useState(props?.open || false);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [zoom, setZoom] = useState(2);
@@ -32,7 +34,7 @@ function FindRelationsDialog(props) {
   const [selectedTab, setSelectedTab] = useState(0);
   const [address, setAddress] = useState({});
   const [markers, setMarkers] = useState([]);
-  const [circle, setCircle] = useState({});
+  const [circle, setCircle] = useState(null);
   const circleOptions = {
     strokeColor: "#5AB695",
     strokeOpacity: 0.8,
@@ -57,7 +59,6 @@ function FindRelationsDialog(props) {
   useEffect(() => {}, []);
 
   const handleTabChange = (event, newValue) => {
-    //console.log(newValue);
     setIsError(false);
     setSelectedTab(newValue);
   };
@@ -73,15 +74,20 @@ function FindRelationsDialog(props) {
     if (newAddress && newAddress?.latitude && newAddress?.longitude) {
       setAddress(newAddress);
       setZoom(10);
+
       let area = {
         lat: newAddress.latitude,
         lng: newAddress.longitude,
       };
       setMapCenter(area);
       setMarkers((prev) => [area]);
-      setCircle({
-        mapCenter: area,
+
+      const newCircle = new window.google.maps.Circle({
+        ...circleOptions,
+        center: area,
       });
+      newCircle.setMap(map);
+      setCircle(newCircle);
     }
   };
 
@@ -105,13 +111,13 @@ function FindRelationsDialog(props) {
       );
       setIsError(true);
       setError(relationFound);
-      //console.log(data, selectedPerson, selectedRelation);
     } else {
       console.log(address);
     }
   };
 
-  const initMap = () => {
+  const initMap = (maps) => {
+    setMap(maps);
     /*setMarkers([
       { lat: 29.8853701, lng: 76.62105389999999 },
       { lat: 29.9806941, lng: 76.5846091 },
@@ -164,9 +170,7 @@ function FindRelationsDialog(props) {
                 center={mapCenter}
                 zoom={zoom}
                 onLoad={(map) => {
-                  setTimeout(() => {
-                    initMap();
-                  }, 1000);
+                  initMap(map);
                 }}
               >
                 {markers.map((marker, index) => (
@@ -175,7 +179,7 @@ function FindRelationsDialog(props) {
                     position={{ lat: marker?.lat, lng: marker?.lng }}
                   />
                 ))}
-                {circle && (
+                {!!circle && (
                   <Circle
                     center={mapCenter}
                     options={circleOptions}

@@ -1,32 +1,21 @@
 import React, { useState } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import { GoogleMap, Marker, LoadScript } from "@react-google-maps/api";
+import { GoogleMap } from "@react-google-maps/api";
 
-const MapDialog = ({ open, onClose, markers, center }) => {
+const MapDialog = () => {
   const mapStyles = {
     height: "400px",
     width: "100%",
   };
-
+  const [mapCenter, setMapCenter] = useState({
+    lat: 28.6862738,
+    lng: 77.2217831,
+  });
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogContent>
-        <LoadScript
-          googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY"
-          libraries={["places"]}
-        >
-          <GoogleMap mapContainerStyle={mapStyles} center={center} zoom={10}>
-            {markers.map((marker, index) => (
-              <Marker
-                key={index}
-                position={{ lat: marker.lat, lng: marker.lng }}
-              />
-            ))}
-          </GoogleMap>
-        </LoadScript>
-      </DialogContent>
-    </Dialog>
+    <GoogleMap
+      mapContainerStyle={mapStyles}
+      center={mapCenter}
+      zoom={10}
+    ></GoogleMap>
   );
 };
 
