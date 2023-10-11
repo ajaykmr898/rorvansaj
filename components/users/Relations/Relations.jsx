@@ -30,9 +30,11 @@ function RelationsDialog(props) {
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [selectedRelation, setSelectedRelation] = useState(null);
   const handleSelectPersonChange = (event, newValue) => {
+    setIsError(false);
     setSelectedPerson(newValue);
   };
   const handleSelectRelationChange = (event, newValue) => {
+    setIsError(false);
     setSelectedRelation(newValue);
   };
   const handleClose = () => {

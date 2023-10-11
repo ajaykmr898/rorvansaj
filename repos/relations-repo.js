@@ -31,7 +31,14 @@ async function getAll() {
 }
 
 async function create(params) {
-  // @todo check if already present
+  const temp = await UserRelations.findOne({
+    relatedUserId: params.relatedUserId,
+    userId: params.userId,
+  });
+  if (temp) {
+    throw "These people have already a relation saved";
+  }
+
   const relation = new UserRelations(params);
   try {
     return await relation.save();

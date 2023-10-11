@@ -52,6 +52,7 @@ async function findRelations(userId1, userId2) {
   let ids2 = [...new Set([...ids])];
   let found = ids.includes(userId1) && ids2.includes(userId2);
   if (found) {
+    console.log(ids, ids2);
     let res = await getByUserId(userId1);
     if (res?.data.length) {
       let rel = [...res?.data].filter((rr) => {
