@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,11 +9,13 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { relationsService } from "../../../services";
 import Typography from "@mui/material/Typography";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import { Place } from "../../maps";
+import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 
 export { FindRelationsDialog };
 function FindRelationsDialog(props) {
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState("");
   const current = props?.current;
   const users = props?.users;
   const persons = users.map((u, i) => {
@@ -24,6 +26,41 @@ function FindRelationsDialog(props) {
   });
   const [open, setOpen] = useState(props?.open || false);
   const [selectedPerson, setSelectedPerson] = useState(null);
+  const [zoom, setZoom] = useState(2);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [address, setAddress] = useState({});
+  const [markers, setMarkers] = useState([]);
+  const [circle, setCircle] = useState({});
+  const circleOptions = {
+    strokeColor: "#5AB695",
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: "#5AB695",
+    fillOpacity: 0.35,
+    clickable: false,
+    draggable: false,
+    editable: false,
+    visible: true,
+    radius: 20000, // 20 km in meters
+  };
+  const [mapCenter, setMapCenter] = useState({
+    lat: 28.6862738,
+    lng: 77.2217831,
+  });
+  const mapStyles = {
+    height: "400px",
+    width: "100%",
+  };
+
+  useEffect(() => {}, []);
+
+  const handleTabChange = (event, newValue) => {
+    //console.log(newValue);
+    setIsError(false);
+    setSelectedTab(newValue);
+  };
   const handleSelectPersonChange = (event, newValue) => {
     setIsError(false);
     setSelectedPerson(newValue);
@@ -32,52 +69,122 @@ function FindRelationsDialog(props) {
     setOpen(false);
     props?.onClose();
   };
+  const handleAddressChange = (newAddress, id) => {
+    if (newAddress && newAddress?.latitude && newAddress?.longitude) {
+      setAddress(newAddress);
+      setZoom(10);
+      let area = {
+        lat: newAddress.latitude,
+        lng: newAddress.longitude,
+      };
+      setMapCenter(area);
+      setMarkers((prev) => [area]);
+      setCircle({
+        mapCenter: area,
+      });
+    }
+  };
 
   const handle = async () => {
-    if (!selectedPerson) {
+    if (selectedTab === 0) {
+      if (!selectedPerson) {
+        setIsError(true);
+        setError("Select person field to find relation");
+        return;
+      }
+      if (selectedPerson.value === current.id) {
+        setIsError(true);
+        setError(
+          "Person cannot be related to themselves, please change person"
+        );
+        return;
+      }
+      let relationFound = await relationsService.findRelations(
+        current?.id,
+        selectedPerson?.value
+      );
       setIsError(true);
-      setError("Select person field to find relation");
-      return;
+      setError(relationFound);
+      //console.log(data, selectedPerson, selectedRelation);
+    } else {
+      console.log(address);
     }
-    if (selectedPerson.value === current.id) {
-      setIsError(true);
-      setError("Person cannot be related to themselves, please change person");
-      return;
-    }
-    let relationFound = await relationsService.findRelations(
-      current?.id,
-      selectedPerson?.value
-    );
-    setIsError(true);
-    setError(relationFound);
-    //console.log(data, selectedPerson, selectedRelation);
+  };
+
+  const initMap = () => {
+    /*setMarkers([
+      { lat: 29.8853701, lng: 76.62105389999999 },
+      { lat: 29.9806941, lng: 76.5846091 },
+    ]);
+    setCircle({
+      mapCenter: { lat: 29.8853701, lng: 76.62105389999999 },
+    });*/
   };
 
   return (
     <div>
-      <Dialog open={open} onClose={props?.onClose} maxWidth="xs" fullWidth>
+      <Dialog open={open} onClose={props?.onClose} maxWidth="md" fullWidth>
         <DialogTitle>
-          Find Relation for
-          {` "${current?.firstName} ${current?.lastName}"`}
+          Find Relations for {`"${current?.firstName} ${current?.lastName}"`}
         </DialogTitle>
+        <Tabs value={selectedTab} onChange={handleTabChange}>
+          <Tab label="By Person" style={{ width: "50%" }} />
+          <Tab label="By Place" style={{ width: "50%" }} />
+        </Tabs>
         <br />
         <DialogContent>
-          <Grid item xs={12} sm={6}>
-            <Autocomplete
-              options={persons}
-              getOptionLabel={(option) => option.label}
-              style={{ width: "90%" }}
-              value={selectedPerson}
-              onChange={handleSelectPersonChange}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Select Person"
-                  variant="outlined"
-                />
-              )}
-            />
-          </Grid>
+          {selectedTab === 0 && (
+            <Grid item xs={12} sm={6}>
+              <Autocomplete
+                options={persons}
+                getOptionLabel={(option) => option.label}
+                style={{ width: "90%" }}
+                value={selectedPerson}
+                onChange={handleSelectPersonChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Select Person"
+                    variant="outlined"
+                  />
+                )}
+              />
+            </Grid>
+          )}
+          {selectedTab === 1 && (
+            <Grid item xs={12} sm={6}>
+              <Place
+                id="pos"
+                placeholder="Find Place"
+                onAddressChange={handleAddressChange}
+              />
+              <br />
+              <GoogleMap
+                mapContainerStyle={mapStyles}
+                center={mapCenter}
+                zoom={zoom}
+                onLoad={(map) => {
+                  setTimeout(() => {
+                    initMap();
+                  }, 1000);
+                }}
+              >
+                {markers.map((marker, index) => (
+                  <Marker
+                    key={index}
+                    position={{ lat: marker?.lat, lng: marker?.lng }}
+                  />
+                ))}
+                {circle && (
+                  <Circle
+                    center={mapCenter}
+                    options={circleOptions}
+                    radius={circleOptions?.radius}
+                  />
+                )}
+              </GoogleMap>
+            </Grid>
+          )}
         </DialogContent>
         <Typography className="is-invalid text-center">
           {isError ? error : ""}

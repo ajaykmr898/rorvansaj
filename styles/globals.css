@@ -119,6 +119,7 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
   font-family: Arial, sans-serif;
+  z-index: 9999;
 }
 
 /* Custom styles for the Google Places Autocomplete suggestions */

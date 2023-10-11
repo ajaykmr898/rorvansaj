@@ -11,7 +11,7 @@ import MergeIcon from "@mui/icons-material/Merge";
 import InfoIcon from "@mui/icons-material/Info";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
-import { RelationsMapDialog } from "../../components/users/Relations/RelationsMapDialog";
+import { RelationsCytoscapeDialog } from "../../components/users/Relations/RelationsCytoscapeDialog";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { Empty } from "../../components/Empty";
 import { FindRelationsDialog } from "../../components/users/Relations/FindRelations";
@@ -268,7 +268,7 @@ function Index() {
   return (
     <Layout isLoading={isLoading}>
       {isRelationsMapOpen && (
-        <RelationsMapDialog
+        <RelationsCytoscapeDialog
           elements={elements}
           open={true}
           onClose={closeMapDialog}

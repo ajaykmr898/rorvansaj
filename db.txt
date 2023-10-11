@@ -92,7 +92,7 @@ X bidirectional relation -> row?
 relation old generation 1,2,3,4,5,6
 relation max nodes 1,N
 find relation between 2 people
-    - by users
+    - by users -> one first node ok, others generic message
     - by place
 manage distance between 2 places
 login and reg on login

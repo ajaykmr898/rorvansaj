@@ -74,7 +74,7 @@ function RelationsDialog(props) {
 
   return (
     <div>
-      <Dialog open={open} onClose={props?.onClose} maxWidth="xs" fullWidth>
+      <Dialog open={open} onClose={props?.onClose} maxWidth="md" fullWidth>
         <DialogTitle>
           Add Relation for
           {` "${current?.firstName} ${current?.lastName}"`}

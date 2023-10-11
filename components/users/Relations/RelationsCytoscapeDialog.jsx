@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import { RelationsMap } from "./RelationsMap";
+import { RelationsCytoscape } from "./RelationsCytoscape";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import { relationsService } from "../../../services";
 import Typography from "@mui/material/Typography";
 
-export { RelationsMapDialog };
-const RelationsMapDialog = (props) => {
+export { RelationsCytoscapeDialog };
+const RelationsCytoscapeDialog = (props) => {
   const [open, setOpen] = useState(props?.open || false);
   const [toRemove, setToRemove] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -40,11 +40,11 @@ const RelationsMapDialog = (props) => {
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         <DialogTitle>Relations</DialogTitle>
         <sup className="text-center">Click on a node to remove relation </sup>
         <DialogContent>
-          <RelationsMap remove={remove} elements={props?.elements} />
+          <RelationsCytoscape remove={remove} elements={props?.elements} />
         </DialogContent>
         <Typography className="is-invalid text-center">
           {isError ? error : ""}
