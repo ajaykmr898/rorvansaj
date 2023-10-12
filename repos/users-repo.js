@@ -16,6 +16,20 @@ export const usersRepo = {
 };
 
 async function authenticate({ email, password }) {
+  /*const randomUsers = [];
+  for (let i = 0; i < 10000; i++) {
+    const user = {
+      email: `user${i}@example.com`,
+      hash: "randomhash", // You can generate a random hash here if needed
+      firstName: `User${i}`,
+      lastName: `LastName${i}`,
+      // Add more fields as needed
+    };
+    randomUsers.push(user);
+  }
+
+  const result = await User.insertMany(randomUsers);*/
+
   const user = await User.findOne({ email });
   if (!(user && bcrypt.compareSync(password, user.hash))) {
     throw "Email or password are not correct";
@@ -36,8 +50,12 @@ async function authenticate({ email, password }) {
   };
 }
 
-async function getAll() {
-  return await User.find();
+async function getAll({ page, pageSize }) {
+  const skip = (page - 1) * pageSize;
+  const totalCount = await User.countDocuments({});
+  const res = await User.find({}).skip(skip).limit(pageSize);
+  return { users: res, totalCount };
+  //return await User.find();
 }
 
 async function getById(id) {

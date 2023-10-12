@@ -81,8 +81,8 @@ async function sendRegMail(user) {
     });
 }
 
-async function getAll() {
-  return await fetchWrapper.get(baseUrl);
+async function getAll(params) {
+  return await fetchWrapper.post(baseUrl, params);
 }
 
 async function getById(id) {

@@ -12,9 +12,11 @@ import InfoIcon from "@mui/icons-material/Info";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsCytoscapeDialog } from "../../components/users/Relations/RelationsCytoscapeDialog";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, TablePagination } from "@mui/material";
 import { Empty } from "../../components/Empty";
 import { FindRelationsDialog } from "../../components/users/Relations/FindRelations";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 export default Index;
 
 function Index() {
@@ -29,6 +31,11 @@ function Index() {
   const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    pageSize: 50,
+  });
+  const [count, setCount] = useState(0);
   const handleClick = (event, dataIndex) => {
     setIndex(dataIndex);
     setAnchorEl(event.currentTarget);
@@ -161,11 +168,61 @@ function Index() {
     );
   };
 
+  const CustomFooter = () => {
+    return (
+      <TablePagination
+        rowsPerPageOptions={[]}
+        component="div"
+        count={count}
+        rowsPerPage={pagination.pageSize}
+        page={pagination.page - 1}
+        ActionsComponent={(props) => (
+          <>
+            <Button
+              disabled={pagination.page === 1}
+              startIcon={<NavigateBeforeIcon />}
+              color="secondary"
+              sx={{ marginRight: "12px" }}
+              onClick={() => {
+                //console.log(props);
+                onPageChange(pagination.page - 1);
+              }}
+            ></Button>
+            <Button
+              disabled={
+                pagination.page - 1 >=
+                Math.ceil(count / pagination.pageSize) - 1
+              }
+              startIcon={<NavigateNextIcon />}
+              color="secondary"
+              sx={{ marginRight: "12px" }}
+              onClick={() => {
+                console.log(
+                  pagination.page,
+                  count,
+                  Math.ceil(count / pagination.pageSize),
+                  1
+                );
+                onPageChange(pagination.page + 1);
+              }}
+            ></Button>
+          </>
+        )}
+        onPageChange={() => {}}
+      />
+    );
+  };
+
+  const onPageChange = (page) => {
+    setPagination((prev) => ({ ...prev, page }));
+  };
+
   const options = {
     search: true,
     download: true,
     print: false,
     viewColumns: true,
+    pagination: true,
     filter: true,
     selectableRowsHeader: false,
     selectableRowsHideCheckboxes: false,
@@ -176,18 +233,34 @@ function Index() {
     tableBodyHeight: "",
     tableBodyMaxHeight: "",
     customToolbar: CustomToolbar,
+    customFooter: CustomFooter,
+    rowsPerPage: pagination.pageSize,
+  };
+
+  const fetchData = async () => {
+    try {
+      //console.log(pagination);
+      userService.getAll(pagination).then((x) => {
+        console.log(x);
+        setCount(x.data?.totalCount);
+        x = x.data?.users;
+        //x = x.filter((xx) => xx.email !== userService?.userValue?.email);
+        x.map((xx, k) => {
+          xx.idd = k + 1;
+        });
+        setUsers([...x]);
+        setIsLoading(false);
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {
-    userService.getAll().then((x) => {
-      x = x.data;
-      //x = x.filter((xx) => xx.email !== userService?.userValue?.email);
-      x.map((xx, k) => {
-        xx.idd = k + 1;
-      });
-      setUsers([...x]);
-      setIsLoading(false);
-    });
+    fetchData();
+  }, [pagination.page, pagination.pageSize]);
+
+  useEffect(() => {
     relationsService.getAll().then((r) => {
       r = r.data;
       setRelations(r);

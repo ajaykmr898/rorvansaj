@@ -96,3 +96,6 @@ find relation between 2 people
     - by place
 manage distance between 2 places
 login and reg on login
+users list
+    - only admins
+    - search for others
