@@ -26,10 +26,6 @@ function App({ Component, pageProps }) {
       return;
     }
 
-    if (!isLoggedIn && !publicPaths.includes("path")) {
-      router.push("/login");
-    }
-
     // on route change start - hide page content by setting authorized to false
     const hideContent = () => setAuthorized(false);
     router.events.on("routeChangeStart", hideContent);
