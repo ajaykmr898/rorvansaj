@@ -89,13 +89,14 @@ endpoints
 
 X deleted nodes
 X bidirectional relation -> row?
-relation old generation 1,2,3,4,5,6
-relation max nodes 1,N
+X relation old generation 1,2,3,4,5,6 -> can do with recursion
+X relation max nodes 1,N -> all open
 find relation between 2 people
     - by users -> one first node ok, others generic message
-    - by place
-manage distance between 2 places
+    - by place -> prov, reg
 login and reg on login
 users list
-    - only admins
+    - only admins ?
     - search for others
+images
+renders

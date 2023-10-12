@@ -4,11 +4,13 @@ import { userService, relationsService, alertService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
-import MergeIcon from "@mui/icons-material/Merge";
-import InfoIcon from "@mui/icons-material/Info";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/EditOutlined";
+import LensIcon from "@mui/icons-material/SearchOutlined";
+import AddIcon from "@mui/icons-material/AddOutlined";
+import MergeIcon from "@mui/icons-material/MergeOutlined";
+import InfoIcon from "@mui/icons-material/InfoOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsCytoscapeDialog } from "../../components/users/Relations/RelationsCytoscapeDialog";
@@ -24,88 +26,75 @@ function Index() {
   const [relations, setRelations] = useState(null);
   const [current, setCurrent] = useState(null);
   const [elements, setElements] = useState(null);
-  const [index, setIndex] = useState(null);
   const [isRelationsDialogOpen, setRelationsDialogOpen] = useState(false);
   const [isFindRelationsDialogOpen, setIsFindRelationsDialogOpen] =
     useState(false);
   const [isRelationsMapOpen, setRelationsMapOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
     pageSize: 50,
   });
   const [count, setCount] = useState(0);
-  const handleClick = (event, dataIndex) => {
-    setIndex(dataIndex);
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+
   const CustomBodyRender = (dataIndex) => {
+    //console.log("q", dataIndex);
     return (
       <>
-        <Button
-          color="primary"
-          variant="outlined"
-          onClick={(e) => handleClick(e, dataIndex)}
-          startIcon={<MoreVertIcon sx={{ marginLeft: "12px" }} />}
-        ></Button>
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
-        >
-          <MenuItem
+        <Tooltip title="View Relations" arrow>
+          <span
             onClick={() => {
-              getRelationsByUserId(users[index]);
-              handleClose();
+              getRelationsByUserId(users[dataIndex]);
             }}
           >
-            <InfoIcon sx={{ marginRight: "12px" }} /> Relations
-          </MenuItem>
-          <MenuItem
+            <InfoIcon sx={{ marginRight: "12px" }} />
+          </span>
+        </Tooltip>
+        <Tooltip title="Add Relations" arrow>
+          <span
             onClick={() => {
-              setCurrent(users[index]);
+              setCurrent(users[dataIndex]);
               setRelationsDialogOpen(true);
-              handleClose();
             }}
           >
-            <MergeIcon sx={{ marginRight: "12px" }} /> Add Relation
-          </MenuItem>
-          <MenuItem
+            <MergeIcon sx={{ marginRight: "12px" }} />
+          </span>
+        </Tooltip>
+        <Tooltip title="Find Relations" arrow>
+          <span
             onClick={async () => {
-              setCurrent(users[index]);
+              setCurrent(users[dataIndex]);
               setIsFindRelationsDialogOpen(true);
-              handleClose();
             }}
           >
-            <InfoIcon sx={{ marginRight: "12px" }} /> Find Relation
-          </MenuItem>
-          <MenuItem
+            <LensIcon sx={{ marginRight: "12px" }} />
+          </span>
+        </Tooltip>
+        <Tooltip title="Edit" arrow>
+          <span
             onClick={() => {
-              editUser(index);
-              handleClose();
+              editUser(dataIndex);
             }}
           >
-            <EditIcon sx={{ marginRight: "12px" }} /> Edit
-          </MenuItem>
-          <MenuItem
+            <EditIcon sx={{ marginRight: "12px" }} />
+          </span>
+        </Tooltip>
+        <Tooltip title="Delete" arrow>
+          <span
             onClick={() => {
               alertService.confirm({
                 message:
                   "By this action the user will be deleted with all his relations(only)",
                 save: () => {
-                  deleteUser(index);
+                  deleteUser(dataIndex);
                   handleClose();
                 },
               });
             }}
           >
-            <DeleteIcon sx={{ marginRight: "12px" }} /> Delete
-          </MenuItem>
-        </Menu>
+            <DeleteIcon sx={{ marginRight: "12px" }} />
+          </span>
+        </Tooltip>
       </>
     );
   };
@@ -197,12 +186,6 @@ function Index() {
               color="secondary"
               sx={{ marginRight: "12px" }}
               onClick={() => {
-                console.log(
-                  pagination.page,
-                  count,
-                  Math.ceil(count / pagination.pageSize),
-                  1
-                );
                 onPageChange(pagination.page + 1);
               }}
             ></Button>
@@ -237,26 +220,24 @@ function Index() {
     rowsPerPage: pagination.pageSize,
   };
 
-  const fetchData = async () => {
-    try {
-      //console.log(pagination);
-      userService.getAll(pagination).then((x) => {
-        console.log(x);
-        setCount(x.data?.totalCount);
-        x = x.data?.users;
-        //x = x.filter((xx) => xx.email !== userService?.userValue?.email);
-        x.map((xx, k) => {
-          xx.idd = k + 1;
-        });
-        setUsers([...x]);
-        setIsLoading(false);
-      });
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await userService.getAll(pagination);
+        const data = response.data;
+        setCount(data?.totalCount);
+        const usersData = data?.users;
+        usersData.map((user, index) => {
+          user.idd = index + 1;
+          return user;
+        });
+        setUsers([...usersData]);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     fetchData();
   }, [pagination.page, pagination.pageSize]);
 
@@ -269,7 +250,7 @@ function Index() {
 
   function editUser(id) {
     // search user
-    console.log(id);
+    //console.log(id);
     let user = users.filter((u, i) => i === id);
     if (user) {
       window.location.href = "/users/edit/" + user[0].id;
@@ -298,7 +279,7 @@ function Index() {
 
   const getRelationsByUserId = (user) => {
     relationsService.getByUserId(user.id).then((res) => {
-      console.log(res);
+      //console.log(res);
       res = res.data;
 
       let elementsT = [

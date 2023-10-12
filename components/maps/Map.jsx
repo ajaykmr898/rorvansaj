@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GoogleMap } from "@react-google-maps/api";
 
-const MapDialog = () => {
+const Map = () => {
   const mapStyles = {
     height: "400px",
     width: "100%",
@@ -19,4 +19,4 @@ const MapDialog = () => {
   );
 };
 
-export default MapDialog;
+export default Map;
