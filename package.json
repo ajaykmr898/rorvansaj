@@ -16,6 +16,7 @@
         "@mui/icons-material": "^5.14.11",
         "@mui/material": "^5.14.13",
         "@react-google-maps/api": "^2.19.2",
+        "aws-sdk": "^2.1472.0",
         "axios": "^1.4.0",
         "bcryptjs": "^2.4.3",
         "cytoscape": "^3.26.0",

@@ -189,7 +189,7 @@ export default function Register() {
               >
                 {isLoading ? "Signing Up..." : "Sign Up"}
               </Button>
-              <Link href="/account/login">Sign in</Link>
+              <Link href="/login">Sign in</Link>
             </form>
           </Box>
         </Container>

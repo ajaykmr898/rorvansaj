@@ -80,7 +80,7 @@ function Reglink() {
               <p>Validating...</p>
             )}
             <p>
-              <Link href="/account/login">Login</Link>
+              <Link href="/login">Login</Link>
             </p>
           </Box>
         </Container>

@@ -117,7 +117,7 @@ export default function Login() {
               >
                 {isLoading ? "Logging..." : "Login"}
               </Button>
-              <Link href="/account/register" className="btn btn-link">
+              <Link href="/register" className="btn btn-link">
                 Register
               </Link>
             </form>

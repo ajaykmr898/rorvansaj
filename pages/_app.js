@@ -12,10 +12,19 @@ function App({ Component, pageProps }) {
   const [user, setUser] = useState(null);
   const [authorized, setAuthorized] = useState(false);
   const title = "Ror Vanshaj BO";
-
+  const userD = userService?.userValue;
+  const isLoggedIn = userD?.token;
+  const publicPaths = ["/login", "/register"];
+  const paths = ["/account", "/users"];
   useEffect(() => {
     // on initial load - run auth check
     authCheck(router.asPath);
+
+    const path = router.asPath.split("?")[0];
+    if ((isLoggedIn && publicPaths.includes(path)) || !paths.includes(path)) {
+      router.push("/");
+      return;
+    }
 
     // on route change start - hide page content by setting authorized to false
     const hideContent = () => setAuthorized(false);
@@ -34,11 +43,11 @@ function App({ Component, pageProps }) {
   function authCheck(url) {
     // redirect to login page if accessing a private page and not logged in
     setUser(userService.userValue);
-    const publicPaths = ["/account/login", "/account/register"];
+
     const path = url.split("?")[0];
     if (!userService.userValue && !publicPaths.includes(path)) {
       // sign up
-      let spath = path.split("/reglink/");
+      let spath = path.split("/account/reglink/");
       if (
         path.includes("reglink") &&
         spath.length === 2 &&
@@ -57,7 +66,7 @@ function App({ Component, pageProps }) {
         } else {
           setAuthorized(false);
           router.push({
-            pathname: "/account/login",
+            pathname: "/login",
             //query: { returnUrl: router.asPath },
           });
         }
