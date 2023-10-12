@@ -33,7 +33,7 @@ function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 50,
+    pageSize: 25,
   });
   const [count, setCount] = useState(0);
 

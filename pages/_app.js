@@ -21,9 +21,13 @@ function App({ Component, pageProps }) {
     authCheck(router.asPath);
 
     const path = router.asPath.split("?")[0];
-    if ((isLoggedIn && publicPaths.includes(path)) || !paths.includes(path)) {
+    if (isLoggedIn && publicPaths.includes(path)) {
       router.push("/");
       return;
+    }
+
+    if (!isLoggedIn && !publicPaths.includes("path")) {
+      router.push("/login");
     }
 
     // on route change start - hide page content by setting authorized to false
