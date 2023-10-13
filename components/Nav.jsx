@@ -15,6 +15,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import UserIcon from "@mui/icons-material/People";
+import ShopIcon from "@mui/icons-material/Shop";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Avatar from "@mui/material/Avatar";
@@ -26,6 +27,7 @@ const drawerWidth = 240;
 const navItems = [
   { name: "Home", icon: <HomeIcon />, href: "/" },
   { name: "Rors", icon: <UserIcon />, href: "/users" },
+  { name: "Ads", icon: <ShopIcon />, href: "/offers" },
 ];
 const navItemsMenu = [
   {

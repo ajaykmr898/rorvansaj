@@ -15,7 +15,6 @@ function ClImage({ id }) {
 
   useEffect(() => {
     setImage(myCld.image(id));
-    console.log(image, myCld.image(id), "f");
   }, []);
 
   return (
