@@ -7,18 +7,18 @@ export default Edit;
 
 function Edit() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [offer, setOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const { id } = router.query;
     if (!id) return;
 
-    // fetch user and set default form values if in edit mode
+    // fetch offer and set default form values if in edit mode
     offersService
       .getById(id)
       .then((x) => {
-        setUser(x.data);
+        setOffer(x.data);
         setIsLoading(false);
       })
       .catch((err) => alertService.error(err));
@@ -26,8 +26,8 @@ function Edit() {
 
   return (
     <Layout isLoading={isLoading}>
-      <h1>Edit User</h1>
-      {user && <AddEdit user={user} />}
+      <h1>Edit Offer</h1>
+      {offer && <AddEdit offer={offer} />}
     </Layout>
   );
 }

@@ -42,6 +42,15 @@ function Index() {
     }
   };
 
+  function editOffer(id) {
+    // search offer
+    //console.log(id);
+    let offer = offers.filter((u, i) => i === id);
+    if (offer) {
+      window.location.href = "/offers/edit/" + offer[0].id;
+    }
+  }
+
   const CustomBodyRender = (dataIndex) => {
     return (
       <>
@@ -51,7 +60,11 @@ function Index() {
           </span>
         </Tooltip>
         <Tooltip title="Edit" arrow>
-          <span onClick={() => {}}>
+          <span
+            onClick={() => {
+              editOffer(dataIndex);
+            }}
+          >
             <EditIcon sx={{ marginRight: "12px" }} />
           </span>
         </Tooltip>
@@ -94,7 +107,7 @@ function Index() {
     },
     {
       name: "offerId",
-      label: "User",
+      label: "offer",
       options: {
         filter: true,
         sort: false,

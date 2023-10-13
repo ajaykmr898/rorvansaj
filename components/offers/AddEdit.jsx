@@ -34,7 +34,7 @@ function AddEdit(props) {
       title: offer?.title ? offer.title : "",
       description: offer?.description ? offer.description : "",
       from: offer?.from ? offer.from : "",
-      to: offer?.level ? offer.to : "",
+      to: offer?.to ? offer.to : "",
       visibility: offer?.visibility ? offer.visibility : "",
       charge: offer?.charge ? offer.charge : "",
     },
@@ -56,8 +56,11 @@ function AddEdit(props) {
     try {
       let message = "Offer added";
       data = { ...data, userId: userService?.userValue?.id };
-      await offersService.create(data);
-
+      if (!offer) {
+        await offersService.create(data);
+      } else {
+        await offersService.update(offer.id, data);
+      }
       // redirect to offer list with success message
       router.push("/offers");
       alertService.success(message);
