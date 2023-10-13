@@ -36,7 +36,7 @@ function Home() {
         Welcome <br />
         {userService.name}
       </Typography>
-      <CloudinaryUploadWidget load={load} />
+      {/*<CloudinaryUploadWidget load={load} />*/}
     </Layout>
   );
 }
