@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as Yup from "yup";
-import { offersService, alertService } from "services";
+import { offersService, alertService, userService } from "services";
 import { useFormik } from "formik";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
@@ -55,6 +55,7 @@ function AddEdit(props) {
   async function onSubmit(data) {
     try {
       let message = "Offer added";
+      data = { ...data, userId: userService?.userValue?.id };
       await offersService.create(data);
 
       // redirect to offer list with success message

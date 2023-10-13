@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { Layout } from "../../components/offers";
-import { offersService, alertService } from "services";
+import {
+  offersService,
+  alertService,
+  offerService,
+  offerssService,
+} from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
@@ -17,10 +22,30 @@ function Index() {
   const [offers, setOffers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const deleteOffer = (id) => {
+    let offer = offers.filter((u, i) => i === id);
+    if (offer) {
+      id = offer[0].id;
+      setOffers(
+        offers.map((x) => {
+          if (x.id === id) {
+            x.isDeleting = true;
+          }
+          return x;
+        })
+      );
+      offersService.delete(id).then(() => {
+        setOffers((offers) => offers.filter((x) => x.id !== id));
+        // delete images
+        //offersService.delete(id).then();
+      });
+    }
+  };
+
   const CustomBodyRender = (dataIndex) => {
     return (
       <>
-        <Tooltip title="View Relations" arrow>
+        <Tooltip title="View offerss" arrow>
           <span onClick={() => {}}>
             <InfoIcon sx={{ marginRight: "12px" }} />
           </span>
@@ -35,8 +60,10 @@ function Index() {
             onClick={() => {
               alertService.confirm({
                 message:
-                  "By this action the offer will be deleted with all his relations(only)",
-                save: () => {},
+                  "By this action the offer will be deleted with all its info",
+                save: () => {
+                  deleteOffer(dataIndex);
+                },
               });
             }}
           >
@@ -66,7 +93,7 @@ function Index() {
       },
     },
     {
-      name: "user",
+      name: "offerId",
       label: "User",
       options: {
         filter: true,

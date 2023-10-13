@@ -19,4 +19,6 @@ async function create(params) {
   return await fetchWrapper.post(baseUrl, params);
 }
 
-async function _delete(id) {}
+async function _delete(id) {
+  await fetchWrapper.delete(`${baseUrl}/${id}`);
+}

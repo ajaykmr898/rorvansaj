@@ -98,5 +98,6 @@ login and reg on login
 users list
     - only admins ?
     - search for others
-images
+manage images
 X renders
+dates

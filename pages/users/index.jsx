@@ -87,7 +87,6 @@ function Index() {
                   "By this action the user will be deleted with all his relations(only)",
                 save: () => {
                   deleteUser(dataIndex);
-                  handleClose();
                 },
               });
             }}

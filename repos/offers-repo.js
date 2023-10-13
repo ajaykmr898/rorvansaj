@@ -8,7 +8,7 @@ export const offersRepo = {
 };
 
 async function getAll() {
-  return await Offers.find();
+  return await Offers.find({}).populate("userId").exec();
 }
 
 async function create(params) {
