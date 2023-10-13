@@ -9,14 +9,14 @@ export const offersService = {
 };
 
 async function getAll() {
-  //return await fetchWrapper.get(baseUrl);
-  return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };
+  return await fetchWrapper.get(baseUrl);
+  //return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };
 }
 
-async function getByUserId(userId) {}
+async function getById(userId) {}
 
-async function deleteByUserId(userId) {}
-
-async function create(params) {}
+async function create(params) {
+  return await fetchWrapper.post(baseUrl, params);
+}
 
 async function _delete(id) {}

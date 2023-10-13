@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Layout } from "../../components/users";
+import { Layout } from "../../components/offers";
 import { offersService, alertService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
@@ -50,16 +50,64 @@ function Index() {
   const columns = [
     { name: "idd", label: "Id" },
     {
-      name: "firstName",
-      label: "First Name",
+      name: "title",
+      label: "Title",
       options: {
         filter: true,
         sort: true,
       },
     },
     {
-      name: "lastName",
-      label: "Last Name",
+      name: "description",
+      label: "Description",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "user",
+      label: "User",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "types",
+      label: "Type",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "from",
+      label: "From",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "to",
+      label: "To",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "charge",
+      label: "Charge",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "visibility",
+      label: "Visibility",
       options: {
         filter: true,
         sort: false,
@@ -109,8 +157,8 @@ function Index() {
     const fetchData = async () => {
       try {
         const response = await offersService.getAll();
-        const data = response.data;
-        const offersData = data?.offers;
+        const offersData = response.data;
+        console.log(offersData);
         offersData.map((offer, index) => {
           offer.idd = index + 1;
           return offer;

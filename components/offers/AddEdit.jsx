@@ -30,32 +30,22 @@ function AddEdit(props) {
 
   const formik = useFormik({
     initialValues: {
-      firstName: offer?.firstName ? offer.firstName : "",
-      lastName: offer?.lastName ? offer.lastName : "",
-      dob: offer?.dob ? offer.dob : "",
-      gender: offer?.gender ? offer.gender : "",
-      level: offer?.level ? offer.level : "",
-      phone: offer?.phone ? offer.phone : "",
-      email: offer?.email ? offer.email : "",
-      password: "",
+      types: offer?.types ? offer.types : "",
+      title: offer?.title ? offer.title : "",
+      description: offer?.description ? offer.description : "",
+      from: offer?.from ? offer.from : "",
+      to: offer?.level ? offer.to : "",
+      visibility: offer?.visibility ? offer.visibility : "",
+      charge: offer?.charge ? offer.charge : "",
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required("First Name is required"),
-      lastName: Yup.string().required("Last Name is required"),
-      dob: Yup.date().required("Date of birth is required"),
-      gender: Yup.string().required("Gender is required"),
-      level: Yup.string().required("Level is required"),
-      phone: Yup.string(),
-      email: Yup.string().required("Email is required"),
-      password: Yup.string()
-        .transform((x) => (x === "" ? undefined : x))
-        // password optional in edit mode
-        .concat(
-          offer?.firstName
-            ? null
-            : Yup.string().required("Password is required")
-        )
-        .min(6, "Password must be at least 6 characters"),
+      types: Yup.string().required("Type is required"),
+      title: Yup.string().required("Title is required"),
+      description: Yup.string(),
+      from: Yup.date().required("From is required"),
+      to: Yup.date().required("To is required"),
+      visibility: Yup.string().required("visibility is required"),
+      charge: Yup.string().required("Charge is required"),
     }),
     onSubmit: (values) => {
       onSubmit(values);
@@ -64,24 +54,8 @@ function AddEdit(props) {
 
   async function onSubmit(data) {
     try {
-      let message = "User added";
-      if (
-        (pobChanged && Object.keys(pob).length <= 0) ||
-        (porChanged && Object.keys(por).length <= 0)
-      ) {
-        alertService.warning("Insert both correct addresses");
-        return false;
-      }
-      if (offer) {
-        data.pob = pobChanged ? pob : offer.pob;
-        data.por = porChanged ? por : offer.por;
-        await offersService.update(offer.id, data);
-        message = "User updated";
-      } else {
-        data.pob = pob;
-        data.por = por;
-        await offersService.register(data);
-      }
+      let message = "Offer added";
+      await offersService.create(data);
 
       // redirect to offer list with success message
       router.push("/offers");
@@ -111,149 +85,118 @@ function AddEdit(props) {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              autoComplete="given-name"
-              name="firstName"
+              autoComplete="title"
+              name="title"
               required
               fullWidth
-              id="firstName"
-              label="First Name"
-              {...formik.getFieldProps("firstName")}
-              error={
-                formik.touched.firstName && Boolean(formik.errors.firstName)
-              }
-              helperText={formik.touched.firstName && formik.errors.firstName}
+              id="title"
+              label="Title"
+              {...formik.getFieldProps("title")}
+              error={formik.touched.title && Boolean(formik.errors.title)}
+              helperText={formik.touched.title && formik.errors.title}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              required
               fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              autoComplete="family-name"
-              {...formik.getFieldProps("lastName")}
-              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-              helperText={formik.touched.lastName && formik.errors.lastName}
+              id="description"
+              label="Description"
+              name="description"
+              autoComplete="description"
+              {...formik.getFieldProps("description")}
+              error={
+                formik.touched.description && Boolean(formik.errors.description)
+              }
+              helperText={
+                formik.touched.description && formik.errors.description
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="fixed-upper-label-input" shrink>
-                Date of birth *
+                Type *
+              </InputLabel>
+              <Select
+                required
+                fullWidth
+                id="types"
+                label="Types"
+                name="types"
+                autoComplete="types"
+                {...formik.getFieldProps("types")}
+                error={formik.touched.types && Boolean(formik.errors.types)}
+              >
+                <MenuItem value="1">Ad</MenuItem>
+                <MenuItem value="2">News</MenuItem>
+                <MenuItem value="3">Offer</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel htmlFor="fixed-upper-label-input" shrink>
+                From
               </InputLabel>
               <OutlinedInput
                 required
                 fullWidth
                 id="dob"
-                label="Date of birth *"
+                label="From"
                 type="date"
-                name="dob"
-                autoComplete="dob"
+                name="from"
+                autoComplete="from"
                 variant="outlined"
-                {...formik.getFieldProps("dob")}
-                error={formik.touched.dob && Boolean(formik.errors.dob)}
+                {...formik.getFieldProps("from")}
+                error={formik.touched.from && Boolean(formik.errors.from)}
               />
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
             <FormControl fullWidth variant="outlined">
               <InputLabel htmlFor="fixed-upper-label-input" shrink>
-                Gender *
+                To
               </InputLabel>
-              <Select
+              <OutlinedInput
                 required
                 fullWidth
-                id="gender"
-                label="Gender"
-                name="gender"
-                autoComplete="gender"
-                {...formik.getFieldProps("gender")}
-                error={formik.touched.gender && Boolean(formik.errors.gender)}
-              >
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Place
-              id="pob"
-              placeholder="Birth Place *"
-              onAddressChange={handleAddressChange}
-              defaultValue={
-                offer?.pob ? offer?.pob?.formattedAddress || "" : ""
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Place
-              id="por"
-              placeholder="Residence Address *"
-              onAddressChange={handleAddressChange}
-              defaultValue={
-                offer?.por ? offer?.por?.formattedAddress || "" : ""
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel htmlFor="fixed-upper-label-input" shrink>
-                Level *
-              </InputLabel>
-              <Select
-                required
-                fullWidth
-                id="level"
-                label="Level"
-                name="level"
-                autoComplete="level"
-                {...formik.getFieldProps("level")}
-                error={formik.touched.level && Boolean(formik.errors.level)}
-              >
-                <MenuItem value="1">Admin</MenuItem>
-                <MenuItem value="2">User</MenuItem>
-              </Select>
+                id="to"
+                label="To"
+                type="date"
+                name="to"
+                autoComplete="to"
+                variant="outlined"
+                {...formik.getFieldProps("to")}
+                error={formik.touched.to && Boolean(formik.errors.to)}
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              id="phone"
-              label="Phone"
-              name="phone"
-              autoComplete="phone"
-              {...formik.getFieldProps("phone")}
-              error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
+              id="visibility"
+              label="Visibility"
+              name="visibility"
+              autoComplete="visibility"
+              {...formik.getFieldProps("visibility")}
+              error={
+                formik.touched.visibility && Boolean(formik.errors.visibility)
+              }
+              helperText={formik.touched.visibility && formik.errors.visibility}
             ></TextField>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              {...formik.getFieldProps("email")}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="new-password"
-              {...formik.getFieldProps("password")}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-            {offer && <em>leave blank to keep same</em>}
+              id="charge"
+              label="Charge"
+              name="charge"
+              type="number"
+              autoComplete="charge"
+              {...formik.getFieldProps("charge")}
+              error={formik.touched.charge && Boolean(formik.errors.charge)}
+              helperText={formik.touched.charge && formik.errors.charge}
+            ></TextField>
           </Grid>
         </Grid>
         <Button

@@ -8,7 +8,7 @@ export function offersModel() {
 
   const schema = new Schema(
     {
-      type: { type: String, required: false },
+      types: { type: String, required: false },
       userId: { type: mongoose.Schema.ObjectId, required: false },
       title: { type: String, required: false },
       description: { type: String, required: false },
