@@ -15,7 +15,7 @@ async function getAll() {
   res.data = res?.data.map((offer) => ({
     ...offer,
     visibility: offer?.visibility?.formattedAddress || "",
-    user: offer?.userId || "",
+    user: `${offer?.userId?.firstName} ${offer?.userId?.lastName}` || "",
   }));
   return res;
   //return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };
