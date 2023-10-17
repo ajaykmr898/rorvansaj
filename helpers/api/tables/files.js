@@ -8,7 +8,7 @@ export function filesModel() {
 
   const schema = new Schema(
     {
-      userId: { type: mongoose.Schema.ObjectId, required: false },
+      userId: { type: mongoose.Schema.ObjectId, required: true, ref: "User" },
       url: { type: String, required: false },
       type: { type: String, required: false },
     },

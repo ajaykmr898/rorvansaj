@@ -11,7 +11,13 @@ export const offersService = {
 };
 
 async function getAll() {
-  return await fetchWrapper.get(baseUrl);
+  let res = await fetchWrapper.get(baseUrl);
+  res.data = res?.data.map((offer) => ({
+    ...offer,
+    visibility: offer?.visibility?.formattedAddress || "",
+    user: offer?.userId || "",
+  }));
+  return res;
   //return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };
 }
 

@@ -353,7 +353,9 @@ function Index() {
           options={options}
         />
       )}
-      {users && users.length === 0 && <Empty text="No users found" />}
+      {users && users.length === 0 && (
+        <Empty action="/users/add" text="No users found" />
+      )}
     </Layout>
   );
 }

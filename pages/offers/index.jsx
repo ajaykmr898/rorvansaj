@@ -106,8 +106,8 @@ function Index() {
       },
     },
     {
-      name: "offerId",
-      label: "offer",
+      name: "user",
+      label: "User",
       options: {
         filter: true,
         sort: false,
@@ -224,7 +224,9 @@ function Index() {
           options={options}
         />
       )}
-      {offers && offers.length === 0 && <Empty text="No offers found" />}
+      {offers && offers.length === 0 && (
+        <Empty action="/offers/add" text="No offers found" />
+      )}
     </Layout>
   );
 }

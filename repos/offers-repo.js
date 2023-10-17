@@ -28,7 +28,7 @@ async function create(params) {
   try {
     return await offer.save();
   } catch (err) {
-    throw "An error occurred while saving relation, retry";
+    throw "An error occurred while saving offer, retry" + err;
   }
 }
 

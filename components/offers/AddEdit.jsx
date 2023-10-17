@@ -23,10 +23,8 @@ export { AddEdit };
 function AddEdit(props) {
   const offer = props?.offer;
   const router = useRouter();
-  const [por, setPorAddress] = useState({});
-  const [pob, setPobAddress] = useState({});
-  const [porChanged, setPorAddressChanged] = useState(false);
-  const [pobChanged, setPobAddressChanged] = useState(false);
+  const [visibilityAddress, setVisibilityAddress] = useState(false);
+  const [visibilityChanged, setVisibilityAddressChanged] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -35,7 +33,7 @@ function AddEdit(props) {
       description: offer?.description ? offer.description : "",
       from: offer?.from ? offer.from : "",
       to: offer?.to ? offer.to : "",
-      visibility: offer?.visibility ? offer.visibility : "",
+      //visibility: offer?.visibility ? offer.visibility : "",
       charge: offer?.charge ? offer.charge : "",
     },
     validationSchema: Yup.object({
@@ -44,7 +42,7 @@ function AddEdit(props) {
       description: Yup.string(),
       from: Yup.date().required("From is required"),
       to: Yup.date().required("To is required"),
-      visibility: Yup.string().required("visibility is required"),
+      //visibility: Yup.string().required("visibility is required"),
       charge: Yup.string().required("Charge is required"),
     }),
     onSubmit: (values) => {
@@ -55,10 +53,18 @@ function AddEdit(props) {
   async function onSubmit(data) {
     try {
       let message = "Offer added";
+      if (visibilityChanged && Object.keys(visibilityAddress).length <= 0) {
+        alertService.warning("Insert correct address");
+        return false;
+      }
       data = { ...data, userId: userService?.userValue?.id };
       if (!offer) {
+        data.visibility = visibilityAddress;
         await offersService.create(data);
       } else {
+        data.visibility = visibilityChanged
+          ? visibilityAddress
+          : data.visibility;
         await offersService.update(offer.id, data);
       }
       // redirect to offer list with success message
@@ -72,13 +78,8 @@ function AddEdit(props) {
 
   const handleAddressChange = (newAddress, id) => {
     console.log(id, newAddress);
-    if (id === "por") {
-      setPorAddress(newAddress);
-      setPorAddressChanged(true);
-    } else {
-      setPobAddress(newAddress);
-      setPobAddressChanged(true);
-    }
+    setVisibilityAddress(newAddress);
+    setVisibilityAddressChanged(true);
   };
 
   const defaultTheme = createTheme();
@@ -176,18 +177,16 @@ function AddEdit(props) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
+            <Place
               id="visibility"
-              label="Visibility"
-              name="visibility"
-              autoComplete="visibility"
-              {...formik.getFieldProps("visibility")}
-              error={
-                formik.touched.visibility && Boolean(formik.errors.visibility)
+              placeholder="Destination *"
+              onAddressChange={handleAddressChange}
+              defaultValue={
+                offer?.visibility
+                  ? offer?.visibility?.formattedAddress || ""
+                  : ""
               }
-              helperText={formik.touched.visibility && formik.errors.visibility}
-            ></TextField>
+            />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
