@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Place } from "../maps";
 import { useState } from "react";
+import CloudinaryUploadWidget from "../cloudinary/CloudinaryUploadWidget";
 
 export { AddEdit };
 
@@ -202,8 +203,11 @@ function AddEdit(props) {
             ></TextField>
           </Grid>
         </Grid>
+        <br />
+        <CloudinaryUploadWidget />
         <Button
           type="submit"
+          color="success"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}

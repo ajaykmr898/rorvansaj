@@ -125,7 +125,7 @@ function CloudinaryUploadWidget({ load }) {
             disabled={!files || files.length <= 0}
             onClick={confirmUpload}
           >
-            Upload
+            Confirm Files
           </Button>
         </Box>
       </div>

@@ -98,6 +98,7 @@ login and reg on login
 users list
     - only admins ?
     - search for others
-manage images
+manage images upload delete
 X renders
-dates
+dates checks
+search user by text select

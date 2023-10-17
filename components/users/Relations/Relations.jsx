@@ -120,7 +120,7 @@ function RelationsDialog(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handle} color="primary">
+          <Button onClick={handle} color="success">
             Save
           </Button>
         </DialogActions>

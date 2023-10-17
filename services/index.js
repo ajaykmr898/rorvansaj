@@ -8,5 +8,6 @@ export const cloudConfig = () => {
     apiKey: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
     apiSecret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
     preset: process.env.NEXT_PUBLIC_CLOUDINARY_API_PRESET,
+    url: process.env.NEXT_PUBLIC_CLOUDINARY_URL,
   };
 };

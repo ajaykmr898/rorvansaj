@@ -251,6 +251,7 @@ function AddEdit(props) {
           </Grid>
         </Grid>
         <Button
+          color="success"
           type="submit"
           fullWidth
           variant="contained"
