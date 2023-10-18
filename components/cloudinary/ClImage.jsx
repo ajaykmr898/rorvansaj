@@ -6,8 +6,9 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 export default ClImage;
 
-function ClImage({ id }) {
+function ClImage({ id, img, deleteImage }) {
   const [image, setImage] = useState(null);
+  const [hidden, setHidden] = useState(false);
 
   const config = cloudConfig();
   const myCld = new Cloudinary({
@@ -18,15 +19,24 @@ function ClImage({ id }) {
     setImage(myCld.image(id));
   }, []);
 
+  const deleteItem = () => {
+    deleteImage(img, id);
+    setHidden(true);
+  };
+
   return (
     <div className="imgContainer">
       {image && (
         <div>
           <AdvancedImage cldImg={image} />
-          <DeleteIcon
-            className="fas fa-times delete"
-            onClick={() => deleteItem(i)}
-          ></DeleteIcon>
+          {deleteImage && (
+            <div hidden={hidden} className="text-center">
+              <DeleteIcon
+                className="fas fa-times delete"
+                onClick={() => deleteItem()}
+              ></DeleteIcon>
+            </div>
+          )}
         </div>
       )}
     </div>

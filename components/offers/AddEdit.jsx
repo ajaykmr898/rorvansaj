@@ -6,6 +6,7 @@ import {
   alertService,
   userService,
   cloudConfig,
+  filesService,
 } from "services";
 import { useFormik } from "formik";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -24,17 +25,20 @@ import { Place } from "../maps";
 import { useState } from "react";
 import CloudinaryUploadWidget from "../cloudinary/CloudinaryUploadWidget";
 import axios from "axios";
+import ClImage from "../cloudinary/ClImage";
 
 export { AddEdit };
 
 function AddEdit(props) {
   const offer = props?.offer;
+  const images = props?.images;
   const config = cloudConfig();
   let folder = "";
   const router = useRouter();
   const [formData, setFormData] = useState([]);
   const [visibilityAddress, setVisibilityAddress] = useState(false);
   const [visibilityChanged, setVisibilityAddressChanged] = useState(false);
+  const [imagesDeleted, setImagesDeleted] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -60,8 +64,34 @@ function AddEdit(props) {
     },
   });
 
+  const deleteImages = (id, publicId) => {
+    setImagesDeleted((temp) => {
+      return [...temp, { id, publicId }];
+    });
+  };
+
   const insertDb = async (id, publicId) => {
-    console.log(id, publicId);
+    await filesService.create({ offerId: id, url: publicId });
+  };
+
+  const removeFiles = () => {
+    imagesDeleted.map(async (img) => {
+      await filesService.delete(img.id);
+    });
+    /*axios
+        .delete(
+          `${config.url}/${config.cloudName}/image/upload/${img.publicId}`,
+          {
+            Authorization: `Basic ${Buffer.from(
+              `${config.apiKey}:${config.apiSecret}`
+            ).toString("base64")}`,
+            "X-Requested-With": "XMLHttpRequest",
+          }
+        )
+        .then(async (res) => {
+          await filesService.delete(img.id);
+        });
+    });*/
   };
 
   const uploadFiles = (id) => {
@@ -99,6 +129,7 @@ function AddEdit(props) {
       }
       data = { ...data, userId: userService?.userValue?.id };
       if (!offer) {
+        message = "Offer edited";
         data.visibility = visibilityAddress;
         res = await offersService.create(data);
       } else {
@@ -110,6 +141,7 @@ function AddEdit(props) {
 
       if (res) {
         uploadFiles(res.data.id);
+        removeFiles();
         alertService.success(message);
         router.push("/offers");
       } else {
@@ -252,6 +284,19 @@ function AddEdit(props) {
               helperText={formik.touched.charge && formik.errors.charge}
             ></TextField>
           </Grid>
+        </Grid>
+        <br />
+        <Grid container spacing={2}>
+          {images.map((f, i) => (
+            <Grid key={`grid-${i}`} item>
+              <ClImage
+                key={`img-${i}`}
+                img={f.id}
+                id={f.url}
+                deleteImage={deleteImages}
+              />
+            </Grid>
+          ))}
         </Grid>
         <br />
         <CloudinaryUploadWidget load={load} />

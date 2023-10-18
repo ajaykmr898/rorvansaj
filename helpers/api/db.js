@@ -3,6 +3,7 @@ import { userModel } from "helpers/api/tables/users";
 import { userRelationsModel } from "./tables/user-relations";
 import { offersModel } from "./tables/offers";
 import { relationsModel } from "./tables/relations";
+import { filesModel } from "./tables/files";
 
 const Schema = mongoose.Schema;
 mongoose.connect(process.env.MONGODB_URI);
@@ -13,4 +14,5 @@ export const db = {
   Offers: offersModel(),
   Relations: relationsModel(),
   UserRelations: userRelationsModel(),
+  Files: filesModel(),
 };

@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Layout, AddEdit } from "components/offers";
-import { offersService, alertService, cloudConfig } from "services";
+import {
+  offersService,
+  alertService,
+  cloudConfig,
+  filesService,
+} from "services";
 import axios from "axios";
 
 export default Edit;
@@ -26,25 +31,9 @@ function Edit() {
         setIsLoading(false);
         folder = "offers/" + x.data.id;
 
-        axios
-          .get(
-            `https://api.cloudinary.com/v1_1/${config.cloudName}/resources/image/upload?folder=${folder}`,
-            {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Basic ${Buffer.from(
-                `${config.apiKey}:${config.apiSecret}`
-              ).toString("base64")}`,
-            }
-          )
-          .then((response) => {
-            console.log(response);
-            // Extract image URLs from the response
-            const imageUrls = response.data.resources.map((image) => image.url);
-            setImages(imageUrls);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        filesService.getAllByOfferId(id).then((res) => {
+          setImages(res.data);
+        });
       })
       .catch((err) => alertService.error(err));
   }, [router]);
