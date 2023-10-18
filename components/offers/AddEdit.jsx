@@ -215,9 +215,9 @@ function AddEdit(props) {
                 {...formik.getFieldProps("types")}
                 error={formik.touched.types && Boolean(formik.errors.types)}
               >
-                <MenuItem value="1">Ad</MenuItem>
-                <MenuItem value="2">News</MenuItem>
-                <MenuItem value="3">Offer</MenuItem>
+                {offersService.offerTypes.map((value, i) => (
+                  <MenuItem value={i}>{value}</MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

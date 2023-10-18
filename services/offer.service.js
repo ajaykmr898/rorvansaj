@@ -8,6 +8,7 @@ export const offersService = {
   getById,
   update,
   delete: _delete,
+  offerTypes: ["Ad", "News", "Offer"],
 };
 
 async function getAll() {
@@ -16,6 +17,7 @@ async function getAll() {
     ...offer,
     visibility: offer?.visibility?.formattedAddress || "",
     user: `${offer?.userId?.firstName} ${offer?.userId?.lastName}` || "",
+    type: offersService.offerTypes[offer?.types] || "",
   }));
   return res;
   //return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };

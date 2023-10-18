@@ -114,7 +114,7 @@ function Index() {
       },
     },
     {
-      name: "types",
+      name: "type",
       label: "Type",
       options: {
         filter: true,
