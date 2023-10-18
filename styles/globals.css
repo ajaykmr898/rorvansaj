@@ -240,7 +240,7 @@ body {
 }
 
 .file-upload {
-  background-color: #ffffff;
+  background-color: #f7e8e8;
   width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -249,7 +249,7 @@ body {
 .file-upload-btn {
   width: 100%;
   margin: 0;
-  color: #fff;
+  color: #f7e8e8;
   background: #1fb264;
   border: none;
   padding: 10px;
@@ -263,7 +263,7 @@ body {
 
 .file-upload-btn:hover {
   background: #1aa059;
-  color: #ffffff;
+  color: #f7e8e8;
   transition: all 0.2s ease;
   cursor: pointer;
 }
@@ -291,13 +291,13 @@ body {
 
 .image-upload-wrap {
   margin-top: 20px;
-  border: 4px dashed #1fb264;
+  border: 4px dashed #888b95;
   position: relative;
 }
 
 .image-dropping,
 .image-upload-wrap:hover {
-  background-color: #1fb264;
+  background-color: #d0d7ac;
   border: 4px dashed #ffffff;
 }
 
@@ -313,7 +313,7 @@ body {
 .drag-text h3 {
   font-weight: 100;
   text-transform: uppercase;
-  color: #15824b;
+  color: #888b95;
   padding: 60px 0;
 }
 
@@ -355,7 +355,7 @@ body {
   padding: 10px;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   border-radius: 10px;
-  background-color: white;
+  background-color: #f7e8e8;
 }
 
 /* === Upload Box === */

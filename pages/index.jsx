@@ -4,35 +4,32 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import CloudinaryUploadWidget from "../components/cloudinary/CloudinaryUploadWidget";
 import axios from "axios";
+import ClImage from "../components/cloudinary/ClImage";
+import Grid from "@mui/material/Grid";
 export default Home;
 
 function Home() {
-  const config = cloudConfig();
-  const load = (datas) => {
-    datas.map((formData) => {
-      axios
-        .post(`${config.url}/${config.cloudName}/upload`, formData, {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Basic ${Buffer.from(
-            `${config.apiKey}:${config.apiSecret}`
-          ).toString("base64")}`,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-  };
-
   return (
     <Layout>
       <Typography variant="h6" className="text-center">
         Welcome <br />
         {userService.name}
       </Typography>
-      {<CloudinaryUploadWidget load={load} />}
+      <br />
+      <Grid container spacing={2}>
+        <Grid item>
+          <ClImage id="sdfhgj/ywsognajssabnpnzsspk" />
+        </Grid>
+        <Grid item>
+          <ClImage id="sdfhgj/ywsognajssabnpnzsspk" />
+        </Grid>
+        <Grid item>
+          <ClImage id="sdfhgj/ywsognajssabnpnzsspk" />
+        </Grid>
+        <Grid item>
+          <ClImage id="sdfhgj/ywsognajssabnpnzsspk" />
+        </Grid>
+      </Grid>
     </Layout>
   );
 }

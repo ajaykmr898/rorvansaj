@@ -15,8 +15,8 @@ async function getById(req, res) {
 }
 
 async function update(req, res) {
-  await offersRepo.update(req.query.id, req.body);
-  return res.status(200).json({ ...success });
+  let offer = await offersRepo.update(req.query.id, req.body);
+  return res.status(200).json({ ...success, data: offer });
 }
 
 async function _delete(req, res) {

@@ -36,7 +36,7 @@ async function update(id, params) {
   const offer = await Offers.findById(id);
   if (!offer) throw "Offer not found";
   Object.assign(offer, params);
-  await offer.save();
+  return await offer.save();
 }
 
 async function _delete(id) {

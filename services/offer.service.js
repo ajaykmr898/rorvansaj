@@ -30,7 +30,7 @@ async function create(params) {
 }
 
 async function update(id, params) {
-  await fetchWrapper.put(`${baseUrl}/${id}`, params);
+  return await fetchWrapper.put(`${baseUrl}/${id}`, params);
 }
 
 async function _delete(id) {

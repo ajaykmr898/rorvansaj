@@ -68,7 +68,7 @@ function CloudinaryUploadWidget({ load }) {
       formData.append("file", renamedFile);
       formData.append("upload_preset", config.preset);
       //formData.append("use_filename", "true");
-      formData.append("folder", "sample");
+      //formData.append("folder", folder);
 
       formDatas.push(formData);
     }
@@ -76,7 +76,7 @@ function CloudinaryUploadWidget({ load }) {
   };
 
   return (
-    <form id="uploadFile" method="POST" encType="multipart/form-data">
+    <div id="uploadFile">
       <div id="FileUpload">
         <div className="wrapper">
           <div className="image-upload-wrap">
@@ -104,7 +104,6 @@ function CloudinaryUploadWidget({ load }) {
                 <div key={i} className="uploaded">
                   <div className="file">
                     <div className="file__name">
-                      <i className="fa fa-file delete"></i>
                       <p>{getFileName(files[i])}</p>
                       <DeleteIcon
                         className="fas fa-times delete"
@@ -129,7 +128,7 @@ function CloudinaryUploadWidget({ load }) {
           </Button>
         </Box>
       </div>
-    </form>
+    </div>
   );
 }
 

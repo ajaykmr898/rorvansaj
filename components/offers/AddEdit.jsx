@@ -1,7 +1,12 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as Yup from "yup";
-import { offersService, alertService, userService } from "services";
+import {
+  offersService,
+  alertService,
+  userService,
+  cloudConfig,
+} from "services";
 import { useFormik } from "formik";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
@@ -18,12 +23,16 @@ import {
 import { Place } from "../maps";
 import { useState } from "react";
 import CloudinaryUploadWidget from "../cloudinary/CloudinaryUploadWidget";
+import axios from "axios";
 
 export { AddEdit };
 
 function AddEdit(props) {
   const offer = props?.offer;
+  const config = cloudConfig();
+  let folder = "";
   const router = useRouter();
+  const [formData, setFormData] = useState([]);
   const [visibilityAddress, setVisibilityAddress] = useState(false);
   const [visibilityChanged, setVisibilityAddressChanged] = useState(false);
 
@@ -51,9 +60,39 @@ function AddEdit(props) {
     },
   });
 
+  const insertDb = async (id, publicId) => {
+    console.log(id, publicId);
+  };
+
+  const uploadFiles = (id) => {
+    folder = "offers/" + id;
+    let formDatas = [...formData].map((form) => {
+      form.append("folder", folder);
+      return form;
+    });
+
+    formDatas.map((formData) => {
+      axios
+        .post(`${config.url}/${config.cloudName}/upload`, formData, {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Basic ${Buffer.from(
+            `${config.apiKey}:${config.apiSecret}`
+          ).toString("base64")}`,
+        })
+        .then(async (res) => {
+          const publicId = res?.data?.public_id;
+          await insertDb(id, publicId);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  };
+
   async function onSubmit(data) {
     try {
       let message = "Offer added";
+      let res = null;
       if (visibilityChanged && Object.keys(visibilityAddress).length <= 0) {
         alertService.warning("Insert correct address");
         return false;
@@ -61,16 +100,23 @@ function AddEdit(props) {
       data = { ...data, userId: userService?.userValue?.id };
       if (!offer) {
         data.visibility = visibilityAddress;
-        await offersService.create(data);
+        res = await offersService.create(data);
       } else {
         data.visibility = visibilityChanged
           ? visibilityAddress
           : data.visibility;
-        await offersService.update(offer.id, data);
+        res = await offersService.update(offer.id, data);
       }
-      // redirect to offer list with success message
-      router.push("/offers");
-      alertService.success(message);
+
+      if (res) {
+        uploadFiles(res.data.id);
+        alertService.success(message);
+        router.push("/offers");
+      } else {
+        alertService.error(
+          "Offer saved, An error occurred while uploading files"
+        );
+      }
     } catch (error) {
       alertService.error(error);
       console.error(error);
@@ -81,6 +127,10 @@ function AddEdit(props) {
     console.log(id, newAddress);
     setVisibilityAddress(newAddress);
     setVisibilityAddressChanged(true);
+  };
+
+  const load = (datas) => {
+    setFormData(datas);
   };
 
   const defaultTheme = createTheme();
@@ -204,7 +254,7 @@ function AddEdit(props) {
           </Grid>
         </Grid>
         <br />
-        <CloudinaryUploadWidget />
+        <CloudinaryUploadWidget load={load} />
         <Button
           type="submit"
           color="success"

@@ -3,6 +3,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { AdvancedImage } from "@cloudinary/react";
 import { Cloudinary } from "@cloudinary/url-gen";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 export default ClImage;
 
 function ClImage({ id }) {
@@ -19,7 +20,15 @@ function ClImage({ id }) {
 
   return (
     <div className="imgContainer">
-      {image && <AdvancedImage cldImg={image} />}
+      {image && (
+        <div>
+          <AdvancedImage cldImg={image} />
+          <DeleteIcon
+            className="fas fa-times delete"
+            onClick={() => deleteItem(i)}
+          ></DeleteIcon>
+        </div>
+      )}
     </div>
   );
 }
