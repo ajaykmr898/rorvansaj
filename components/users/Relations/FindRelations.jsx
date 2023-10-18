@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import { relationsService } from "../../../services";
+import { relationsService, userService } from "../../../services";
 import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -17,14 +17,7 @@ import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 export { FindRelationsDialog };
 function FindRelationsDialog(props) {
   const current = props?.current;
-  const users = props?.users;
-  const persons = users.map((u, i) => {
-    return {
-      value: u.id,
-      label: `${u?.firstName} ${u?.lastName}`,
-    };
-  });
-
+  const [persons, setPersons] = useState([]);
   const [map, setMap] = useState(null);
   const [open, setOpen] = useState(props?.open || false);
   const [selectedPerson, setSelectedPerson] = useState(null);
@@ -56,7 +49,17 @@ function FindRelationsDialog(props) {
     width: "100%",
   };
 
-  useEffect(() => {}, []);
+  const fetchOptionsByName = async (searchTerm) => {
+    try {
+      searchTerm = searchTerm.trim();
+      if (searchTerm && searchTerm.length % 3 === 0) {
+        const data = await userService.fetchOptionsByName(searchTerm);
+        setPersons(data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleTabChange = (event, newValue) => {
     setIsError(false);
@@ -144,6 +147,9 @@ function FindRelationsDialog(props) {
               <Autocomplete
                 options={persons}
                 getOptionLabel={(option) => option.label}
+                onInputChange={(event, newValue) =>
+                  fetchOptionsByName(newValue)
+                }
                 style={{ width: "90%" }}
                 value={selectedPerson}
                 onChange={handleSelectPersonChange}

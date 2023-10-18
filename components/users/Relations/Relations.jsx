@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import { relationsService } from "../../../services";
+import { relationsService, userService } from "../../../services";
 import Typography from "@mui/material/Typography";
 
 export { RelationsDialog };
@@ -15,20 +15,28 @@ function RelationsDialog(props) {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
   const current = props?.current;
-  const users = props?.users;
-  const persons = users.map((u, i) => {
-    return {
-      value: u.id,
-      label: `${u?.firstName} ${u?.lastName}`,
-    };
-  });
   const options = props?.relations.map((r) => ({
     value: r.id,
     label: r.relation,
   }));
+
   const [open, setOpen] = useState(props?.open || false);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [selectedRelation, setSelectedRelation] = useState(null);
+  const [persons, setPersons] = useState([]);
+
+  const fetchOptionsByName = async (searchTerm) => {
+    try {
+      searchTerm = searchTerm.trim();
+      if (searchTerm && searchTerm.length % 3 === 0) {
+        const data = await userService.fetchOptionsByName(searchTerm);
+        setPersons(data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const handleSelectPersonChange = (event, newValue) => {
     setIsError(false);
     setSelectedPerson(newValue);
@@ -43,7 +51,6 @@ function RelationsDialog(props) {
   };
 
   const handle = async () => {
-    console.log(selectedPerson.id, current.id);
     if (!selectedPerson || !selectedRelation) {
       setIsError(true);
       setError("Select both fields to save relation");
@@ -85,6 +92,7 @@ function RelationsDialog(props) {
             <Autocomplete
               options={persons}
               getOptionLabel={(option) => option.label}
+              onInputChange={(event, newValue) => fetchOptionsByName(newValue)}
               style={{ width: "90%" }}
               value={selectedPerson}
               onChange={handleSelectPersonChange}

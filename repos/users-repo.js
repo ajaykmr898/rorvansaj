@@ -12,6 +12,7 @@ export const usersRepo = {
   create,
   getByRegLink,
   update,
+  searchByName,
   delete: _delete,
 };
 
@@ -55,6 +56,20 @@ async function getAll({ page, pageSize }) {
   const totalCount = await User.countDocuments({});
   const res = await User.find({}).skip(skip).limit(pageSize);
   return { users: res, totalCount };
+  //return await User.find();
+}
+
+async function searchByName({ name }) {
+  const regex = new RegExp(name, "i");
+  const res = await User.find({
+    $or: [
+      { firstName: { $regex: regex } },
+      { lastName: { $regex: regex } },
+      { email: { $regex: regex } },
+      { phone: { $regex: regex } },
+    ],
+  }).limit(100);
+  return res;
   //return await User.find();
 }
 

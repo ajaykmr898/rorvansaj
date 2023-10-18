@@ -27,7 +27,22 @@ export const userService = {
   delete: _delete,
   sendRegMail: sendRegMail,
   updateUser: updateUser,
+  fetchOptionsByName,
+  searchByName,
 };
+
+async function fetchOptionsByName(searchTerm) {
+  const response = await searchByName(searchTerm);
+  const data = (response?.data || []).map((u) => ({
+    value: u.id,
+    label: `${u?.firstName} ${u?.lastName} - ${u?.phone} - ${u?.email}`,
+  }));
+  return data;
+}
+
+async function searchByName(name) {
+  return await fetchWrapper.put(`${baseUrl}`, { name });
+}
 
 async function login(email, password) {
   const res = await fetchWrapper.post(`${baseUrl}/authenticate`, {
