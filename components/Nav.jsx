@@ -27,7 +27,7 @@ const drawerWidth = 240;
 const navItems = [
   { name: "Home", icon: <HomeIcon />, href: "/" },
   { name: "Rors", icon: <UserIcon />, href: "/users" },
-  { name: "Ads/News/Offers", icon: <ShopIcon />, href: "/offers" },
+  { name: "Ads/News", icon: <ShopIcon />, href: "/offers" },
 ];
 const navItemsMenu = [
   {

@@ -33,7 +33,7 @@ function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
-    pageSize: 25,
+    pageSize: 10,
   });
   const [count, setCount] = useState(0);
 
@@ -44,6 +44,7 @@ function Index() {
         <Tooltip title="View Relations" arrow>
           <span
             onClick={() => {
+              setCurrent(users[dataIndex]);
               getRelationsByUserId(users[dataIndex]);
             }}
           >
@@ -322,6 +323,7 @@ function Index() {
     <Layout isLoading={isLoading}>
       {isRelationsMapOpen && (
         <RelationsCytoscapeDialog
+          current={current}
           elements={elements}
           open={true}
           onClose={closeMapDialog}
