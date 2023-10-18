@@ -218,7 +218,7 @@ function Index() {
       {!offers && <Spinner />}
       {offers && offers.length > 0 && (
         <MUIDataTable
-          title="Offers"
+          title="Ads/News/Offers"
           data={offers}
           columns={columns}
           options={options}

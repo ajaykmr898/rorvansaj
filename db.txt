@@ -79,12 +79,12 @@ endpoints
 	- remove relation // Ok
 	- update relation // not needed, only remove
 
-	- get offers
+	- get offers //ok
 	- get offers by area
 	- get offers by user
-	- add offer
-	- update offer
-	- remove offer
+	- add offer // ok
+	- update offer // ok
+	- remove offer // ok
 
 
 X deleted nodes
@@ -94,11 +94,11 @@ X relation max nodes 1,N -> all open
 find relation between 2 people
     - by users -> one first node ok, others generic message
     - by place -> prov, reg
-login and reg on login
-users list
+X login and reg on login
+X users list
     - only admins ?
     - search for others
-manage images upload delete get from files db
+X manage images upload delete get from files db
     - get by offer id
     - get by id
     - delete by id
