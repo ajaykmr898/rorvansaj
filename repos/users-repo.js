@@ -77,7 +77,7 @@ async function create(params) {
 
   user.password = "";
   user.regExpTime = moment().add("2", "years");
-  user.isSignedUp = "false";
+  //user.isSignedUp = "false";
 
   // save user
   try {
