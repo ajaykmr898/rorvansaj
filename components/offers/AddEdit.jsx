@@ -34,6 +34,7 @@ function AddEdit(props) {
   const images = props?.images;
   const config = cloudConfig();
   let folder = "";
+  const currentDate = new Date().toISOString().split("T")[0];
   const router = useRouter();
   const [formData, setFormData] = useState([]);
   const [visibilityAddress, setVisibilityAddress] = useState(false);
@@ -54,8 +55,13 @@ function AddEdit(props) {
       types: Yup.string().required("Type is required"),
       title: Yup.string().required("Title is required"),
       description: Yup.string(),
-      from: Yup.date().required("From is required"),
-      to: Yup.date().required("To is required"),
+      from: Yup.date().required("From is required").min(currentDate),
+      to: Yup.date()
+        .required("To is required")
+        .min(
+          Yup.ref("from"),
+          "To Date must be greater than or equal to From Date"
+        ),
       //visibility: Yup.string().required("visibility is required"),
       charge: Yup.string().required("Charge is required"),
     }),
@@ -165,6 +171,14 @@ function AddEdit(props) {
     setFormData(datas);
   };
 
+  const handleDateChange = (event, field) => {
+    const selectedDate = event.target.value;
+    if (field === "from") {
+      //if ()
+    } else {
+    }
+  };
+
   const defaultTheme = createTheme();
 
   return (
@@ -237,6 +251,7 @@ function AddEdit(props) {
                 name="from"
                 autoComplete="from"
                 variant="outlined"
+                onChange={(ev) => handleDateChange(ev, "from")}
                 {...formik.getFieldProps("from")}
                 error={formik.touched.from && Boolean(formik.errors.from)}
               />
@@ -256,6 +271,7 @@ function AddEdit(props) {
                 name="to"
                 autoComplete="to"
                 variant="outlined"
+                onChange={(ev) => handleDateChange(ev, "to")}
                 {...formik.getFieldProps("to")}
                 error={formik.touched.to && Boolean(formik.errors.to)}
               />

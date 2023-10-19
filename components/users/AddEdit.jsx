@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Place } from "../maps";
 import { useState } from "react";
+import moment from "moment";
 
 export { AddEdit };
 
@@ -27,7 +28,7 @@ function AddEdit(props) {
   const [pob, setPobAddress] = useState({});
   const [porChanged, setPorAddressChanged] = useState(false);
   const [pobChanged, setPobAddressChanged] = useState(false);
-
+  const currentDate = new Date().toISOString().split("T")[0];
   const formik = useFormik({
     initialValues: {
       firstName: user?.firstName ? user.firstName : "",
@@ -46,7 +47,7 @@ function AddEdit(props) {
       gender: Yup.string().required("Gender is required"),
       level: Yup.string().required("Level is required"),
       phone: Yup.string(),
-      email: Yup.string().required("Email is required"),
+      email: Yup.string().email().required("Email is required"),
       password: Yup.string()
         .transform((x) => (x === "" ? undefined : x))
         // password optional in edit mode
@@ -68,6 +69,10 @@ function AddEdit(props) {
         (porChanged && Object.keys(por).length <= 0)
       ) {
         alertService.warning("Insert both correct addresses");
+        return false;
+      }
+      if (moment(data.dob).isAfter(currentDate)) {
+        alertService.warning("Please select a past date as Date of Birth");
         return false;
       }
       if (user) {
@@ -148,6 +153,7 @@ function AddEdit(props) {
                 label="Date of birth *"
                 type="date"
                 name="dob"
+                max={currentDate}
                 autoComplete="dob"
                 variant="outlined"
                 {...formik.getFieldProps("dob")}

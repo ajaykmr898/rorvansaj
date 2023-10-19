@@ -92,8 +92,9 @@ X bidirectional relation -> row?
 X relation old generation 1,2,3,4,5,6 -> can do with recursion
 X relation max nodes 1,N -> all open
 find relation between 2 people
-    - by users -> one first node ok, others generic message
-    - by place -> prov, reg
+    * - by users -> one first node ok, others generic message
+    * - by place -> prov, reg
+* find ad/news by location
 X login and reg on login
 X users list
     - only admins ?
@@ -104,7 +105,15 @@ X manage images upload delete get from files db
     - delete by id
     - add image by offer id
 X renders
-dates checks
-search user by text select
+* dates checks
+X search user by text select
 show offers by multi area
-db columns for prov reg country
+* db columns for prov reg country
+* filters
+    - name
+    - dob
+    - email
+    - phone
+    - pob
+    - por
+    - gender
