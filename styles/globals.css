@@ -420,3 +420,10 @@ body {
   font-size: 40px;
   color: #0c3214;
 }
+
+.cardToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+}

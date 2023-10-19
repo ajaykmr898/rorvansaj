@@ -51,10 +51,34 @@ async function authenticate({ email, password }) {
   };
 }
 
-async function getAll({ page, pageSize }) {
+async function getAll({ page, pageSize, name, dob, gender, pos }) {
   const skip = (page - 1) * pageSize;
-  const totalCount = await User.countDocuments({});
-  const res = await User.find({}).skip(skip).limit(pageSize);
+  let filters = {};
+  if (name) {
+    const nameRegex = new RegExp(name, "i");
+    filters = {
+      $or: [
+        { firstName: { $regex: nameRegex } },
+        { lastName: { $regex: nameRegex } },
+        { email: { $regex: nameRegex } },
+        { phone: { $regex: nameRegex } },
+      ],
+    };
+  }
+  if (dob) {
+    filters.dob = dob;
+  }
+  if (gender) {
+    filters.gender = gender;
+  }
+  if (pos && pos?.location) {
+    filters.$or = [
+      { "pob.location": pos.location },
+      { "por.location": pos.location },
+    ];
+  }
+  const totalCount = await User.countDocuments(filters);
+  const res = await User.find(filters).skip(skip).limit(pageSize);
   return { users: res, totalCount };
   //return await User.find();
 }

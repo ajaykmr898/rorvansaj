@@ -282,6 +282,7 @@ function AddEdit(props) {
               id="visibility"
               placeholder="Destination *"
               onAddressChange={handleAddressChange}
+              isRequired={true}
               defaultValue={
                 offer?.visibility
                   ? offer?.visibility?.formattedAddress || ""

@@ -7,6 +7,7 @@ export { Place };
 
 function Place(props) {
   const id = props?.id || uuidv4();
+  const isRequired = !!props?.isRequired;
   const placeholder = props?.placeholder || "Enter location";
   const onAddressChange = props?.onAddressChange || (() => {});
   const defaultValue = props?.defaultValue || "";
@@ -125,17 +126,31 @@ function Place(props) {
           <pre>{JSON.stringify(place, null, 2)}</pre>
         </div>
       )}
-      <input
-        id={id}
-        placeholder={placeholder}
-        name={id}
-        className="loc-input"
-        type="text"
-        ref={inputRef}
-        required
-        defaultValue={defaultValue}
-        onChange={handleChange}
-      />
+      {isRequired && (
+        <input
+          id={id}
+          placeholder={placeholder}
+          name={id}
+          className="loc-input"
+          type="text"
+          ref={inputRef}
+          required={isRequired}
+          defaultValue={defaultValue}
+          onChange={handleChange}
+        />
+      )}
+      {!isRequired && (
+        <input
+          id={id}
+          placeholder={placeholder}
+          name={id}
+          className="loc-input"
+          type="text"
+          ref={inputRef}
+          defaultValue={defaultValue}
+          onChange={handleChange}
+        />
+      )}
     </div>
   );
 }

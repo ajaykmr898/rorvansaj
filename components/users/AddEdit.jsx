@@ -184,6 +184,7 @@ function AddEdit(props) {
           <Grid item xs={12} sm={6}>
             <Place
               id="pob"
+              isRequired={true}
               placeholder="Birth Place *"
               onAddressChange={handleAddressChange}
               defaultValue={user?.pob ? user?.pob?.formattedAddress || "" : ""}
@@ -192,6 +193,7 @@ function AddEdit(props) {
           <Grid item xs={12} sm={6}>
             <Place
               id="por"
+              isRequired={true}
               placeholder="Residence Address *"
               onAddressChange={handleAddressChange}
               defaultValue={user?.por ? user?.por?.formattedAddress || "" : ""}

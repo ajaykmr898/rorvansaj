@@ -19,6 +19,7 @@ import { Empty } from "../../components/Empty";
 import { FindRelationsDialog } from "../../components/users/Relations/FindRelations";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import { Filters } from "../../components/users/Filters";
 export default Index;
 
 function Index() {
@@ -36,6 +37,7 @@ function Index() {
     pageSize: 10,
   });
   const [count, setCount] = useState(0);
+  const [filters, setFilters] = useState(null);
 
   const CustomBodyRender = (dataIndex) => {
     //console.log("q", dataIndex);
@@ -220,24 +222,45 @@ function Index() {
     rowsPerPage: pagination.pageSize,
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await userService.getAll(pagination);
-        const data = response.data;
-        setCount(data?.totalCount);
-        const usersData = data?.users;
-        usersData.map((user, index) => {
-          user.idd = index + 1;
-          return user;
-        });
-        setUsers([...usersData]);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+  const fetchData = async (filtersT = null) => {
+    try {
+      let filtersTemp = {};
+      let paginationT = { ...pagination };
+      if (filtersT) {
+        paginationT = { ...paginationT, page: 1 };
+        if (filtersT?.name && filtersT?.name.trim()) {
+          filtersTemp = { ...filtersTemp, name: filtersT.name.trim() };
+        }
+        if (filtersT?.dob && filtersT?.dob.trim()) {
+          filtersTemp = { ...filtersTemp, dob: filtersT.dob.trim() };
+        }
+        if (filtersT?.gender && filtersT?.gender.trim()) {
+          filtersTemp = { ...filtersTemp, gender: filtersT.gender.trim() };
+        }
+        if (filtersT?.pos && Object.keys(filtersT.pos).length) {
+          filtersTemp = { ...filtersTemp, pos: filtersT.pos };
+        }
       }
-    };
 
+      const filtersTemp2 = { ...paginationT, ...filtersTemp };
+      console.log(filtersTemp2);
+      //return false;
+      const response = await userService.getAll(filtersTemp2);
+      const data = response.data;
+      setCount(data?.totalCount);
+      const usersData = data?.users;
+      usersData.map((user, index) => {
+        user.idd = index + 1;
+        return user;
+      });
+      setUsers([...usersData]);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [pagination.page, pagination.pageSize]);
 
@@ -247,6 +270,11 @@ function Index() {
       setRelations(r);
     });
   }, []);
+
+  const search = async (filterT) => {
+    setFilters(filterT);
+    await fetchData(filterT);
+  };
 
   function editUser(id) {
     // search user
@@ -321,6 +349,8 @@ function Index() {
 
   return (
     <Layout isLoading={isLoading}>
+      <Filters search={search} />
+      <br />
       {isRelationsMapOpen && (
         <RelationsCytoscapeDialog
           current={current}
@@ -348,15 +378,19 @@ function Index() {
       )}
       {!users && <Spinner />}
       {users && users.length > 0 && (
-        <MUIDataTable
-          title="Rors"
-          data={users}
-          columns={columns}
-          options={options}
-        />
+        <>
+          <MUIDataTable
+            title="Rors"
+            data={users}
+            columns={columns}
+            options={options}
+          />
+        </>
       )}
       {users && users.length === 0 && (
-        <Empty action="/users/add" text="No users found" />
+        <>
+          <MUIDataTable columns={columns} options={options} />
+        </>
       )}
     </Layout>
   );

@@ -166,6 +166,7 @@ function FindRelationsDialog(props) {
           {selectedTab === 1 && (
             <Grid item xs={12} sm={6}>
               <Place
+                isRequired={true}
                 id="pos"
                 placeholder="Find Place"
                 onAddressChange={handleAddressChange}
