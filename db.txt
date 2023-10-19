@@ -109,7 +109,7 @@ X dates checks
 X search user by text select
 show offers by multi area
 * db columns for prov reg country
-* filters
+X filters
     - name
     - dob
     - email

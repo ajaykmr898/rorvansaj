@@ -26,7 +26,7 @@ function Filters({ search }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const currentDate = new Date().toISOString().split("T")[0];
   const [place, setPlace] = useState({});
-  const [address, setAddress] = useState("");
+  const [isDisabledReset, setDisabledReset] = useState(true);
 
   const handleToggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -46,12 +46,13 @@ function Filters({ search }) {
   const onSubmit = () => {
     const values = formik.values;
     values.pos = place;
+    setDisabledReset(false);
     search(values);
   };
 
   const reset = () => {
     formik.resetForm();
-    setAddress("");
+    setDisabledReset(true);
     search({});
   };
 
@@ -130,13 +131,13 @@ function Filters({ search }) {
                   placeholder="Place"
                   onAddressChange={handleAddressChange}
                   isRequired={false}
-                  defaultValue={address}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Grid container justifyContent="flex-end">
                   <Button
                     onClick={() => reset()}
+                    disabled={!!isDisabledReset}
                     variant="contained"
                     color="secondary"
                   >
