@@ -107,7 +107,7 @@ X manage images upload delete get from files db
 X renders
 X dates checks
 X search user by text select
-show offers by multi area
+* show offers by multi area
 * db columns for prov reg country
 X filters
     - name
@@ -117,3 +117,4 @@ X filters
     - pob
     - por
     - gender
+* bulk users

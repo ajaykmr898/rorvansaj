@@ -77,7 +77,7 @@ function Filters({ search }) {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
-                  label="Name"
+                  label="Name/Email/Phone"
                   fullWidth
                   variant="outlined"
                   {...formik.getFieldProps("name")}
