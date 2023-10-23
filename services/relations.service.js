@@ -8,8 +8,7 @@ export const relationsService = {
   create,
   delete: _delete,
   deleteByUserId,
-  findRelations,
-  getRelationsIds,
+  findRelationships,
 };
 
 async function getAll() {
@@ -30,59 +29,59 @@ async function getByUserId(userId) {
   //return temp;
   return { ...temp, data: res.length ? res[0] : [] };
 }
-
-async function getRelationsIds(userId) {
-  const temp = await fetchWrapper.post(`${baseUrl}/getRelations`, {
-    userId,
+async function findRelationships(userId1, userId2) {
+  // get graph
+  let graph = await fetchWrapper.put(`${baseUrl}/getRelations`, {
+    userId1,
+    userId2,
   });
-  return [...temp];
-}
-async function findRelations(userId1, userId2) {
-  let output = "No relation found";
-  let firstNodes = await Promise.all([
-    getRelationsIds(userId1),
-    getRelationsIds(userId2),
-  ]);
-
-  let ids = [];
-  [...firstNodes[0], ...firstNodes[1]].forEach((node) => {
-    ids.push(node.relatedUserId, node.userId);
-  });
-
-  let ids2 = [...new Set([...ids])];
-  let found = ids.includes(userId1) && ids2.includes(userId2);
-  if (found) {
-    console.log(ids, ids2);
-    let res = await getByUserId(userId1);
-    if (res?.data.length) {
-      let rel = [...res?.data].filter((rr) => {
-        return (
-          (rr.relatedUserId.id === userId1 && rr.userId.id === userId2) ||
-          (rr.relatedUserId.id === userId2 && rr.userId.id === userId1)
-        );
-      });
-
-      if (rel.length) {
-        let r = rel[0];
-        let userA = r.primary === "relatedUserId" ? r.relatedUserId : r.userId;
-        let userB = r.primary !== "relatedUserId" ? r.relatedUserId : r.userId;
-        let label =
-          r.primary === "relatedUserId"
-            ? r.relation?.relation
-            : r.relation?.counterRelation;
-        output = `${userA.firstName} ${userA.lastName} is ${label} of ${userB.firstName} ${userB.lastName}`;
-      } else {
-        output = "Nested relation found";
-      }
+  // get relations by recursion
+  const deepRelationships =
+    findDeepRelationships(graph, userId1, userId2) || [];
+  const paths = [];
+  let found = false;
+  for (let i = deepRelationships.length - 1; i >= 0; i--) {
+    const item = deepRelationships[i];
+    if (item.id === userId1) {
+      found = true;
+    }
+    if (!found) {
+      paths.unshift(item);
     } else {
-      output = "Relation found, error while retrieving";
+      break;
     }
   }
-  return output;
+  return paths;
 }
 
-function mergeArraysAndRemoveDuplicates(arr1, arr2) {
-  return [...new Set([...arr1, ...arr2])];
+function findDeepRelationships(graph, startUser, endUser) {
+  function dfs(node, path) {
+    if (node.id === endUser) {
+      return path.concat(node);
+    }
+
+    visited.add(node.id);
+
+    for (const neighbor of graph[node.id] || []) {
+      if (!visited.has(neighbor.id)) {
+        const result = dfs(neighbor, path.concat(node));
+        if (result) {
+          return result;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  const visited = new Set();
+  const startNode = graph[startUser];
+
+  if (startNode) {
+    return dfs(startNode[0], []);
+  }
+
+  return [];
 }
 
 async function deleteByUserId(userId) {

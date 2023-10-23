@@ -108,10 +108,18 @@ function FindRelationsDialog(props) {
         );
         return;
       }
-      let relationFound = await relationsService.findRelations(
+      let relationFound = await relationsService.findRelationships(
         current?.id,
         selectedPerson?.value
       );
+
+      console.log(relationFound);
+      if (relationFound.length > 0) {
+        relationFound = `Deep relationships between ${current?.id} and ${selectedPerson?.value}.`;
+      } else {
+        relationFound = `No relationships found between ${current?.id} and ${selectedPerson?.value}.`;
+      }
+
       setIsError(true);
       setError(relationFound);
     } else {

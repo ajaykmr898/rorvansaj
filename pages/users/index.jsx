@@ -243,7 +243,7 @@ function Index() {
       }
 
       const filtersTemp2 = { ...paginationT, ...filtersTemp };
-      console.log(filtersTemp2);
+      //console.log(filtersTemp2);
       //return false;
       const response = await userService.getAll(filtersTemp2);
       const data = response.data;
