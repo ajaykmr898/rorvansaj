@@ -55,27 +55,36 @@ async function getAll({ page, pageSize, name, dob, gender, pos }) {
   const skip = (page - 1) * pageSize;
   let filters = {};
   if (name) {
+    filters.$and = [];
     const nameRegex = new RegExp(name, "i");
-    filters = {
+    filters.$and.push({
       $or: [
         { firstName: { $regex: nameRegex } },
         { lastName: { $regex: nameRegex } },
         { email: { $regex: nameRegex } },
         { phone: { $regex: nameRegex } },
       ],
-    };
+    });
   }
   if (dob) {
-    filters.dob = dob;
+    if (!filters.$and) {
+      filters.$and = [];
+    }
+    filters.$and.push({ dob: dob });
   }
   if (gender) {
-    filters.gender = gender;
+    if (!filters.$and) {
+      filters.$and = [];
+    }
+    filters.$and.push({ gender: gender });
   }
   if (pos && pos?.location) {
-    filters.$or = [
-      { "pob.location": pos.location },
-      { "por.location": pos.location },
-    ];
+    if (!filters.$and) {
+      filters.$and = [];
+    }
+    filters.$and.push({
+      $or: [{ "pob.location": pos.location }, { "por.location": pos.location }],
+    });
   }
   const totalCount = await User.countDocuments(filters);
   const res = await User.find(filters).skip(skip).limit(pageSize);
