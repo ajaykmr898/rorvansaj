@@ -13,6 +13,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Place } from "../../maps";
 import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
+import { RelationsCytoscape } from "./RelationsCytoscape";
 
 export { FindRelationsDialog };
 function FindRelationsDialog(props) {
@@ -28,6 +29,7 @@ function FindRelationsDialog(props) {
   const [address, setAddress] = useState({});
   const [markers, setMarkers] = useState([]);
   const [circle, setCircle] = useState(null);
+  const [elements, setElements] = useState(null);
   const circleOptions = {
     strokeColor: "#5AB695",
     strokeOpacity: 0.8,
@@ -110,10 +112,11 @@ function FindRelationsDialog(props) {
       }
       let relationFound = await relationsService.findRelationships(
         current?.id,
-        selectedPerson?.value
+        selectedPerson?.value,
+        selectedPerson?.label
       );
 
-      console.log(relationFound);
+      //console.log(relationFound);
       if (relationFound.length > 0) {
         relationFound = `Deep relationships between ${current?.id} and ${selectedPerson?.value}.`;
       } else {
@@ -122,6 +125,7 @@ function FindRelationsDialog(props) {
 
       setIsError(true);
       setError(relationFound);
+      setElements(relationFound);
     } else {
       console.log(address);
     }
@@ -169,6 +173,7 @@ function FindRelationsDialog(props) {
                   />
                 )}
               />
+              <RelationsCytoscape elements={elements} />
             </Grid>
           )}
           {selectedTab === 1 && (

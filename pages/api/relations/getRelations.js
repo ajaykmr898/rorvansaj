@@ -32,12 +32,6 @@ async function graphRelations(req, res) {
   filteredData.forEach((relation) => {
     const userId = relation.userId;
     const relatedUserId = relation.relatedUserId;
-    const relationDetails = {
-      id: relatedUserId,
-      createdAt: relation.createdAt,
-      updatedAt: relation.updatedAt,
-      relationId: relation.relation,
-    };
 
     if (!graph[userId]) {
       graph[userId] = [];
@@ -45,7 +39,6 @@ async function graphRelations(req, res) {
 
     graph[userId].push({
       id: relatedUserId,
-      sf: relationDetails,
     });
     if (!graph[relatedUserId]) {
       graph[relatedUserId] = [];
@@ -53,7 +46,6 @@ async function graphRelations(req, res) {
 
     graph[relatedUserId].push({
       id: userId,
-      sf: relationDetails,
     });
   });
 
