@@ -1,7 +1,7 @@
 {
     "functions": {
         "pages/*": {
-            "maxDuration": 100
+            "maxDuration": 10
         }
     }
 }
