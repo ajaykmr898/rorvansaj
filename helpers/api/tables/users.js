@@ -22,6 +22,7 @@ export function userModel() {
       level: { type: String, required: false },
       gender: { type: String, required: false },
       phone: { type: String, required: false },
+      deleted: { type: String, required: true },
     },
     {
       // add createdAt and updatedAt timestamps

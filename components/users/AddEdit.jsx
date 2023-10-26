@@ -84,6 +84,7 @@ function AddEdit(props) {
         data.pob = pob;
         data.por = por;
         data.isSignedUp = "true";
+        data.deleted = "false";
         await userService.register(data);
       }
 

@@ -32,7 +32,10 @@ async function authenticate({ email, password }) {
   const result = await User.insertMany(randomUsers);*/
 
   const user = await User.findOne({ email });
-  if (!(user && bcrypt.compareSync(password, user.hash))) {
+  if (
+    !(user && bcrypt.compareSync(password, user.hash)) ||
+    !(user && user.deleted === "false")
+  ) {
     throw "Email or password are not correct";
   }
 
@@ -160,7 +163,15 @@ async function update(id, params) {
 }
 
 async function _delete(id) {
-  await User.findByIdAndRemove(id);
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { deleted: "true" } },
+      { new: true }
+    );
+  } catch (error) {
+    console.error("Error updating user:", error);
+  }
 }
 
 async function getByRegLink({ regLink }) {

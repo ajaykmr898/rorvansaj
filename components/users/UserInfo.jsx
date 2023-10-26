@@ -53,6 +53,10 @@ const UserInfo = ({ current }) => {
             <TableCell>
               {current?.isSignedUp === "true" ? "Yes" : "No"}
             </TableCell>
+          </TableRow>{" "}
+          <TableRow>
+            <TableCell>Deleted</TableCell>
+            <TableCell>{current?.deleted === "true" ? "Yes" : "No"}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

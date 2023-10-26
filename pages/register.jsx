@@ -53,6 +53,7 @@ export default function Register() {
     user.lastName = user.lastName.trim();
     user.regLink = uuidv4();
     user.isSignedUp = "false";
+    user.deleted = "false";
     user.regLinkMail =
       "https://" + window.location.host + "/account/reglink/" + user.regLink;
     return userService

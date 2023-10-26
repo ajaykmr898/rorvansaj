@@ -287,7 +287,7 @@ function Index() {
 
   function deleteUser(id) {
     let user = users.filter((u, i) => i === id);
-    if (user) {
+    if (user && user[0].deleted === "false") {
       id = user[0].id;
       setUsers(
         users.map((x) => {
@@ -302,6 +302,8 @@ function Index() {
         // delete relations
         relationsService.deleteByUserId(id).then();
       });
+    } else {
+      alertService.warning("User already deleted");
     }
   }
 
