@@ -42,12 +42,12 @@ async function findRelationships(userId1, userId2, label) {
   let found = false;
   for (let i = deepRelationships.length - 1; i >= 0; i--) {
     const item = deepRelationships[i];
-    if (item.id === userId1) {
+    if (item === userId1) {
       found = true;
     }
 
-    let x = await getByUserId(item.id);
-    paths.unshift({ ...item, relations: x?.data || [] });
+    let x = await getByUserId(item);
+    paths.unshift({ id: item, relations: x?.data || [] });
     if (found) {
       break;
     }
@@ -65,17 +65,20 @@ async function findRelationships(userId1, userId2, label) {
       //check if id not present
       if ([r?.relatedUserId?.id, r?.userId?.id].includes(idn)) {
         let label = "";
+        let label2 = "";
         if (id === r.relatedUserId.id) {
           label = `${r.relatedUserId.firstName} ${r.relatedUserId.lastName} - ${r.relatedUserId.phone} - ${r.relatedUserId.email}`;
+          label2 = r.relation.relation;
         }
         if (id === r.userId.id) {
           label = `${r.userId.firstName} ${r.userId.lastName} - ${r.userId.phone} - ${r.userId.email}`;
+          label2 = r.relation.counterRelation;
         }
         let el = { data: { id: "node", label } };
         let el2 = {
           data: {
             id: "edge",
-            label: r.relation.relation,
+            label: label2,
             //target: "node" + idx + "_" + (i + 1),
             //source: "node" + idx + "_" + i,
           },
@@ -111,34 +114,31 @@ async function findRelationships(userId1, userId2, label) {
   return x;
 }
 
-function findDeepRelationships(graph, startUser, endUser) {
-  function dfs(node, path) {
-    if (node.id === endUser) {
-      return path.concat(node);
+function findDeepRelationships(graph, start, end) {
+  const queue = [{ node: start, path: [start] }];
+  const visited = new Set();
+
+  while (queue.length > 0) {
+    const { node, path } = queue.shift();
+
+    if (node === end) {
+      return path;
     }
 
-    visited.add(node.id);
+    if (!visited.has(node)) {
+      visited.add(node);
 
-    for (const neighbor of graph[node.id] || []) {
-      if (!visited.has(neighbor.id)) {
-        const result = dfs(neighbor, path.concat(node));
-        if (result) {
-          return result;
+      if (graph[node]) {
+        for (const neighbor of graph[node]) {
+          if (!visited.has(neighbor.id)) {
+            queue.push({ node: neighbor.id, path: [...path, neighbor.id] });
+          }
         }
       }
     }
-
-    return null;
   }
 
-  const visited = new Set();
-  const startNode = graph[startUser];
-
-  if (startNode) {
-    return dfs(startNode[0], []);
-  }
-
-  return [];
+  return null;
 }
 
 async function deleteByUserId(userId) {
