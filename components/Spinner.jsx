@@ -1,9 +1,13 @@
+import { CircularProgress } from "@mui/material";
+
 export { Spinner };
 
 function Spinner() {
-    return (
-        <div className="text-center p-4">
-            <span className="spinner-border spinner-border-lg align-center"></span>
-        </div>
-    );
+  return (
+    <>
+      <br />
+      <CircularProgress className="loading-indicator" />
+      <br />
+    </>
+  );
 }

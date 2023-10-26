@@ -8,7 +8,7 @@ function Layout({ children, isLoading }) {
     <div id="content-layout">
       {isLoading && (
         <div className="loading-container">
-          <CircularProgress className="loading-indicator" />
+          <CircularProgress className="loading-indicator-1" />
         </div>
       )}
       <div className="container">{children}</div>

@@ -427,3 +427,7 @@ body {
   align-items: center;
   padding: 8px;
 }
+
+.loading-indicator {
+  margin-left: 50%;
+}

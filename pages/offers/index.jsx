@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Layout } from "../../components/offers";
 import { offersService, alertService } from "services";
-import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import Tooltip from "@mui/material/Tooltip";
@@ -10,7 +9,7 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
-import { Empty } from "../../components/Empty";
+
 export default Index;
 
 function Index() {
@@ -212,7 +211,6 @@ function Index() {
 
   return (
     <Layout isLoading={isLoading}>
-      {!offers && <Spinner />}
       {offers && offers.length > 0 && (
         <MUIDataTable
           title="Ads/News"

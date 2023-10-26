@@ -53,8 +53,10 @@ const RelationsCytoscape = (props) => {
       if (node.id() !== "central") {
         //console.log(node.data("rel"));
         let id = node.data("rel");
-        props?.remove(id);
-        cy.remove(node);
+        if (props?.remove) {
+          props?.remove(id);
+          cy.remove(node);
+        }
       }
     });
     return () => {

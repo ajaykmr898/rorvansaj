@@ -14,6 +14,7 @@ import Tab from "@mui/material/Tab";
 import { Place } from "../../maps";
 import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 import { RelationsCytoscape } from "./RelationsCytoscape";
+import { Spinner } from "../../Spinner";
 
 export { FindRelationsDialog };
 function FindRelationsDialog(props) {
@@ -30,6 +31,8 @@ function FindRelationsDialog(props) {
   const [markers, setMarkers] = useState([]);
   const [circle, setCircle] = useState(null);
   const [elements, setElements] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const circleOptions = {
     strokeColor: "#5AB695",
     strokeOpacity: 0.8,
@@ -110,22 +113,24 @@ function FindRelationsDialog(props) {
         );
         return;
       }
-      let relationFound = await relationsService.findRelationships(
+      setElements(null);
+      setIsLoading(true);
+      let relations = await relationsService.findRelationships(
         current?.id,
         selectedPerson?.value,
         selectedPerson?.label
       );
 
-      //console.log(relationFound);
-      if (relationFound.length > 0) {
-        relationFound = `Deep relationships between ${current?.id} and ${selectedPerson?.value}.`;
-      } else {
-        relationFound = `No relationships found between ${current?.id} and ${selectedPerson?.value}.`;
+      let relationFound = "No relationships found.";
+      //console.log(relations);
+      if (relations.length > 0) {
+        relationFound = `Deep relationships found.`;
       }
 
       setIsError(true);
       setError(relationFound);
-      setElements(relationFound);
+      setElements(relations);
+      setIsLoading(false);
     } else {
       console.log(address);
     }
@@ -173,7 +178,14 @@ function FindRelationsDialog(props) {
                   />
                 )}
               />
-              <RelationsCytoscape elements={elements} />
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                elements &&
+                elements.length > 0 && (
+                  <RelationsCytoscape elements={elements} />
+                )
+              )}
             </Grid>
           )}
           {selectedTab === 1 && (

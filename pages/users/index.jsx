@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Layout } from "components/users";
 import { userService, relationsService, alertService } from "services";
-import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import Tooltip from "@mui/material/Tooltip";
@@ -11,11 +10,9 @@ import LensIcon from "@mui/icons-material/SearchOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import MergeIcon from "@mui/icons-material/MergeOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { RelationsDialog } from "../../components/users/Relations/Relations";
 import { RelationsCytoscapeDialog } from "../../components/users/Relations/RelationsCytoscapeDialog";
 import { Button, Menu, MenuItem, TablePagination } from "@mui/material";
-import { Empty } from "../../components/Empty";
 import { FindRelationsDialog } from "../../components/users/Relations/FindRelations";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -378,7 +375,6 @@ function Index() {
           onClose={closeFindDialog}
         />
       )}
-      {!users && <Spinner />}
       {users && users.length > 0 && (
         <>
           <MUIDataTable
