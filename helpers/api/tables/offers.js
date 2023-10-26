@@ -17,6 +17,7 @@ export function offersModel() {
       visibility: { type: Schema.Types.Mixed, required: false },
       charge: { type: String, required: false }, //cost
       viewed: { type: String, required: false }, //how many times sent to FE
+      deleted: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps

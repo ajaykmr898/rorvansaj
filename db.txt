@@ -118,3 +118,4 @@ X filters
     - por
     - gender
 * bulk users
+* filters deleted manage

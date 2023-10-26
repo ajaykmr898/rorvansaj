@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 import { Layout } from "../../components/offers";
-import {
-  offersService,
-  alertService,
-  offerService,
-  offerssService,
-} from "services";
+import { offersService, alertService } from "services";
 import { Spinner } from "../../components";
 import MUIDataTable from "mui-datatables";
 import React from "react";
@@ -24,7 +19,7 @@ function Index() {
 
   const deleteOffer = (id) => {
     let offer = offers.filter((u, i) => i === id);
-    if (offer) {
+    if (offer && offer[0].deleted === "false") {
       id = offer[0].id;
       setOffers(
         offers.map((x) => {
@@ -37,8 +32,10 @@ function Index() {
       offersService.delete(id).then(() => {
         setOffers((offers) => offers.filter((x) => x.id !== id));
         // delete images
-        //offersService.delete(id).then();
+        //offersService.deleteImages(id).then();
       });
+    } else {
+      alertService.warning("Offer already deleted");
     }
   };
 
@@ -225,7 +222,7 @@ function Index() {
         />
       )}
       {offers && offers.length === 0 && (
-        <Empty action="/offers/add" text="No offers found" />
+        <MUIDataTable columns={columns} options={options} />
       )}
     </Layout>
   );

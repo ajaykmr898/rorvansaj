@@ -31,7 +31,7 @@ export { AddEdit };
 
 function AddEdit(props) {
   const offer = props?.offer;
-  const images = props?.images;
+  const images = props?.images || [];
   const config = cloudConfig();
   let folder = "";
   const currentDate = new Date().toISOString().split("T")[0];
@@ -137,6 +137,7 @@ function AddEdit(props) {
       if (!offer) {
         message = "Offer edited";
         data.visibility = visibilityAddress;
+        data.deleted = "false";
         res = await offersService.create(data);
       } else {
         data.visibility = visibilityChanged

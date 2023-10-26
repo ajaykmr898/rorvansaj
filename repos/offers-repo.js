@@ -40,5 +40,9 @@ async function update(id, params) {
 }
 
 async function _delete(id) {
-  await Offers.findByIdAndRemove(id);
+  const updated = await Offers.findOneAndUpdate(
+    { _id: id },
+    { $set: { deleted: "true" } },
+    { new: true }
+  );
 }
