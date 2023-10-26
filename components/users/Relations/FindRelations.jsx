@@ -15,6 +15,7 @@ import { Place } from "../../maps";
 import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 import { RelationsCytoscape } from "./RelationsCytoscape";
 import { Spinner } from "../../Spinner";
+import LensIcon from "@mui/icons-material/SearchOutlined";
 
 export { FindRelationsDialog };
 function FindRelationsDialog(props) {
@@ -32,6 +33,7 @@ function FindRelationsDialog(props) {
   const [circle, setCircle] = useState(null);
   const [elements, setElements] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [users, setUsers] = useState([]);
 
   const circleOptions = {
     strokeColor: "#5AB695",
@@ -132,7 +134,9 @@ function FindRelationsDialog(props) {
       setElements(relations);
       setIsLoading(false);
     } else {
-      console.log(address);
+      setUsers(null);
+      let res = await relationsService.findRelationshipsAddress(address);
+      setUsers(res.data);
     }
   };
 
@@ -219,6 +223,24 @@ function FindRelationsDialog(props) {
                   />
                 )}
               </GoogleMap>
+              {!users && <Spinner />}
+              {users && users.length
+                ? users.map((u) => (
+                    <div
+                      onClick={() => {
+                        setSelectedPerson({
+                          value: u.id,
+                          label: `${u?.firstName} ${u?.lastName} - ${u?.phone} - ${u?.email}`,
+                        });
+                        setElements(null);
+                        setSelectedTab(0);
+                      }}
+                    >
+                      {u.firstName} {u.lastName} - ${u?.phone} - ${u.email}
+                      <LensIcon />
+                    </div>
+                  ))
+                : "no relations found"}
             </Grid>
           )}
         </DialogContent>

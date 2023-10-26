@@ -2,6 +2,7 @@ import { db } from "helpers/api";
 
 const UserRelations = db.UserRelations;
 const Relations = db.Relations;
+const User = db.User;
 export const relationsRepo = {
   getAll,
   getByUserId,
@@ -9,7 +10,18 @@ export const relationsRepo = {
   delete: _delete,
   deleteByUserId,
   findRelations,
+  getByAddress,
 };
+
+async function getByAddress(address) {
+  let res = User.find({
+    $or: [
+      { "pob.placeId": address?.placeId },
+      { "por.placeId": address?.placeId },
+    ],
+  }).limit(100);
+  return res;
+}
 
 async function getByUserId(userId) {
   return await UserRelations.find({

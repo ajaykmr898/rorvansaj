@@ -9,10 +9,11 @@ export const relationsService = {
   delete: _delete,
   deleteByUserId,
   findRelationships,
+  findRelationshipsAddress,
 };
 
 async function getAll() {
-  return await fetchWrapper.get(baseUrl);
+  return fetchWrapper.get(baseUrl);
 }
 
 async function getByUserId(userId) {
@@ -29,6 +30,12 @@ async function getByUserId(userId) {
   //return temp;
   return { ...temp, data: res.length ? res[0] : [] };
 }
+
+async function findRelationshipsAddress(address) {
+  const res = await fetchWrapper.post(`${baseUrl}/getByAddress`, { address });
+  return res;
+}
+
 async function findRelationships(userId1, userId2, label) {
   // get graph
   let graph = await fetchWrapper.put(`${baseUrl}/getRelations`, {
