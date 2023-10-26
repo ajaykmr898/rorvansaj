@@ -77,7 +77,7 @@ function AddEdit(props) {
   };
 
   const insertDb = async (id, publicId) => {
-    await filesService.create({ offerId: id, url: publicId });
+    await filesService.create({ offerId: id, url: publicId, deleted: "false" });
   };
 
   const removeFiles = () => {

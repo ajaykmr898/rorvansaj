@@ -15,6 +15,7 @@ export function filesModel() {
       },
       url: { type: String, required: true },
       type: { type: String, required: false },
+      deleted: { type: String, required: false },
     },
     {
       // add createdAt and updatedAt timestamps

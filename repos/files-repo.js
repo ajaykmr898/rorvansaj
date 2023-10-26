@@ -9,7 +9,9 @@ export const filesRepo = {
 };
 
 async function getAllByOfferId(offerId) {
-  return await Files.find({ offerId }).populate("offerId").exec();
+  return await Files.find({ offerId, deleted: "false" })
+    .populate("offerId")
+    .exec();
 }
 
 async function getById() {
@@ -26,5 +28,9 @@ async function create(params) {
 }
 
 async function _delete(id) {
-  await Files.findByIdAndRemove(id);
+  const updated = await Files.findOneAndUpdate(
+    { _id: id },
+    { $set: { deleted: "true" } },
+    { new: true }
+  );
 }
