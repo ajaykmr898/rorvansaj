@@ -225,8 +225,9 @@ function FindRelationsDialog(props) {
               </GoogleMap>
               {!users && <Spinner />}
               {users && users.length
-                ? users.map((u) => (
+                ? users.map((u, i) => (
                     <div
+                      key={i}
                       onClick={() => {
                         setSelectedPerson({
                           value: u.id,
