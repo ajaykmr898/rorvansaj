@@ -10,8 +10,9 @@ async function graphRelations(req, res) {
   let graph = {};
   const userRelations1 = await relationsRepo.findRelations(req.body.userId1);
   const userRelations2 = await relationsRepo.findRelations(req.body.userId2);
-
-  let x = await findRelationsLoop([...userRelations1, ...userRelations2], []);
+  console.log(new Date());
+  let x = await findRelationsLoop2([...userRelations1, ...userRelations2], []);
+  console.log(new Date());
 
   const flattenedArray = x
     .flat()
@@ -104,4 +105,58 @@ async function findRelationsLoop(relations, searchedU) {
     // }
   }
   return rx;
+}
+
+async function findRelationsLoop2(relations, searchedU) {
+  const uniqueUserIds = new Set();
+
+  // Extract all unique user IDs from initial relations
+  relations.forEach((r) => {
+    uniqueUserIds.add(r.relatedUserId);
+    uniqueUserIds.add(r.userId);
+  });
+
+  for (let i = 0; i < 3; i++) {
+    const newRelations = [];
+    const promises = [];
+
+    // Fetch relations for each unique user ID
+    uniqueUserIds.forEach((userId) => {
+      if (!searchedU.includes(userId)) {
+        searchedU.push(userId);
+        promises.push(
+          relationsRepo.findRelations(userId).then((relations) => {
+            newRelations.push(...relations);
+          })
+        );
+      }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+
+    // Extract unique user IDs from the new relations and add them to the set
+    uniqueUserIds.clear();
+    newRelations.forEach((r) => {
+      uniqueUserIds.add(r.relatedUserId);
+      uniqueUserIds.add(r.userId);
+    });
+  }
+
+  // Fetch relations for the final set of unique user IDs
+  const finalRelations = [];
+  const finalPromises = Array.from(uniqueUserIds).map((userId) => {
+    if (!searchedU.includes(userId)) {
+      searchedU.push(userId);
+      return relationsRepo.findRelations(userId).then((relations) => {
+        finalRelations.push(...relations);
+      });
+    }
+    return Promise.resolve();
+  });
+
+  // Wait for all final promises to resolve
+  await Promise.all(finalPromises);
+
+  return finalRelations;
 }
