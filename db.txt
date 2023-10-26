@@ -108,7 +108,7 @@ X renders
 X dates checks
 X search user by text select
 * show offers by multi area
-* db columns for prov reg country
+X db columns for prov reg country
 X filters
     - name
     - dob

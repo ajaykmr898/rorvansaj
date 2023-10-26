@@ -55,7 +55,7 @@ function AddEdit(props) {
       types: Yup.string().required("Type is required"),
       title: Yup.string().required("Title is required"),
       description: Yup.string(),
-      from: Yup.date().required("From is required").min(currentDate),
+      from: Yup.date().required("From is required"),
       to: Yup.date()
         .required("To is required")
         .min(
