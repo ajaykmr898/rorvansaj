@@ -237,7 +237,7 @@ function FindRelationsDialog(props) {
                         setSelectedTab(0);
                       }}
                     >
-                      {u.firstName} {u.lastName} - ${u?.phone} - ${u.email}
+                      {u.firstName} {u.lastName} - {u?.phone} - {u.email}
                       <LensIcon />
                     </div>
                   ))
