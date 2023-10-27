@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as Yup from "yup";
-import { userService, alertService } from "services";
+import { userService, alertService, locationsService } from "services";
 import { useFormik } from "formik";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
@@ -18,14 +18,19 @@ import {
 import { Place } from "../maps";
 import { useState } from "react";
 import moment from "moment";
+import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 
 export { AddEdit };
 
 function AddEdit(props) {
   const user = props?.user;
+  const locations = props?.locations || [];
+  const [addressToRemove, setAddressToRemove] = useState([]);
   const router = useRouter();
   const [por, setPorAddress] = useState({});
   const [pob, setPobAddress] = useState({});
+  const [pos, setPosAddress] = useState({});
+  const [addresses, setAddresses] = useState([]);
   const [porChanged, setPorAddressChanged] = useState(false);
   const [pobChanged, setPobAddressChanged] = useState(false);
   const currentDate = new Date().toISOString().split("T")[0];
@@ -75,6 +80,7 @@ function AddEdit(props) {
         alertService.warning("Please select a past date as Date of Birth");
         return false;
       }
+      let userx = user;
       if (user) {
         data.pob = pobChanged ? pob : user.pob;
         data.por = porChanged ? por : user.por;
@@ -85,9 +91,23 @@ function AddEdit(props) {
         data.por = por;
         data.isSignedUp = "true";
         data.deleted = "false";
-        await userService.register(data);
+        userx = await userService.register(data);
       }
-
+      //add
+      addresses.map((a) => {
+        let x = {
+          address: "a",
+          location: a,
+          deleted: "false",
+          type: "Ad",
+          userId: userx.id,
+        };
+        locationsService.create(x);
+      });
+      //delete
+      addressToRemove.map((a) => {
+        locationsService.delete(a);
+      });
       // redirect to user list with success message
       router.push("/users");
       alertService.success(message);
@@ -102,9 +122,26 @@ function AddEdit(props) {
     if (id === "por") {
       setPorAddress(newAddress);
       setPorAddressChanged(true);
-    } else {
+    } else if (id === "pob") {
       setPobAddress(newAddress);
       setPobAddressChanged(true);
+    } else {
+      setPosAddress(newAddress);
+    }
+  };
+
+  const addLocation = () => {
+    if (pos && Object.keys(pos).length > 0) {
+      setAddresses((prev) => [...prev, pos]);
+    }
+  };
+
+  const removeLocation = (index, type) => {
+    console.log(index, type);
+    if (type === 1) {
+      setAddressToRemove((prev) => [...prev, index]);
+    } else {
+      setAddresses((x) => x.filter((x, i) => i !== index));
     }
   };
 
@@ -258,6 +295,38 @@ function AddEdit(props) {
               helperText={formik.touched.password && formik.errors.password}
             />
             {user && <em>leave blank to keep same</em>}
+          </Grid>
+          <br />
+          <Grid item xs={12} sm={12}>
+            Locations:
+            <br />
+            {locations && locations.length
+              ? locations.map((u, i) => (
+                  <div key={i} onClick={() => removeLocation(u.id, 1)}>
+                    {u?.location?.formattedAddress}
+                    <DeleteIcon />
+                  </div>
+                ))
+              : "not present"}
+            <br />
+            <br />
+            New Added:
+            <br />
+            {addresses && addresses.length
+              ? addresses.map((u, i) => (
+                  <div key={i} onClick={() => removeLocation(i, 2)}>
+                    {u?.formattedAddress}
+                    <DeleteIcon />
+                  </div>
+                ))
+              : "not present"}
+            <br />
+            <br />
+            <Place id="pos" onAddressChange={handleAddressChange} />
+            <br />
+            <Button onClick={() => addLocation()} variant="contained">
+              Add
+            </Button>
           </Grid>
         </Grid>
         <Button

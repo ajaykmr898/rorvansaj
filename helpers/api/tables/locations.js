@@ -13,7 +13,7 @@ export function locationsModel() {
         required: true,
         ref: "User",
       },
-      address: { type: String, required: true },
+      location: { type: Schema.Types.Mixed, required: true },
       type: { type: String, required: false },
       deleted: { type: String, required: false },
     },

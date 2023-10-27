@@ -119,6 +119,7 @@ function Place(props) {
 
   return (
     <div>
+      {placeholder}
       {!props?.id && (
         <div>
           <br />

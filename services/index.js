@@ -3,6 +3,7 @@ export * from "./user.service";
 export * from "./relations.service";
 export * from "./offer.service";
 export * from "./files.service";
+export * from "./locations.service";
 export const cloudConfig = () => {
   return {
     cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
