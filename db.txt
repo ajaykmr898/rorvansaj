@@ -119,3 +119,4 @@ X filters
     - gender
 * bulk users
 * filters deleted manage
+* user can add location to profile to see his news/ad/offers

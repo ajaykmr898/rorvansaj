@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -15,7 +15,7 @@ import { Place } from "../../maps";
 import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
 import { RelationsCytoscape } from "./RelationsCytoscape";
 import { Spinner } from "../../Spinner";
-import LensIcon from "@mui/icons-material/SearchOutlined";
+import { AddressUserList } from "../AddressUserList";
 
 export { FindRelationsDialog };
 function FindRelationsDialog(props) {
@@ -123,10 +123,10 @@ function FindRelationsDialog(props) {
         selectedPerson?.label
       );
 
-      let relationFound = "No relationships found.";
+      let relationFound = "No relationship found.";
       //console.log(relations);
       if (relations.length > 0) {
-        relationFound = `Deep relationships found.`;
+        relationFound = `Relationship found.`;
       }
 
       setIsError(true);
@@ -149,6 +149,15 @@ function FindRelationsDialog(props) {
     setCircle({
       mapCenter: { lat: 29.8853701, lng: 76.62105389999999 },
     });*/
+  };
+
+  const setSelectedPersonMap = (u) => {
+    setSelectedPerson({
+      value: u.id,
+      label: `${u?.firstName} ${u?.lastName} - ${u?.phone} - ${u?.email}`,
+    });
+    setElements(null);
+    setSelectedTab(0);
   };
 
   return (
@@ -223,25 +232,16 @@ function FindRelationsDialog(props) {
                   />
                 )}
               </GoogleMap>
+              <br />
               {!users && <Spinner />}
-              {users && users.length
-                ? users.map((u, i) => (
-                    <div
-                      key={i}
-                      onClick={() => {
-                        setSelectedPerson({
-                          value: u.id,
-                          label: `${u?.firstName} ${u?.lastName} - ${u?.phone} - ${u?.email}`,
-                        });
-                        setElements(null);
-                        setSelectedTab(0);
-                      }}
-                    >
-                      {u.firstName} {u.lastName} - {u?.phone} - {u.email}
-                      <LensIcon />
-                    </div>
-                  ))
-                : "no relations found"}
+              {users && users.length ? (
+                <AddressUserList
+                  users={users}
+                  setSelectedPersonMap={setSelectedPersonMap}
+                />
+              ) : (
+                "No users found."
+              )}
             </Grid>
           )}
         </DialogContent>
