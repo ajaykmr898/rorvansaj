@@ -157,12 +157,12 @@ function AddEdit(props) {
       }
       addresses.map((a) => {
         let x = {
-          address: "a",
+          //address: "a",
           location: a,
           deleted: "false",
-          type: offersService[res.types] || "",
+          type: offersService.offerTypes[res?.data?.types] || "",
           offerId: offer.id,
-          userId: offer.id,
+          //userId: offer.id,
         };
         locationsService.create(x);
       });

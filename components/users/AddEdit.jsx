@@ -95,7 +95,7 @@ function AddEdit(props) {
       //add
       addresses.map((a) => {
         let x = {
-          address: "a",
+          //address: "a",
           location: a,
           deleted: "false",
           type: "User",
