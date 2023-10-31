@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { Layout } from "components/users";
-import { userService, relationsService, alertService } from "services";
+import {
+  userService,
+  relationsService,
+  alertService,
+  offersService,
+  locationsService,
+} from "services";
 import MUIDataTable from "mui-datatables";
 import React from "react";
 import Tooltip from "@mui/material/Tooltip";
@@ -305,6 +311,19 @@ function Index() {
   }
 
   const getRelationsByUserId = (user) => {
+    locationsService.getAllByUserOfferId(user.id, "user").then((res) => {
+      let l = (res?.data || []).map((x) => {
+        return x.location.placeId;
+      });
+      locationsService.getAllByLocations(l).then((res1) => {
+        if (res1) {
+          offersService.getAllById(res1?.data).then((res2) => {
+            console.log(res2);
+          });
+        }
+      });
+    });
+
     relationsService.getByUserId(user.id).then((res) => {
       //console.log(res);
       res = res.data;

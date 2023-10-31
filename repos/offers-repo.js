@@ -3,6 +3,7 @@ import { db } from "helpers/api";
 const Offers = db.Offers;
 export const offersRepo = {
   getAll,
+  getAllById,
   getById,
   create,
   update,
@@ -11,6 +12,10 @@ export const offersRepo = {
 
 async function getById(id) {
   return await Offers.findById(id);
+}
+
+async function getAllById(params) {
+  return await Offers.find({ _id: { $in: params } });
 }
 
 async function getAll() {

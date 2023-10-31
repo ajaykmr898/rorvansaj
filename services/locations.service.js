@@ -6,6 +6,7 @@ export const locationsService = {
   getAllByUserOfferId,
   create,
   getById,
+  getAllByLocations,
   delete: _delete,
 };
 
@@ -27,4 +28,8 @@ async function create(params) {
 
 async function _delete(id) {
   await fetchWrapper.delete(`${baseUrl}/${id}`);
+}
+
+async function getAllByLocations(params) {
+  return await fetchWrapper.post(`${baseUrl}/getAllByLocations`, params);
 }

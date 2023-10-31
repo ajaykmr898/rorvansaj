@@ -4,11 +4,18 @@ const Locations = db.Locations;
 export const locationsRepo = {
   getAllByUserId,
   getAllByOfferId,
+  getAllByLocations,
   getById,
   create,
   delete: _delete,
 };
 
+async function getAllByLocations(filters) {
+  return await Locations.distinct("offerId", {
+    "location.placeId": { $in: filters },
+    deleted: "false",
+  });
+}
 async function getAllByUserId(userId) {
   return await Locations.find({ userId, deleted: "false" });
 }
