@@ -10,8 +10,13 @@ export function locationsModel() {
     {
       userId: {
         type: mongoose.Schema.ObjectId,
-        required: true,
+        required: false,
         ref: "User",
+      },
+      offerId: {
+        type: mongoose.Schema.ObjectId,
+        required: false,
+        ref: "Offers",
       },
       location: { type: Schema.Types.Mixed, required: true },
       type: { type: String, required: false },

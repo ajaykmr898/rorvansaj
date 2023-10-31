@@ -3,6 +3,7 @@ import { db } from "helpers/api";
 const Locations = db.Locations;
 export const locationsRepo = {
   getAllByUserId,
+  getAllByOfferId,
   getById,
   create,
   delete: _delete,
@@ -10,6 +11,9 @@ export const locationsRepo = {
 
 async function getAllByUserId(userId) {
   return await Locations.find({ userId, deleted: "false" });
+}
+async function getAllByOfferId(offerId) {
+  return await Locations.find({ offerId, deleted: "false" });
 }
 
 async function getById() {

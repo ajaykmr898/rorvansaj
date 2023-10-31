@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { Place } from "../maps";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
@@ -23,6 +24,7 @@ function AddEditPlaces(props) {
 
   const removeLocation = (index, type) => {
     console.log(index, type);
+    setAddDisabled(false);
     if (type === 1) {
       setAddressToRemove((prev) => [...prev, index]);
       setLocations((el) => el.filter((x, i) => x.id !== index));
@@ -58,13 +60,15 @@ function AddEditPlaces(props) {
       <br />
       <Place id="pos" onAddressChange={handleAddressChange} />
       <br />
-      <Button
-        onClick={() => addLocation()}
-        variant="contained"
-        disabled={addDisabled}
-      >
-        Save Locations changes
-      </Button>
+      <Box display="flex" justifyContent="center">
+        <Button
+          onClick={() => addLocation()}
+          variant="contained"
+          disabled={addDisabled}
+        >
+          Save Locations changes
+        </Button>
+      </Box>
     </Grid>
   );
 }

@@ -7,6 +7,7 @@ import {
   userService,
   cloudConfig,
   filesService,
+  locationsService,
 } from "services";
 import { useFormik } from "formik";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -26,11 +27,15 @@ import { useState } from "react";
 import CloudinaryUploadWidget from "../cloudinary/CloudinaryUploadWidget";
 import axios from "axios";
 import ClImage from "../cloudinary/ClImage";
+import { AddEditPlaces } from "../maps/AddEditPlaces";
 
 export { AddEdit };
 
 function AddEdit(props) {
   const offer = props?.offer;
+  const locations = props?.locations || [];
+  const [addresses, setAddresses] = useState([]);
+  const [addressToRemove, setAddressToRemove] = useState([]);
   const images = props?.images || [];
   const config = cloudConfig();
   let folder = "";
@@ -100,6 +105,11 @@ function AddEdit(props) {
     });*/
   };
 
+  const addLocation = (a, b) => {
+    setAddresses(a);
+    setAddressToRemove(b);
+  };
+
   const uploadFiles = (id) => {
     folder = "offers/" + id;
     let formDatas = [...formData].map((form) => {
@@ -145,7 +155,20 @@ function AddEdit(props) {
           : data.visibility;
         res = await offersService.update(offer.id, data);
       }
-
+      addresses.map((a) => {
+        let x = {
+          address: "a",
+          location: a,
+          deleted: "false",
+          type: offersService[res.types] || "",
+          offerId: offer.id,
+          userId: offer.id,
+        };
+        locationsService.create(x);
+      });
+      addressToRemove.map((a) => {
+        locationsService.delete(a);
+      });
       if (res) {
         uploadFiles(res.data.id);
         removeFiles();
@@ -320,6 +343,8 @@ function AddEdit(props) {
         </Grid>
         <br />
         <CloudinaryUploadWidget load={load} />
+        <br />
+        <AddEditPlaces locations={locations} addLocation={addLocation} />
         <Button
           type="submit"
           color="success"

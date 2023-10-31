@@ -6,6 +6,7 @@ import {
   alertService,
   cloudConfig,
   filesService,
+  locationsService,
 } from "services";
 import axios from "axios";
 
@@ -14,10 +15,10 @@ export default Edit;
 function Edit() {
   const router = useRouter();
   const config = cloudConfig();
-  let folder = "";
   const [offer, setOffer] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [images, setImages] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     const { id } = router.query;
@@ -27,9 +28,14 @@ function Edit() {
     offersService
       .getById(id)
       .then((x) => {
-        setOffer(x.data);
-        setIsLoading(false);
-        folder = "offers/" + x.data.id;
+        locationsService
+          .getAllByUserOfferId(id, "offer")
+          .then((y) => {
+            setOffer(x.data);
+            setIsLoading(false);
+            setLocations(y.data);
+          })
+          .catch((err) => alertService.error(err));
 
         filesService.getAllByOfferId(id).then((res) => {
           setImages(res.data);
@@ -41,7 +47,7 @@ function Edit() {
   return (
     <Layout isLoading={isLoading}>
       <h1>Edit Offer</h1>
-      {offer && <AddEdit images={images} offer={offer} />}
+      {offer && <AddEdit images={images} offer={offer} locations={locations} />}
     </Layout>
   );
 }

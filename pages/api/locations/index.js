@@ -3,11 +3,16 @@ import { locationsRepo } from "repos";
 
 export default apiHandler({
   put: add,
-  post: getAllByUserId,
+  post: getAllByUserOfferId,
 });
 
-async function getAllByUserId(req, res) {
-  const locations = await locationsRepo.getAllByUserId(req.body.userId);
+async function getAllByUserOfferId(req, res) {
+  let locations = [];
+  if (req.body.type === "user") {
+    locations = await locationsRepo.getAllByUserId(req.body.userId);
+  } else {
+    locations = await locationsRepo.getAllByOfferId(req.body.offerId);
+  }
   return res.status(200).json({ ...success, data: locations });
 }
 async function add(req, res) {

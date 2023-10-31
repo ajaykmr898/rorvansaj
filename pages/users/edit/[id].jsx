@@ -21,7 +21,7 @@ function Edit() {
       .getById(id)
       .then((x) => {
         locationsService
-          .getAllByUserId(id)
+          .getAllByUserOfferId(id, "user")
           .then((y) => {
             setUser(x.data);
             setIsLoading(false);

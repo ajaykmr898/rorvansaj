@@ -98,7 +98,7 @@ function AddEdit(props) {
           address: "a",
           location: a,
           deleted: "false",
-          type: data.type,
+          type: "User",
           userId: userx.id,
         };
         locationsService.create(x);

@@ -3,14 +3,17 @@ import { fetchWrapper } from "helpers";
 const baseUrl = `/api/locations`;
 
 export const locationsService = {
-  getAllByUserId,
+  getAllByUserOfferId,
   create,
   getById,
   delete: _delete,
 };
 
-async function getAllByUserId(id) {
-  let res = await fetchWrapper.post(baseUrl, { userId: id });
+async function getAllByUserOfferId(id, type) {
+  let res = await fetchWrapper.post(
+    baseUrl,
+    type === "user" ? { userId: id, type } : { offerId: id, type }
+  );
   return res;
 }
 
