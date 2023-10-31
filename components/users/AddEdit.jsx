@@ -18,7 +18,7 @@ import {
 import { Place } from "../maps";
 import { useState } from "react";
 import moment from "moment";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
+import { AddEditPlaces } from "../maps/AddEditPlaces";
 
 export { AddEdit };
 
@@ -29,7 +29,6 @@ function AddEdit(props) {
   const router = useRouter();
   const [por, setPorAddress] = useState({});
   const [pob, setPobAddress] = useState({});
-  const [pos, setPosAddress] = useState({});
   const [addresses, setAddresses] = useState([]);
   const [porChanged, setPorAddressChanged] = useState(false);
   const [pobChanged, setPobAddressChanged] = useState(false);
@@ -99,7 +98,7 @@ function AddEdit(props) {
           address: "a",
           location: a,
           deleted: "false",
-          type: "Ad",
+          type: data.type,
           userId: userx.id,
         };
         locationsService.create(x);
@@ -117,6 +116,11 @@ function AddEdit(props) {
     }
   }
 
+  const addLocation = (a, b) => {
+    setAddresses(a);
+    setAddressToRemove(b);
+  };
+
   const handleAddressChange = (newAddress, id) => {
     console.log(id, newAddress);
     if (id === "por") {
@@ -126,22 +130,7 @@ function AddEdit(props) {
       setPobAddress(newAddress);
       setPobAddressChanged(true);
     } else {
-      setPosAddress(newAddress);
-    }
-  };
-
-  const addLocation = () => {
-    if (pos && Object.keys(pos).length > 0) {
-      setAddresses((prev) => [...prev, pos]);
-    }
-  };
-
-  const removeLocation = (index, type) => {
-    console.log(index, type);
-    if (type === 1) {
-      setAddressToRemove((prev) => [...prev, index]);
-    } else {
-      setAddresses((x) => x.filter((x, i) => i !== index));
+      //setPosAddress(newAddress);
     }
   };
 
@@ -297,37 +286,7 @@ function AddEdit(props) {
             {user && <em>leave blank to keep same</em>}
           </Grid>
           <br />
-          <Grid item xs={12} sm={12}>
-            Locations:
-            <br />
-            {locations && locations.length
-              ? locations.map((u, i) => (
-                  <div key={i} onClick={() => removeLocation(u.id, 1)}>
-                    {u?.location?.formattedAddress}
-                    <DeleteIcon />
-                  </div>
-                ))
-              : "not present"}
-            <br />
-            <br />
-            New Added:
-            <br />
-            {addresses && addresses.length
-              ? addresses.map((u, i) => (
-                  <div key={i} onClick={() => removeLocation(i, 2)}>
-                    {u?.formattedAddress}
-                    <DeleteIcon />
-                  </div>
-                ))
-              : "not present"}
-            <br />
-            <br />
-            <Place id="pos" onAddressChange={handleAddressChange} />
-            <br />
-            <Button onClick={() => addLocation()} variant="contained">
-              Add
-            </Button>
-          </Grid>
+          <AddEditPlaces locations={locations} addLocation={addLocation} />
         </Grid>
         <Button
           color="success"
