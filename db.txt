@@ -125,3 +125,10 @@ X user can add location to profile to see his news/ad/offers
     - delete
 * questions
 * marriage requests to specific category users
+* jobs
+* agriculture info
+* villages history
+* gotra and villages and sarpanch and important contacts
+* events
+* giving cash back programs
+* insights
