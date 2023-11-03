@@ -20,7 +20,7 @@ function Reglink() {
   const [valid, setValid] = useState(null);
 
   useEffect(() => {
-    console.log(router);
+    //console.log(router);
     const { id } = router.query;
 
     if (!id) return;

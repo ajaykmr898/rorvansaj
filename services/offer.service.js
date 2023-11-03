@@ -10,6 +10,9 @@ export const offersService = {
   update,
   delete: _delete,
   offerTypes: ["Ad", "News", "Offer"],
+  offer(type) {
+    return offersService.offerTypes[type] || "";
+  },
 };
 
 async function getAll() {
@@ -18,7 +21,7 @@ async function getAll() {
     ...offer,
     visibility: offer?.visibility?.formattedAddress || "",
     user: `${offer?.userId?.firstName} ${offer?.userId?.lastName}` || "",
-    type: offersService.offerTypes[offer?.types] || "",
+    type: offersService.offer(offer?.types) || "",
   }));
   return res;
   //return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };
@@ -30,7 +33,7 @@ async function getAllById(params) {
     ...offer,
     visibility: offer?.visibility?.formattedAddress || "",
     user: `${offer?.userId?.firstName} ${offer?.userId?.lastName}` || "",
-    type: offersService.offerTypes[offer?.types] || "",
+    type: offersService.offer(offer?.types) || "",
   }));
   return res;
   //return { data: { offers: [{ idd: "1", firstName: "a", lastName: "s" }] } };

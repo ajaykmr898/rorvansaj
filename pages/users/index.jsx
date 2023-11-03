@@ -311,19 +311,6 @@ function Index() {
   }
 
   const getRelationsByUserId = (user) => {
-    locationsService.getAllByUserOfferId(user.id, "user").then((res) => {
-      let l = (res?.data || []).map((x) => {
-        return x.location.placeId;
-      });
-      locationsService.getAllByLocations(l).then((res1) => {
-        if (res1) {
-          offersService.getAllById(res1?.data).then((res2) => {
-            console.log(res2);
-          });
-        }
-      });
-    });
-
     relationsService.getByUserId(user.id).then((res) => {
       //console.log(res);
       res = res.data;

@@ -58,7 +58,7 @@ function CloudinaryUploadWidget({ load }) {
   }
 
   const confirmUpload = () => {
-    console.log(files);
+    //console.log(files);
     let formDatas = [];
     for (const file of files) {
       const formData = new FormData();

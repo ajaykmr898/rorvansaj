@@ -23,7 +23,7 @@ function AddEditPlaces(props) {
   };
 
   const removeLocation = (index, type) => {
-    console.log(index, type);
+    //console.log(index, type);
     setAddDisabled(false);
     if (type === 1) {
       setAddressToRemove((prev) => [...prev, index]);

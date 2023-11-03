@@ -9,9 +9,7 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
-
 export default Index;
-
 function Index() {
   const [offers, setOffers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -194,7 +192,7 @@ function Index() {
       try {
         const response = await offersService.getAll();
         const offersData = response.data;
-        console.log(offersData);
+        //console.log(offersData);
         offersData.map((offer, index) => {
           offer.idd = index + 1;
           return offer;

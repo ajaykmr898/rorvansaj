@@ -122,7 +122,7 @@ function AddEdit(props) {
   };
 
   const handleAddressChange = (newAddress, id) => {
-    console.log(id, newAddress);
+    //console.log(id, newAddress);
     if (id === "por") {
       setPorAddress(newAddress);
       setPorAddressChanged(true);

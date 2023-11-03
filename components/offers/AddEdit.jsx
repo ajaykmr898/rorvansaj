@@ -160,7 +160,7 @@ function AddEdit(props) {
           //address: "a",
           location: a,
           deleted: "false",
-          type: offersService.offerTypes[res?.data?.types] || "",
+          type: offersService.offer(res?.data?.types) || "",
           offerId: offer.id,
           //userId: offer.id,
         };
@@ -186,7 +186,7 @@ function AddEdit(props) {
   }
 
   const handleAddressChange = (newAddress, id) => {
-    console.log(id, newAddress);
+    //console.log(id, newAddress);
     setVisibilityAddress(newAddress);
     setVisibilityAddressChanged(true);
   };

@@ -10,9 +10,9 @@ async function graphRelations(req, res) {
   let graph = {};
   const userRelations1 = await relationsRepo.findRelations(req.body.userId1);
   const userRelations2 = await relationsRepo.findRelations(req.body.userId2);
-  console.log(new Date());
+  //console.log(new Date());
   let x = await findRelationsLoop2([...userRelations1, ...userRelations2], []);
-  console.log(new Date());
+  //console.log(new Date());
 
   const flattenedArray = x
     .flat()

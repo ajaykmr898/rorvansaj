@@ -97,7 +97,7 @@ async function findRelationships(userId1, userId2, label) {
   }
 
   let x = res.map((r, i) => {
-    console.log(r);
+    //console.log(r);
     if (r.data.id === "node") {
       return { data: { ...r.data, id: "node" + i } };
     }
@@ -117,7 +117,7 @@ async function findRelationships(userId1, userId2, label) {
     x.push({ data: { id: "node" + x.length, label: label } });
   }
 
-  console.log(x, res, paths);
+  //console.log(x, res, paths);
   return x;
 }
 
