@@ -5,6 +5,10 @@ import { offersModel } from "./tables/offers";
 import { relationsModel } from "./tables/relations";
 import { filesModel } from "./tables/files";
 import { locationsModel } from "./tables/locations";
+import { questionsModel } from "./tables/questions";
+import { answersModel } from "./tables/answers";
+import { questionsOptionsModel } from "./tables/questions-options";
+import { marriageRequestsModel } from "./tables/marriage-requests";
 
 const Schema = mongoose.Schema;
 mongoose.connect(process.env.MONGODB_URI);
@@ -17,4 +21,8 @@ export const db = {
   UserRelations: userRelationsModel(),
   Files: filesModel(),
   Locations: locationsModel(),
+  Questions: questionsModel(),
+  Answers: answersModel(),
+  QuestionsOptions: questionsOptionsModel(),
+  MarriageRequests: marriageRequestsModel(),
 };
