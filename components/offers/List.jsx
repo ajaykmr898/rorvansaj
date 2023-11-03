@@ -8,8 +8,8 @@ function List({ items }) {
   return (
     <div className="container123">
       {items &&
-        items.map((data) => (
-          <Card variant="outlined">
+        items.map((data, i) => (
+          <Card variant="outlined" key={i}>
             <CardContent>
               {data && (
                 <div>
