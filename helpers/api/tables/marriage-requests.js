@@ -12,8 +12,8 @@ export function marriageRequestsModel() {
         type: String,
         required: true,
       },
-      village: {
-        type: String,
+      address: {
+        type: Schema.Types.Mixed,
         required: true,
       },
       age: {
@@ -32,7 +32,25 @@ export function marriageRequestsModel() {
         type: String,
         required: true,
       },
+      phone: {
+        type: String,
+        required: false,
+      },
+      email: {
+        type: String,
+        required: false,
+      },
       extraInfo: {
+        type: String,
+        required: false,
+      },
+      userId: {
+        type: mongoose.Schema.ObjectId,
+        required: true,
+        ref: "User",
+      },
+      status: { type: String, required: false },
+      deleted: {
         type: String,
         required: false,
       },

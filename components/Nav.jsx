@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import UserIcon from "@mui/icons-material/People";
 import ShopIcon from "@mui/icons-material/Shop";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Avatar from "@mui/material/Avatar";
@@ -28,6 +29,7 @@ const navItems = [
   { name: "Home", icon: <HomeIcon />, href: "/" },
   { name: "Rors", icon: <UserIcon />, href: "/users" },
   { name: "Ads/News", icon: <ShopIcon />, href: "/offers" },
+  { name: "Marriages", icon: <FavoriteIcon />, href: "/marriage" },
 ];
 const navItemsMenu = [
   {

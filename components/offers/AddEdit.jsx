@@ -145,11 +145,11 @@ function AddEdit(props) {
       }
       data = { ...data, userId: userService?.userValue?.id };
       if (!offer) {
-        message = "Offer edited";
         data.visibility = visibilityAddress;
         data.deleted = "false";
         res = await offersService.create(data);
       } else {
+        message = "Offer edited";
         data.visibility = visibilityChanged
           ? visibilityAddress
           : data.visibility;
