@@ -43,11 +43,19 @@ function Index() {
     }
   }
 
+  const getByMarriageId = (marriage) => {
+    console.log(marriage);
+  };
+
   const CustomBodyRender = (dataIndex) => {
     return (
       <>
-        <Tooltip title="View marriagess" arrow>
-          <span onClick={() => {}}>
+        <Tooltip title="View marriage info" arrow>
+          <span
+            onClick={() => {
+              getByMarriageId(marriages[dataIndex]);
+            }}
+          >
             <InfoIcon sx={{ marginRight: "12px" }} />
           </span>
         </Tooltip>

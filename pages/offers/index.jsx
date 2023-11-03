@@ -45,11 +45,19 @@ function Index() {
     }
   }
 
+  const getByOfferId = (offer) => {
+    console.log(offer);
+  };
+
   const CustomBodyRender = (dataIndex) => {
     return (
       <>
-        <Tooltip title="View offerss" arrow>
-          <span onClick={() => {}}>
+        <Tooltip title="View offer info" arrow>
+          <span
+            onClick={() => {
+              getByOfferId(offers[dataIndex]);
+            }}
+          >
             <InfoIcon sx={{ marginRight: "12px" }} />
           </span>
         </Tooltip>

@@ -46,7 +46,7 @@ function Index() {
     //console.log("q", dataIndex);
     return (
       <>
-        <Tooltip title="View Relations" arrow>
+        <Tooltip title="View user info" arrow>
           <span
             onClick={() => {
               setCurrent(users[dataIndex]);
