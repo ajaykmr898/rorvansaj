@@ -119,14 +119,15 @@ X filters
     - gender
 * bulk users
 * filters deleted manage
-X user can add location to profile to see his news/ad/offers
+* check also posts with 0 locations and show them always
+X user can add location to profile to see his news/ad/offers/jobs/agricultureInfo
     - get by user
     - save
     - delete
 * questions
-* marriage requests to specific category users
-* jobs
-* agriculture info
+X marriage requests to specific category users
+X jobs
+X agriculture info
 * villages history
 * gotra and villages and sarpanch and important contacts
 * events

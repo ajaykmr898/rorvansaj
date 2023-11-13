@@ -10,6 +10,7 @@ export function offersModel() {
     {
       types: { type: String, required: false },
       userId: { type: mongoose.Schema.ObjectId, required: true, ref: "User" },
+      ownerId: { type: mongoose.Schema.ObjectId, required: false, ref: "User" },
       title: { type: String, required: false },
       description: { type: String, required: false },
       from: { type: String, required: false },

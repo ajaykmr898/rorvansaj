@@ -18,6 +18,7 @@ import UserIcon from "@mui/icons-material/People";
 import ShopIcon from "@mui/icons-material/Shop";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Avatar from "@mui/material/Avatar";
 import { Menu, MenuItem } from "@mui/material";
@@ -28,8 +29,9 @@ const drawerWidth = 240;
 const navItems = [
   { name: "Home", icon: <HomeIcon />, href: "/" },
   { name: "Rors", icon: <UserIcon />, href: "/users" },
-  { name: "Ads/News", icon: <ShopIcon />, href: "/offers" },
+  { name: "Posts", icon: <ShopIcon />, href: "/offers" },
   { name: "Marriages", icon: <FavoriteIcon />, href: "/marriage" },
+  { name: "Villages", icon: <HolidayVillageIcon />, href: "villages" },
 ];
 const navItemsMenu = [
   {

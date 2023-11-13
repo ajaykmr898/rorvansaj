@@ -242,7 +242,8 @@ function AddEdit(props) {
                 error={formik.touched.level && Boolean(formik.errors.level)}
               >
                 <MenuItem value="1">Admin</MenuItem>
-                <MenuItem value="2">User</MenuItem>
+                <MenuItem value="2">Intermediary</MenuItem>
+                <MenuItem value="3">Ror</MenuItem>
               </Select>
             </FormControl>
           </Grid>

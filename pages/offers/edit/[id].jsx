@@ -46,7 +46,7 @@ function Edit() {
 
   return (
     <Layout isLoading={isLoading}>
-      <h1>Edit Offer</h1>
+      <h1>Edit Post</h1>
       {offer && <AddEdit images={images} offer={offer} locations={locations} />}
     </Layout>
   );

@@ -12,7 +12,7 @@ export const offersService = {
   update,
   delete: _delete,
   loadOffers,
-  offerTypes: ["Ad", "News", "Offer"],
+  offerTypes: ["Ad", "News", "Offer", "Job", "Agriculture Info"],
   offer(type) {
     return offersService.offerTypes[type] || "";
   },

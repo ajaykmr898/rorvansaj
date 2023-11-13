@@ -219,7 +219,7 @@ function Index() {
     <Layout isLoading={isLoading}>
       {offers && offers.length > 0 && (
         <MUIDataTable
-          title="Ads/News"
+          title="News / Ads / Offers / Jobs / Agriculture Info"
           data={offers}
           columns={columns}
           options={options}

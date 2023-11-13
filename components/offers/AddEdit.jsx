@@ -16,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
 import {
+  Autocomplete,
   FormControl,
   InputLabel,
   MenuItem,
@@ -45,6 +46,8 @@ function AddEdit(props) {
   const [visibilityAddress, setVisibilityAddress] = useState(false);
   const [visibilityChanged, setVisibilityAddressChanged] = useState(false);
   const [imagesDeleted, setImagesDeleted] = useState([]);
+  const [persons, setPersons] = useState([]);
+  const [selectedPerson, setSelectedPerson] = useState(null);
 
   const formik = useFormik({
     initialValues: {
@@ -143,16 +146,22 @@ function AddEdit(props) {
         alertService.warning("Insert correct address");
         return false;
       }
-      data = { ...data, userId: userService?.userValue?.id };
+      data = {
+        ...data,
+        userId: userService?.userValue?.id,
+        ownerId: selectedPerson
+          ? selectedPerson.value
+          : userService?.userValue?.id,
+      };
       if (!offer) {
-        data.visibility = visibilityAddress;
+        //data.visibility = visibilityAddress;
         data.deleted = "false";
         res = await offersService.create(data);
       } else {
         message = "Offer edited";
-        data.visibility = visibilityChanged
+        /*data.visibility = visibilityChanged
           ? visibilityAddress
-          : data.visibility;
+          : data.visibility;*/
         res = await offersService.update(offer.id, data);
       }
       addresses.map((a) => {
@@ -201,6 +210,22 @@ function AddEdit(props) {
       //if ()
     } else {
     }
+  };
+
+  const fetchOptionsByName = async (searchTerm) => {
+    try {
+      searchTerm = searchTerm.trim();
+      if (searchTerm && searchTerm.length % 3 === 0) {
+        const data = await userService.fetchOptionsByName(searchTerm);
+        setPersons(data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleSelectPersonChange = (event, newValue) => {
+    setSelectedPerson(newValue);
   };
 
   const defaultTheme = createTheme();
@@ -302,16 +327,20 @@ function AddEdit(props) {
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Place
-              id="visibility"
-              placeholder="Destination *"
-              onAddressChange={handleAddressChange}
-              isRequired={true}
-              defaultValue={
-                offer?.visibility
-                  ? offer?.visibility?.formattedAddress || ""
-                  : ""
-              }
+            <Autocomplete
+              fullWidth
+              options={persons}
+              getOptionLabel={(option) => option.label}
+              onInputChange={(event, newValue) => fetchOptionsByName(newValue)}
+              value={selectedPerson}
+              onChange={handleSelectPersonChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select Owner"
+                  variant="outlined"
+                />
+              )}
             />
           </Grid>
           <Grid item xs={12} sm={6}>

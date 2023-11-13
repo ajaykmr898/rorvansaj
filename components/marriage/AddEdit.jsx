@@ -230,7 +230,7 @@ function AddEdit(props) {
               helperText={formik.touched.extraInfo && formik.errors.extraInfo}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          {/*<Grid item xs={12} sm={6}>
             <Place
               id="house"
               placeholder="Destination *"
@@ -242,7 +242,7 @@ function AddEdit(props) {
                   : ""
               }
             />
-          </Grid>
+          </Grid>*/}
         </Grid>
         <br />
         <Button
