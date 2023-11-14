@@ -132,9 +132,9 @@ X events
     - history
     - main persons names []
     - gotras -> table
-* questions
-* bulk users
-* filters deleted manage
-* check also posts with 0 locations and show them always
+X bulk users
+X check also posts with 0 locations and show them always
 * giving cash back programs
 * insights
+* questions
+* filters deleted manage
