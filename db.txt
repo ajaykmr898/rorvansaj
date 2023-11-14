@@ -125,6 +125,8 @@ X marriage requests to specific category users
 X jobs
 X agriculture info
 X events
+X bulk users
+X check also posts with 0 locations and show them always
 * villages history
     - name
     - population
@@ -132,8 +134,6 @@ X events
     - history
     - main persons names []
     - gotras -> table
-X bulk users
-X check also posts with 0 locations and show them always
 * giving cash back programs
 * insights
 * questions
