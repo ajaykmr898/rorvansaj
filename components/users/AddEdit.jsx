@@ -19,6 +19,7 @@ import { Place } from "../maps";
 import { useState } from "react";
 import moment from "moment";
 import { AddEditPlaces } from "../maps/AddEditPlaces";
+import Papa from "papaparse";
 
 export { AddEdit };
 
@@ -33,6 +34,70 @@ function AddEdit(props) {
   const [porChanged, setPorAddressChanged] = useState(false);
   const [pobChanged, setPobAddressChanged] = useState(false);
   const currentDate = new Date().toISOString().split("T")[0];
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [csvData, setCsvData] = useState(null);
+
+  const handleFileChange = (event) => {
+    // Get the selected file
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
+  const handleDownload = () => {
+    const csvContent =
+      "firstName,lastName,email,phone,gender\nJohn,Doe,john@example.com,2345345,M/F";
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.download = "users_empty.csv";
+    link.href = window.URL.createObjectURL(blob);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const handleUpload = () => {
+    if (selectedFile) {
+      Papa.parse(selectedFile, {
+        complete: (result) => {
+          //console.log("Parsed CSV:", result);
+          setCsvData(result.data);
+          alertService.success("File check successful");
+        },
+        header: true,
+      });
+    } else {
+      alertService.warning("Upload file first");
+    }
+  };
+
+  const upload = async () => {
+    //console.log(csvData);
+    if (csvData) {
+      // user create
+      for (let i = 0; i < csvData.length; i++) {
+        let u = {
+          firstName: csvData[i].firstName,
+          lastName: csvData[i].lastName,
+          dob: moment().format("YYYY-MM-DD"),
+          gender: csvData[i].gender,
+          level: "user",
+          phone: csvData[i].phone,
+          email: csvData[i].email,
+          password: csvData[i].firstName.toLowerCase(),
+          isSignedUp: "true",
+          deleted: "false",
+        };
+        try {
+          let userx = await userService.register(u);
+          console.log(userx);
+        } catch (err) {
+          alertService.error("error on row: " + +(i + 1) + "... " + err);
+        }
+      }
+    } else {
+      alertService.warning("Upload and check file first");
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       firstName: user?.firstName ? user.firstName : "",
@@ -299,6 +364,29 @@ function AddEdit(props) {
           Save
         </Button>
         <Link href="/users">Cancel</Link>
+        <br />
+        <br />
+        <div>
+          <div className="centered-line">
+            <span>Upload a CSV files with users</span>
+          </div>
+          <Button variant="contained" onClick={handleDownload}>
+            Download template
+          </Button>
+          <br />
+          <br />
+          <input type="file" onChange={handleFileChange} accept=".csv" />
+          <Button variant="contained" onClick={handleUpload}>
+            Check file
+          </Button>
+          <br />
+          <br />
+          <Button variant="contained" onClick={upload}>
+            Upload file
+          </Button>
+          <br />
+          <br />
+        </div>
       </form>
     </ThemeProvider>
   );

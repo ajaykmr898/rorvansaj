@@ -431,3 +431,26 @@ body {
 .loading-indicator {
   margin-left: 50%;
 }
+
+.centered-line {
+  text-align: center;
+  position: relative;
+}
+
+.centered-line::before {
+  content: "";
+  color: #fff;
+  display: block;
+  border-top: 1px solid #000; /* Set the color and style of the line */
+  width: 100%; /* Set the width of the line */
+  position: absolute;
+  top: 50%;
+}
+
+.centered-line span {
+  color: #fff;
+  background-color: #000; /* Set the background color behind the text */
+  padding: 0 10px; /* Adjust padding as needed */
+  position: relative;
+  z-index: 1; /* Ensure the text appears above the line */
+}
