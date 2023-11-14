@@ -94,7 +94,7 @@ X relation max nodes 1,N -> all open
 X find relation between 2 people
     - by users -> one first node ok, others generic message
     - by place -> prov, reg
-* find ad/news by location
+X find ad/news by location
 X login and reg on login
 X users list
     - only admins ?
@@ -117,19 +117,24 @@ X filters
     - pob
     - por
     - gender
-* bulk users
-* filters deleted manage
-* check also posts with 0 locations and show them always
 X user can add location to profile to see his news/ad/offers/jobs/agricultureInfo
     - get by user
     - save
     - delete
-* questions
 X marriage requests to specific category users
 X jobs
 X agriculture info
+X events
 * villages history
-* gotra and villages and sarpanch and important contacts
-* events
+    - name
+    - population
+    - sarpanches []
+    - history
+    - main persons names []
+    - gotras -> table
+* questions
+* bulk users
+* filters deleted manage
+* check also posts with 0 locations and show them always
 * giving cash back programs
 * insights

@@ -10,11 +10,14 @@ export const locationsRepo = {
   delete: _delete,
 };
 
-async function getAllByLocations(filters) {
-  return await Locations.distinct("offerId", {
-    "location.placeId": { $in: filters },
-    deleted: "false",
-  });
+async function getAllByLocations(filters = null) {
+  let filter = filters.length
+    ? {
+        "location.placeId": { $in: filters },
+        deleted: "false",
+      }
+    : { deleted: "false" };
+  return await Locations.distinct("offerId", filter);
 }
 async function getAllByUserId(userId) {
   return await Locations.find({ userId, deleted: "false" });

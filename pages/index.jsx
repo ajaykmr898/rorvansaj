@@ -12,7 +12,7 @@ function Home() {
   const [offers, setOffers] = useState(null);
 
   const loadOffers = async () => {
-    let res = await offersService.loadOffers();
+    let res = await offersService.getAllOffers();
     setError(res[0]);
     setOffers(res[1]);
   };

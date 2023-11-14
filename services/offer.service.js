@@ -1,6 +1,7 @@
 import { fetchWrapper } from "helpers";
 import { userService } from "./user.service";
 import { locationsService } from "./locations.service";
+import * as moment from "moment";
 
 const baseUrl = `/api/offers`;
 
@@ -11,8 +12,8 @@ export const offersService = {
   getAllById,
   update,
   delete: _delete,
-  loadOffers,
-  offerTypes: ["Ad", "News", "Offer", "Job", "Agriculture Info"],
+  getAllOffers,
+  offerTypes: ["Ad", "Event", "News", "Offer", "Job", "Agriculture Info"],
   offer(type) {
     return offersService.offerTypes[type] || "";
   },
@@ -56,8 +57,40 @@ async function update(id, params) {
 async function _delete(id) {
   await fetchWrapper.delete(`${baseUrl}/${id}`);
 }
+async function getAllOffers() {
+  let res = await loadOffersWithLocations();
+  let res1 = await loadAllOffers();
+  let res2 = [...res, ...res1];
+  return [res2.length + " posts found", res2];
+}
 
-async function loadOffers() {
+async function loadAllOffers() {
+  // get all offers ids not only of user from location
+  let res = await locationsService.getAllByLocations([]);
+  if (res && res.success) {
+    let offersIds = res?.data || [];
+    let today = moment().format("YYYY-MM-DD");
+    let filters = { date: today, exclude: { offersIds } };
+    let res1 = await getOffersWithFilters(filters);
+
+    if (res1 && res1.success) {
+      if (res1.data.length) {
+        return res1.data;
+      }
+    }
+  }
+  return [];
+  /*} else {
+        return ["No Offers found", []];
+      }*/
+  /*} else {
+      return ["Error while getting offers", []];
+    }*/
+  /*} else {
+    return ["Error while getting Locations", []];
+  }*/
+}
+async function loadOffersWithLocations() {
   let id = userService?.userValue.id;
   //id = "65280bc90adeb1a81711ddfc";
   let res = await locationsService.getAllByUserOfferId(id, "user");
@@ -69,24 +102,36 @@ async function loadOffers() {
     if (places.length) {
       let res2 = await locationsService.getAllByLocations(places);
       if (res2 && res2.success) {
-        let offers = await offersService.getAllById(res2?.data);
+        let today = moment().format("YYYY-MM-DD");
+        let filters = { date: today, include: { offersIds: res2?.data } };
+        let offers = await getOffersWithFilters(filters);
         if (offers && offers.success) {
           if (offers?.data.length) {
-            return [offers?.data.length + " offers found", offers?.data];
+            return offers?.data;
             //console.log(res, res2, offers);
-          } else {
-            return ["No offers found", []];
+            /*} else {
+              return ["No offers found", []];
+            }*/
+            /*} else {
+              return ["Error while getting offers", []];
+            }*/
+            /*} else {
+              return ["Error while getting offers", []];
+            }*/
+            /*} else {
+              return ["No saved locations found for user", []];
+            }*/
+            /*} else {
+              return ["Error while getting offers", []];
+            }*/
           }
-        } else {
-          return ["Error while getting offers", []];
         }
-      } else {
-        return ["Error while getting offers", []];
       }
-    } else {
-      return ["No saved locations found for user", []];
     }
-  } else {
-    return ["Error while getting offers", []];
   }
+  return [];
+}
+async function getOffersWithFilters(filters) {
+  let res = await fetchWrapper.post(`${baseUrl}/filter`, filters);
+  return res;
 }

@@ -8,7 +8,34 @@ export const offersRepo = {
   create,
   update,
   delete: _delete,
+  getOffers,
 };
+async function getOffers(filters) {
+  let filter = { deleted: "false" };
+  if (filters.include) {
+    filter = {
+      ...filter,
+      _id: { $in: filters.include.offersIds },
+    };
+  }
+  if (filters.exclude) {
+    filter = {
+      ...filter,
+      _id: { $nin: filters.exclude.offersIds },
+    };
+  }
+  if (filters.date) {
+    filter = {
+      ...filter,
+      $and: [{ from: { $lte: filters.date } }, { to: { $gte: filters.date } }],
+    };
+  }
+  if (filters.types) {
+    filter = { ...filter, type: { $in: filters.types } };
+  }
+  //console.log(filter);
+  return await Offers.find(filter);
+}
 
 async function getById(id) {
   return await Offers.findById(id);
