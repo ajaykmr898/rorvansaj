@@ -4,3 +4,4 @@ export * from "./offers-repo";
 export * from "./files-repo";
 export * from "./locations-repo";
 export * from "./marriage-repo";
+export * from "./gotras-repo";

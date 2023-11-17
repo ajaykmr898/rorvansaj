@@ -31,7 +31,7 @@ const navItems = [
   { name: "Rors", icon: <UserIcon />, href: "/users" },
   { name: "Posts", icon: <ShopIcon />, href: "/offers" },
   { name: "Marriages", icon: <FavoriteIcon />, href: "/marriage" },
-  { name: "Villages", icon: <HolidayVillageIcon />, href: "villages" },
+  { name: "Gotras", icon: <HolidayVillageIcon />, href: "gotras" },
 ];
 const navItemsMenu = [
   {

@@ -133,7 +133,14 @@ X check also posts with 0 locations and show them always
     - sarpanches []
     - history
     - main persons names []
+    - villages_gotras
+        - id village
+        - id gotra
     - gotras -> table
+        - id
+        - name
+        - desc/history
+        - rors
 * giving cash back programs
 * insights
 * questions

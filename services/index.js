@@ -5,6 +5,7 @@ export * from "./offer.service";
 export * from "./files.service";
 export * from "./locations.service";
 export * from "./marriage.service";
+export * from "./gotras.service";
 export const cloudConfig = () => {
   return {
     cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,

@@ -15,7 +15,8 @@ export function offersModel() {
       description: { type: String, required: false },
       from: { type: String, required: false },
       to: { type: String, required: false },
-      visibility: { type: Schema.Types.Mixed, required: false },
+      visibility: { type: Schema.Types.Mixed, required: false }, // cancel
+      salary: { type: String, required: false },
       charge: { type: String, required: false }, //cost
       viewed: { type: String, required: false }, //how many times sent to FE
       deleted: { type: String, required: false },
