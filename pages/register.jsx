@@ -14,7 +14,7 @@ import { userService, alertService } from "services";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
-
+import { Editor } from "@tinymce/tinymce-react";
 const defaultTheme = createTheme();
 
 export default function Register() {
@@ -24,6 +24,42 @@ export default function Register() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
 
+  const initialValue = `  <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="https://www.tiny.cloud/docs/images/logos/android-chrome-256x256.png" alt="TinyMCE Logo" width="128" height="128" /></p><h1 style="text-align: center;">This is a Test</h1><p style="text-align: center;">for tinymce WYSIWYG editor at link <a href="<a href='https://tiny.cloud'>https://tiny.cloud</a>" target="_blank" rel="noopener">tinymce</a>.</p>`;
+  const editorRef = React.useRef(null);
+  const [tinymceValue, setTinymceValue] = useState("");
+
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+      setTinymceValue(editorRef.current.getContent());
+    }
+  };
+
+  return (
+    <>
+      <Editor
+        onInit={(evt, editor) => (editorRef.current = editor)}
+        initialValue={initialValue}
+        init={{
+          height: 500,
+          menubar: false,
+          plugins:
+            "preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion",
+          toolbar:
+            "undo redo | accordion accordionremove | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link image | table media | lineheight outdent indent| forecolor backcolor removeformat | charmap emoticons | code fullscreen preview | save print | pagebreak anchor codesample | ltr rtl",
+          content_style:
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+        }}
+      />
+      <Button color="primary" onClick={log}>
+        Render editor content
+      </Button>
+
+      <div dangerouslySetInnerHTML={{ __html: tinymceValue }}></div>
+    </>
+  );
+}
+/*
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -199,3 +235,4 @@ export default function Register() {
     </ThemeProvider>
   );
 }
+*/

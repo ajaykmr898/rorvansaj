@@ -7,6 +7,10 @@ function Document() {
   return (
     <Html lang="en">
       <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/tinymce/5/tinymce.min.css"
+        />
         <script
           src={`https://maps.googleapis.com/maps/api/js?key=${googleApiKey}&libraries=places`}
           async

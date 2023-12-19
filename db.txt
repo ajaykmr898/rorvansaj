@@ -136,7 +136,7 @@ X check also posts with 0 locations and show them always
     - villages_gotras
         - id village
         - id gotra
-    - gotras -> table
+    X gotras -> table
         - id
         - name
         - desc/history
