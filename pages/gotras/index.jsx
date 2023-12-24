@@ -9,13 +9,9 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
+import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Legend } from "recharts";
 
-import { withD3 } from "react-d3-library";
-import * as d3 from "d3";
-
-const RangeAreaChart = withD3((props) => {
-  const { d3 } = props;
-
+const RangeAreaChart = () => {
   // Data for the range area chart
   const data = [
     { date: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
@@ -24,54 +20,25 @@ const RangeAreaChart = withD3((props) => {
     // Add more data as needed
   ];
 
-  // Set up dimensions
-  const margin = { top: 20, right: 30, bottom: 50, left: 50 };
-  const width = 600 - margin.left - margin.right;
-  const height = 400 - margin.top - margin.bottom;
-
-  // Create SVG container
-  const svg = d3.select("#d3-container");
-
-  // Create x and y scales
-  const xScale = d3
-    .scaleBand()
-    .domain(data.map((d) => d.date))
-    .range([0, width])
-    .padding(0.1);
-
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, d3.max(data, (d) => d.high1)])
-    .range([height, 0]);
-
-  // Create area generator functions
-  const area1 = d3
-    .area()
-    .x((d) => xScale(d.date))
-    .y0((d) => yScale(d.low1))
-    .y1((d) => yScale(d.high1));
-
-  const area2 = d3
-    .area()
-    .x((d) => xScale(d.date))
-    .y0((d) => yScale(d.low2))
-    .y1((d) => yScale(d.high2));
-
-  // Append areas to the SVG
-  svg.append("path").datum(data).attr("fill", "green").attr("d", area1);
-
-  svg.append("path").datum(data).attr("fill", "red").attr("d", area2);
-
-  // Append axes to the SVG
-  svg
-    .append("g")
-    .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
-
-  svg.append("g").call(d3.axisLeft(yScale));
-
-  return <div id="d3-container" />;
-});
+  return (
+    <AreaChart
+      width={600}
+      height={400}
+      data={data}
+      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="date" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Area type="monotone" dataKey="low1" stackId="1" fill="#82ca9d" />
+      <Area type="monotone" dataKey="high1" stackId="1" fill="#82ca9d" />
+      <Area type="monotone" dataKey="low2" stackId="2" fill="#8884d8" />
+      <Area type="monotone" dataKey="high2" stackId="2" fill="#8884d8" />
+    </AreaChart>
+  );
+};
 
 export default Index;
 function Index() {
