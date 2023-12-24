@@ -16,8 +16,8 @@ const RangeAreaChart = () => {
   // Data for the range area chart
   const data = [
     { date: "2023-01-01", low1: 5, high1: 7, low2: 8, high2: 10 },
-    { date: "2023-01-02", low1: 12, high1: 14, low2: 16, high2: 18 },
-    { date: "2023-01-03", low1: 20, high1: 22, low2: 24, high2: 26 },
+    { date: "2023-01-02", low1: 2, high1: 6, low2: 4, high2: 8 },
+    { date: "2023-01-03", low1: 0, high1: 4, low2: 14, high2: 26 },
     // Add more data as needed
   ];
 
