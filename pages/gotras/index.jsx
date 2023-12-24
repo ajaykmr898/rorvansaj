@@ -10,8 +10,8 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import { useRef } from 'react';
-import Chart from 'chart.js';
+import { useRef } from "react";
+import Chart from "chart.js";
 
 const RangeAreaChart = () => {
   const dataRef = useRef([]);
@@ -23,53 +23,57 @@ const RangeAreaChart = () => {
   };
 
   const renderChart = () => {
-    const ctx = document.getElementById('myChart').getContext('2d');
+    const ctx = document.getElementById("myChart").getContext("2d");
     const chart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: {
-        datasets: [{
-          label: 'Range Area',
-          data: dataRef.current.map((date) => [
-            date.x,
-            date.low1,
-            date.high1,
-          ]),
-          fill: false,
-          borderColor: '#ffff00',
-          borderWidth: 2,
-        }],
+        datasets: [
+          {
+            label: "Range Area",
+            data: dataRef.current.map((date) => [
+              date.x,
+              date.low1,
+              date.high1,
+            ]),
+            fill: false,
+            borderColor: "#ffff00",
+            borderWidth: 2,
+          },
+        ],
         xAxis: {
-          type: 'date',
+          type: "date",
           categories: dataRef.current.map((date) => date.x),
         },
         yAxes: [
-          { id: 'low1', title: 'Low 1', min: 0 },
-          { id: 'high1', title: 'High 1', min: 0 },
+          { id: "low1", title: "Low 1", min: 0 },
+          { id: "high1", title: "High 1", min: 0 },
         ],
       },
       options: {
         responsive: true,
         scales: {
-          xAxes: [{
-            type: 'time',
-            tooltip: true,
-            time: { parser: 'iso8601' },
-          }],
+          xAxes: [
+            {
+              type: "time",
+              tooltip: true,
+              time: { parser: "iso8601" },
+            },
+          ],
           yAxes: [
-            { id: 'low1', ticks: { beginAtZero: true } },
-            { id: 'high1', ticks: { beginAtZero: true } },
+            { id: "low1", ticks: { beginAtZero: true } },
+            { id: "high1", ticks: { beginAtZero: true } },
           ],
         },
       },
-      plugins: ['afterDatasetsDraw'],
+      plugins: ["afterDatasetsDraw"],
     });
 
     chart.options.afterDatasetsDraw = (chart) => {
       const ctx = chart.ctx;
       const rangeArea = Object.assign(chart.data.datasets[0], {
-        type: 'area',
+        type: "area",
         borderWidth: 0,
-        fill: '#ffff00',
+        fill: "#ffff00",
       });
 
       const rangePoints = [];
@@ -85,7 +89,7 @@ const RangeAreaChart = () => {
         rangeAreaPath.lineTo(dataPoint.x, dataPoint.y);
       }
       rangeAreaPath.fill();
-      ctx.fillStyle = '#ffff00';
+      ctx.fillStyle = "#ffff00";
       ctx.fill();
     };
   };
@@ -93,17 +97,38 @@ const RangeAreaChart = () => {
   return (
     <div>
       <canvas id="myChart"></canvas>
-      <button onClick={() => handleChange([
-        { x: new Date('2023-01-01'), low1: 100, high1: 150, low2: 80, high2: 120 },
-        { x: new Date('2023-01-02'), low1: 110, high1: 160, low2: 90, high2: 130 },
-        { x: new Date('2023-01-03'), low1: 120, high1: 170, low2: 100, high2: 140 },
-      ])}>Change Data</button>
+      <button
+        onClick={() =>
+          handleChange([
+            {
+              x: new Date("2023-01-01"),
+              low1: 100,
+              high1: 150,
+              low2: 80,
+              high2: 120,
+            },
+            {
+              x: new Date("2023-01-02"),
+              low1: 110,
+              high1: 160,
+              low2: 90,
+              high2: 130,
+            },
+            {
+              x: new Date("2023-01-03"),
+              low1: 120,
+              high1: 170,
+              low2: 100,
+              high2: 140,
+            },
+          ])
+        }
+      >
+        Change Data
+      </button>
     </div>
   );
 };
-
-export default RangeAreaChart;
-
 
 export default Index;
 function Index() {
