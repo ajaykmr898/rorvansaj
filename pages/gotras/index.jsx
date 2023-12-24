@@ -10,7 +10,6 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import React from "react";
 import { withD3 } from "react-d3-library";
 import * as d3 from "d3";
 
