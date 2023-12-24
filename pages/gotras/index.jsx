@@ -23,13 +23,11 @@ import {
 const RangeAreaChart = () => {
   // Data for the range area chart
   const data = [
-    { date: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
-    { date: "2023-01-02", low1: 10, high1: 20, low2: 12, high2: 22 },
-    { date: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
+    { date: "2023-01-01", low1: 5, high1: 15 },
+    { date: "2023-01-02", low1: 10, high1: 20 },
+    { date: "2023-01-03", low1: 15, high1: 25 },
     // Add more data as needed
   ];
-  const minLow1 = Math.min(...data.map((entry) => entry.low1));
-  const maxHigh1 = Math.max(...data.map((entry) => entry.high1));
   return (
     <AreaChart
       width={600}
@@ -44,14 +42,6 @@ const RangeAreaChart = () => {
       <Legend />
       <Area type="monotone" dataKey="low1" stackId="1" />
       <Area type="monotone" dataKey="high1" stackId="1" />
-      <Area type="monotone" dataKey="low2" stackId="2" />
-      <Area type="monotone" dataKey="high2" stackId="2" />
-      <ReferenceArea
-        y1={minLow1}
-        y2={maxHigh1}
-        fill="#00ff00"
-        fillOpacity={0.3}
-      />
     </AreaChart>
   );
 };
