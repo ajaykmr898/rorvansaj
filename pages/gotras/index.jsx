@@ -9,7 +9,16 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
-import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Legend } from "recharts";
+import {
+  AreaChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Area,
+  Legend,
+  Tooltip as Tp,
+  ReferenceArea,
+} from "recharts";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
@@ -19,7 +28,8 @@ const RangeAreaChart = () => {
     { date: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
     // Add more data as needed
   ];
-
+  const minLow1 = Math.min(...data.map((entry) => entry.low1));
+  const maxHigh1 = Math.max(...data.map((entry) => entry.high1));
   return (
     <AreaChart
       width={600}
@@ -30,12 +40,18 @@ const RangeAreaChart = () => {
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="date" />
       <YAxis />
-      <Tooltip />
+      <Tp />
       <Legend />
-      <Area type="monotone" dataKey="low1" stackId="1" fill="#82ca9d" />
-      <Area type="monotone" dataKey="high1" stackId="1" fill="#82ca9d" />
-      <Area type="monotone" dataKey="low2" stackId="2" fill="#8884d8" />
-      <Area type="monotone" dataKey="high2" stackId="2" fill="#8884d8" />
+      <Area type="monotone" dataKey="low1" stackId="1" />
+      <Area type="monotone" dataKey="high1" stackId="1" />
+      <Area type="monotone" dataKey="low2" stackId="2" />
+      <Area type="monotone" dataKey="high2" stackId="2" />
+      <ReferenceArea
+        y1={minLow1}
+        y2={maxHigh1}
+        fill="#00ff00"
+        fillOpacity={0.3}
+      />
     </AreaChart>
   );
 };
