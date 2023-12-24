@@ -98,7 +98,8 @@ const RangeAreaChart = () => {
     <div>
       <canvas id="myChart"></canvas>
       <button
-        onClick={() =>
+        onClick={(event) => {
+          event.preventDefault();
           handleChange([
             {
               x: new Date("2023-01-01"),
@@ -121,8 +122,8 @@ const RangeAreaChart = () => {
               low2: 100,
               high2: 140,
             },
-          ])
-        }
+          ]);
+        }}
       >
         Change Data
       </button>
