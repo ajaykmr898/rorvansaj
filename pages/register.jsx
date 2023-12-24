@@ -24,7 +24,7 @@ export default function Register() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState("");
 
-  const initialValue = `  <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="https://www.tiny.cloud/docs/images/logos/android-chrome-256x256.png" alt="TinyMCE Logo" width="128" height="128" /></p><h1 style="text-align: center;">This is a Test</h1><p style="text-align: center;">for tinymce WYSIWYG editor at link <a href="<a href='https://tiny.cloud'>https://tiny.cloud</a>" target="_blank" rel="noopener">tinymce</a>.</p>`;
+  /*const initialValue = `  <p><img style="display: block; margin-left: auto; margin-right: auto;" title="Tiny Logo" src="https://www.tiny.cloud/docs/images/logos/android-chrome-256x256.png" alt="TinyMCE Logo" width="128" height="128" /></p><h1 style="text-align: center;">This is a Test</h1><p style="text-align: center;">for tinymce WYSIWYG editor at link <a href="<a href='https://tiny.cloud'>https://tiny.cloud</a>" target="_blank" rel="noopener">tinymce</a>.</p>`;
   const editorRef = React.useRef(null);
   const [tinymceValue, setTinymceValue] = useState("");
 
@@ -58,8 +58,8 @@ export default function Register() {
       <div dangerouslySetInnerHTML={{ __html: tinymceValue }}></div>
     </>
   );
-}
-/*
+}*/
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -235,4 +235,3 @@ export default function Register() {
     </ThemeProvider>
   );
 }
-*/
