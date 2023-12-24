@@ -37,18 +37,42 @@ const RangeAreaChart = () => {
       <VictoryAxis tickFormat={(t) => new Date(t).toLocaleDateString()} />
       <VictoryAxis dependentAxis />
       <VictoryGroup
-        style={{ data: { fillOpacity: 0.3, strokeWidth: 2 } }}
         labels={({ datum }) => `(${datum.low1}, ${datum.high1})`}
         labelComponent={<VictoryTooltip />}
       >
-        <VictoryArea data={data} x="x" y0="low1" y="high1" />
+        <VictoryArea
+          data={data}
+          x="x"
+          y0="low1"
+          y="high1"
+          style={{
+            data: {
+              fill: "green",
+              fillOpacity: 0.5,
+              stroke: "green",
+              strokeWidth: 2,
+            },
+          }}
+        />
       </VictoryGroup>
       <VictoryGroup
-        style={{ data: { fillOpacity: 0.3, strokeWidth: 2 } }}
         labels={({ datum }) => `(${datum.low2}, ${datum.high2})`}
         labelComponent={<VictoryTooltip />}
       >
-        <VictoryArea data={data} x="x" y0="low2" y="high2" />
+        <VictoryArea
+          data={data}
+          x="x"
+          y0="low2"
+          y="high2"
+          style={{
+            data: {
+              fill: "red",
+              fillOpacity: 0.5,
+              stroke: "red",
+              strokeWidth: 2,
+            },
+          }}
+        />
       </VictoryGroup>
     </VictoryChart>
   );
