@@ -259,6 +259,7 @@ function Index() {
       {gotras && gotras.length === 0 && (
         <MUIDataTable columns={columns} options={options} />
       )}
+      wegdsd wgsdf
       <RangeAreaChart />
     </Layout>
   );
