@@ -15,9 +15,9 @@ import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Legend } from "recharts";
 const RangeAreaChart = () => {
   // Data for the range area chart
   const data = [
-    { date: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
-    { date: "2023-01-02", low1: 10, high1: 20, low2: 12, high2: 22 },
-    { date: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
+    { date: "2023-01-01", low1: 5, high1: 7, low2: 8, high2: 10 },
+    { date: "2023-01-02", low1: 12, high1: 14, low2: 16, high2: 18 },
+    { date: "2023-01-03", low1: 20, high1: 22, low2: 24, high2: 26 },
     // Add more data as needed
   ];
 
