@@ -10,77 +10,47 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import { ResponsiveLine } from "@nivo/line";
+import {
+  VictoryChart,
+  VictoryArea,
+  VictoryAxis,
+  VictoryTooltip,
+  VictoryGroup,
+} from "victory";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
   const data = [
-    {
-      id: "Range1",
-      data: [
-        { x: "2023-01-01", y: 5 },
-        { x: "2023-01-02", y: 10 },
-        { x: "2023-01-03", y: 15 },
-        // Add more data as needed
-      ],
-    },
-    {
-      id: "Range2",
-      data: [
-        { x: "2023-01-01", y: 8 },
-        { x: "2023-01-02", y: 12 },
-        { x: "2023-01-03", y: 17 },
-        // Add more data as needed
-      ],
-    },
+    { x: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
+    { x: "2023-01-02", low1: 10, high1: 20, low2: 12, high2: 22 },
+    { x: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
+    // Add more data as needed
   ];
 
   return (
-    <div style={{ height: "400px" }}>
-      <ResponsiveLine
-        data={data}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        xScale={{ type: "point" }}
-        yScale={{
-          type: "linear",
-          min: "auto",
-          max: "auto",
-          stacked: true,
-          reverse: false,
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          orient: "bottom",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "Date",
-          legendOffset: 36,
-          legendPosition: "middle",
-        }}
-        axisLeft={{
-          orient: "left",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "Y-axis",
-          legendOffset: -40,
-          legendPosition: "middle",
-        }}
-        colors={{ scheme: "category10" }}
-        enablePoints={false}
-        enableGridX={false}
-        enableGridY={false}
-        enableArea={true}
-        areaBaselineValue={0}
-        areaOpacity={0.3}
-        enableSlices="x"
-        animate={true}
-        motionStiffness={90}
-        motionDamping={15}
-      />
-    </div>
+    <VictoryChart
+      width={600}
+      height={400}
+      padding={{ top: 20, bottom: 50, left: 50, right: 50 }}
+      domainPadding={{ y: 20 }}
+    >
+      <VictoryAxis tickFormat={(t) => new Date(t).toLocaleDateString()} />
+      <VictoryAxis dependentAxis />
+      <VictoryGroup
+        style={{ data: { fillOpacity: 0.3, strokeWidth: 2 } }}
+        labels={({ datum }) => `(${datum.low1}, ${datum.high1})`}
+        labelComponent={<VictoryTooltip />}
+      >
+        <VictoryArea data={data} x="x" y0="low1" y="high1" />
+      </VictoryGroup>
+      <VictoryGroup
+        style={{ data: { fillOpacity: 0.3, strokeWidth: 2 } }}
+        labels={({ datum }) => `(${datum.low2}, ${datum.high2})`}
+        labelComponent={<VictoryTooltip />}
+      >
+        <VictoryArea data={data} x="x" y0="low2" y="high2" />
+      </VictoryGroup>
+    </VictoryChart>
   );
 };
 
