@@ -28,6 +28,7 @@ const RangeAreaChart = () => {
     { date: "2023-01-03", low1: 0, high1: 4, low2: 14, high2: 26 },
     // Add more data as needed
   ];
+  const minLow1 = Math.min(...data.map((entry) => entry.low1));
 
   return (
     <AreaChart
@@ -44,14 +45,14 @@ const RangeAreaChart = () => {
         type="monotone"
         dataKey="low1"
         stackId="1"
-        fillOpacity={0.3}
+        fillOpacity={0}
         stroke="#8884d8"
       />
       <Area
         type="monotone"
         dataKey="high1"
         stackId="1"
-        fillOpacity={0.3}
+        fillOpacity={0}
         stroke="#8884d8"
       />
       <Area
@@ -67,6 +68,14 @@ const RangeAreaChart = () => {
         stackId="2"
         fillOpacity={0}
         stroke="#82ca9d"
+      />
+      <Area
+        type="monotone"
+        dataKey="low1"
+        stackId="3"
+        fill="#64b5f6"
+        fillOpacity={0.3}
+        baseValue={minLow1}
       />
     </AreaChart>
   );
