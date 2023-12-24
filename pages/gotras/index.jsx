@@ -18,8 +18,9 @@ const RangeAreaChart = () => {
   const [data, setData] = useState([]);
 
   const handleChange = (newData) => {
-    setData(newData);
-    dataRef.current = newData;
+    const boundHandleChange = handleChange.bind(this);
+    boundHandleChange(newData);
+    renderChart();
   };
 
   const renderChart = () => {
