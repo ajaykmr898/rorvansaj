@@ -49,9 +49,8 @@ const RangeAreaChart = () => {
         type: "time",
         time: {
           unit: "day",
-          displayFormats: {
-            day: "YYYY-MM-DD",
-          },
+          parser: "YYYY-MM-DD",
+          tooltipFormat: "ll",
         },
         ticks: {
           source: "data",
