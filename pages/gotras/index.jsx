@@ -44,29 +44,29 @@ const RangeAreaChart = () => {
         type="monotone"
         dataKey="low1"
         stackId="1"
+        fillOpacity={0}
         stroke="#8884d8"
-        fill="#8884d8"
       />
       <Area
         type="monotone"
         dataKey="high1"
         stackId="1"
+        fillOpacity={0}
         stroke="#8884d8"
-        fill="#8884d8"
       />
       <Area
         type="monotone"
         dataKey="low2"
         stackId="2"
+        fillOpacity={0}
         stroke="#82ca9d"
-        fill="#82ca9d"
       />
       <Area
         type="monotone"
         dataKey="high2"
         stackId="2"
+        fillOpacity={0}
         stroke="#82ca9d"
-        fill="#82ca9d"
       />
       <ReferenceArea
         x1="2023-01-01"
@@ -78,7 +78,7 @@ const RangeAreaChart = () => {
         x1="2023-01-02"
         x2="2023-01-03"
         fill="#ef5350"
-        fillOpacity={0.3}
+        fillOpacity={0}
       />
     </AreaChart>
   );
