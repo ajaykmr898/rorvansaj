@@ -10,73 +10,69 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import {
-  VictoryChart,
-  VictoryArea,
-  VictoryAxis,
-  VictoryTooltip,
-  VictoryGroup,
-} from "victory";
+import React from "react";
+import { withD3 } from "react-d3-library";
+import * as d3 from "d3";
 
-const RangeAreaChart = () => {
+const RangeAreaChart = withD3((props) => {
+  const { d3 } = props;
+
   // Data for the range area chart
   const data = [
-    { x: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
-    { x: "2023-01-02", low1: 10, high1: 20, low2: 12, high2: 22 },
-    { x: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
+    { date: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
+    { date: "2023-01-02", low1: 10, high1: 20, low2: 12, high2: 22 },
+    { date: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
     // Add more data as needed
   ];
 
-  return (
-    <VictoryChart
-      width={600}
-      height={400}
-      padding={{ top: 20, bottom: 50, left: 50, right: 50 }}
-      domainPadding={{ y: 20 }}
-    >
-      <VictoryAxis tickFormat={(t) => new Date(t).toLocaleDateString()} />
-      <VictoryAxis dependentAxis />
-      <VictoryGroup
-        labels={({ datum }) => `(${datum.low1}, ${datum.high1})`}
-        labelComponent={<VictoryTooltip />}
-      >
-        <VictoryArea
-          data={data}
-          x="x"
-          y0="low1"
-          y="high1"
-          style={{
-            data: {
-              fill: "green",
-              fillOpacity: 0.5,
-              stroke: "green",
-              strokeWidth: 2,
-            },
-          }}
-        />
-      </VictoryGroup>
-      <VictoryGroup
-        labels={({ datum }) => `(${datum.low2}, ${datum.high2})`}
-        labelComponent={<VictoryTooltip />}
-      >
-        <VictoryArea
-          data={data}
-          x="x"
-          y0="low2"
-          y="high2"
-          style={{
-            data: {
-              fill: "red",
-              fillOpacity: 0.5,
-              stroke: "red",
-              strokeWidth: 2,
-            },
-          }}
-        />
-      </VictoryGroup>
-    </VictoryChart>
-  );
-};
+  // Set up dimensions
+  const margin = { top: 20, right: 30, bottom: 50, left: 50 };
+  const width = 600 - margin.left - margin.right;
+  const height = 400 - margin.top - margin.bottom;
+
+  // Create SVG container
+  const svg = d3.select("#d3-container");
+
+  // Create x and y scales
+  const xScale = d3
+    .scaleBand()
+    .domain(data.map((d) => d.date))
+    .range([0, width])
+    .padding(0.1);
+
+  const yScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(data, (d) => d.high1)])
+    .range([height, 0]);
+
+  // Create area generator functions
+  const area1 = d3
+    .area()
+    .x((d) => xScale(d.date))
+    .y0((d) => yScale(d.low1))
+    .y1((d) => yScale(d.high1));
+
+  const area2 = d3
+    .area()
+    .x((d) => xScale(d.date))
+    .y0((d) => yScale(d.low2))
+    .y1((d) => yScale(d.high2));
+
+  // Append areas to the SVG
+  svg.append("path").datum(data).attr("fill", "green").attr("d", area1);
+
+  svg.append("path").datum(data).attr("fill", "red").attr("d", area2);
+
+  // Append axes to the SVG
+  svg
+    .append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(xScale));
+
+  svg.append("g").call(d3.axisLeft(yScale));
+
+  return <div id="d3-container" />;
+});
 
 export default Index;
 function Index() {
