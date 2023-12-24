@@ -60,6 +60,18 @@ const RangeAreaChart = () => {
         stroke="#82ca9d"
         fill="#82ca9d"
       />
+      <ReferenceArea
+        x1="2023-01-01"
+        x2="2023-01-02"
+        fill="#64b5f6"
+        fillOpacity={0.3}
+      />
+      <ReferenceArea
+        x1="2023-01-02"
+        x2="2023-01-03"
+        fill="#ef5350"
+        fillOpacity={0.3}
+      />
     </AreaChart>
   );
 };
