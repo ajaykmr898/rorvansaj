@@ -17,6 +17,8 @@
         "@hookform/resolvers": "^3.0.0",
         "@mui/icons-material": "^5.14.11",
         "@mui/material": "^5.14.13",
+        "@nivo/core": "^0.84.0",
+        "@nivo/line": "^0.84.0",
         "@react-google-maps/api": "^2.19.2",
         "@tinymce/tinymce-react": "^4.3.2",
         "anychart": "^8.12.0",
