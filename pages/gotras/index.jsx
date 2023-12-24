@@ -19,7 +19,6 @@ import {
   Tooltip as Tp,
   ReferenceArea,
 } from "recharts";
-import React from "react";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
