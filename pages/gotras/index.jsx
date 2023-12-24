@@ -10,64 +10,61 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import { Line } from "react-chartjs-2";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Legend,
+  Area,
+  AreaChart,
+} from "recharts";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
-  const data = {
-    labels: ["2023-01-01", "2023-01-02", "2023-01-03"],
-    datasets: [
-      {
-        label: "Range1",
-        data: [
-          { x: "2023-01-01", y: [5, 15] },
-          { x: "2023-01-02", y: [10, 20] },
-          { x: "2023-01-03", y: [15, 25] },
-        ],
-        fill: "origin",
-        backgroundColor: "rgba(100, 181, 246, 0.5)", // Color for the range between high1 and low1
-        borderColor: "rgba(100, 181, 246, 1)", // Border color for the line
-      },
-      {
-        label: "Range2",
-        data: [
-          { x: "2023-01-01", y: [8, 18] },
-          { x: "2023-01-02", y: [12, 22] },
-          { x: "2023-01-03", y: [17, 27] },
-        ],
-        fill: "origin",
-        backgroundColor: "rgba(255, 193, 7, 0.5)", // Color for the range between high2 and low2
-        borderColor: "rgba(255, 193, 7, 1)", // Border color for the line
-      },
-    ],
-  };
-
-  // Options for the chart
-  const options = {
-    scales: {
-      x: {
-        type: "time",
-        time: {
-          unit: "day",
-          parser: "YYYY-MM-DD",
-          tooltipFormat: "ll",
-        },
-        ticks: {
-          source: "data",
-        },
-      },
-      y: {
-        ticks: {
-          stepSize: 5, // Adjust the step size based on your Y-axis values
-        },
-      },
-    },
-  };
+  const data = [
+    { date: "2023-01-01", low1: 5, high1: 15, low2: 8, high2: 18 },
+    { date: "2023-01-02", low1: 10, high1: 20, low2: 12, high2: 22 },
+    { date: "2023-01-03", low1: 15, high1: 25, low2: 17, high2: 27 },
+    // Add more data as needed
+  ];
 
   return (
-    <div>
-      <Line data={data} options={options} />
-    </div>
+    <LineChart width={600} height={400} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="date" />
+      <YAxis />
+      <Legend />
+      <Area
+        type="monotone"
+        dataKey="low1"
+        stackId="1"
+        stroke="#8884d8"
+        fill="#8884d8"
+      />
+      <Area
+        type="monotone"
+        dataKey="high1"
+        stackId="1"
+        stroke="#8884d8"
+        fill="#8884d8"
+      />
+      <Area
+        type="monotone"
+        dataKey="low2"
+        stackId="2"
+        stroke="#82ca9d"
+        fill="#82ca9d"
+      />
+      <Area
+        type="monotone"
+        dataKey="high2"
+        stackId="2"
+        stroke="#82ca9d"
+        fill="#82ca9d"
+      />
+    </LineChart>
   );
 };
 
