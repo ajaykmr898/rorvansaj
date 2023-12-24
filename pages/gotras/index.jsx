@@ -10,63 +10,64 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import Chart from "react-apexcharts";
+import { Line } from "react-chartjs-2";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
-  const series = [
-    {
-      name: "Range1",
-      data: [
-        { x: "2023-01-01", y: [5, 15] },
-        { x: "2023-01-02", y: [10, 20] },
-        { x: "2023-01-03", y: [15, 25] },
-        // Add more data as needed
-      ],
-    },
-    {
-      name: "Range2",
-      data: [
-        { x: "2023-01-01", y: [8, 18] },
-        { x: "2023-01-02", y: [12, 22] },
-        { x: "2023-01-03", y: [17, 27] },
-        // Add more data as needed
-      ],
-    },
-  ];
+  const data = {
+    labels: ["2023-01-01", "2023-01-02", "2023-01-03"],
+    datasets: [
+      {
+        label: "Range1",
+        data: [
+          { x: "2023-01-01", y: [5, 15] },
+          { x: "2023-01-02", y: [10, 20] },
+          { x: "2023-01-03", y: [15, 25] },
+        ],
+        fill: "origin",
+        backgroundColor: "rgba(100, 181, 246, 0.5)", // Color for the range between high1 and low1
+        borderColor: "rgba(100, 181, 246, 1)", // Border color for the line
+      },
+      {
+        label: "Range2",
+        data: [
+          { x: "2023-01-01", y: [8, 18] },
+          { x: "2023-01-02", y: [12, 22] },
+          { x: "2023-01-03", y: [17, 27] },
+        ],
+        fill: "origin",
+        backgroundColor: "rgba(255, 193, 7, 0.5)", // Color for the range between high2 and low2
+        borderColor: "rgba(255, 193, 7, 1)", // Border color for the line
+      },
+    ],
+  };
 
   // Options for the chart
   const options = {
-    chart: {
-      type: "rangeArea",
-    },
-    xaxis: {
-      type: "datetime",
-    },
-    yaxis: {
-      labels: {
-        formatter: function (value) {
-          return value.toFixed(0);
+    scales: {
+      x: {
+        type: "time",
+        time: {
+          unit: "day",
+          displayFormats: {
+            day: "YYYY-MM-DD",
+          },
+        },
+        ticks: {
+          source: "data",
         },
       },
-    },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.9,
-        stops: [0, 100],
+      y: {
+        ticks: {
+          stepSize: 5, // Adjust the step size based on your Y-axis values
+        },
       },
-    },
-    tooltip: {
-      enabled: true,
     },
   };
 
   return (
     <div>
-      <Chart options={options} series={series} type="rangeArea" height={400} />
+      <Line data={data} options={options} />
     </div>
   );
 };
