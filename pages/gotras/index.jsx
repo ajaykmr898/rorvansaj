@@ -19,6 +19,7 @@ import {
   Tooltip as Tp,
   ReferenceArea,
 } from "recharts";
+import React from "react";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
@@ -28,6 +29,7 @@ const RangeAreaChart = () => {
     { date: "2023-01-03", low1: 15, high1: 25 },
     // Add more data as needed
   ];
+
   return (
     <AreaChart
       width={600}
@@ -40,8 +42,28 @@ const RangeAreaChart = () => {
       <YAxis />
       <Tp />
       <Legend />
-      <Area type="monotone" dataKey="low1" stackId="1" />
-      <Area type="monotone" dataKey="high1" stackId="1" />
+      {data.map((entry, index) => {
+        return (
+          <>
+            <Area
+              key={index}
+              type="monotone"
+              data={[entry]}
+              dataKey="high1"
+              stackId={`stack-${index}`}
+              fill="#82ca9d"
+            />
+            <Area
+              key={index + 1000}
+              type="monotone"
+              data={[entry]}
+              dataKey="low1"
+              stackId={`stack-${index}`}
+              fill="#82ca9d"
+            />
+          </>
+        );
+      })}
     </AreaChart>
   );
 };
