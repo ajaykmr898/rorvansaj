@@ -10,7 +10,15 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Legend } from "recharts";
+import {
+  AreaChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Area,
+  Legend,
+  ReferenceArea,
+} from "recharts";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
