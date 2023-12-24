@@ -9,6 +9,68 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
+
+import Chart from "react-apexcharts";
+
+const RangeAreaChart = () => {
+  // Data for the range area chart
+  const series = [
+    {
+      name: "Range1",
+      data: [
+        { x: "2023-01-01", y: [5, 15] },
+        { x: "2023-01-02", y: [10, 20] },
+        { x: "2023-01-03", y: [15, 25] },
+        // Add more data as needed
+      ],
+    },
+    {
+      name: "Range2",
+      data: [
+        { x: "2023-01-01", y: [8, 18] },
+        { x: "2023-01-02", y: [12, 22] },
+        { x: "2023-01-03", y: [17, 27] },
+        // Add more data as needed
+      ],
+    },
+  ];
+
+  // Options for the chart
+  const options = {
+    chart: {
+      type: "rangeArea",
+    },
+    xaxis: {
+      type: "datetime",
+    },
+    yaxis: {
+      labels: {
+        formatter: function (value) {
+          return value.toFixed(0);
+        },
+      },
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.9,
+        stops: [0, 100],
+      },
+    },
+    tooltip: {
+      enabled: true,
+    },
+  };
+
+  return (
+    <div>
+      <Chart options={options} series={series} type="rangeArea" height={400} />
+    </div>
+  );
+};
+
 export default Index;
 function Index() {
   const [gotras, setGotras] = useState(null);
@@ -161,17 +223,18 @@ function Index() {
 
   return (
     <Layout isLoading={isLoading}>
-      {gotras && gotras.length > 0 && (
+      {/*gotras && gotras.length > 0 && (
         <MUIDataTable
           title="Gotras"
           data={gotras}
           columns={columns}
           options={options}
         />
-      )}
-      {gotras && gotras.length === 0 && (
+      )*/}
+      {/*gotras && gotras.length === 0 && (
         <MUIDataTable columns={columns} options={options} />
-      )}
+      )*/}
+      <RangeAreaChart />
     </Layout>
   );
 }
