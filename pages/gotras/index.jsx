@@ -9,93 +9,6 @@ import EditIcon from "@mui/icons-material/EditOutlined";
 import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
-import AnyChart from "anychart";
-const RangeAreaChart = () => {
-  const [data, setData] = useState([
-    {
-      x: 10,
-      y: 50,
-      low: 30,
-      high: 70,
-    },
-    {
-      x: 20,
-      y: 60,
-      low: 40,
-      high: 80,
-    },
-    {
-      x: 30,
-      y: 70,
-      low: 50,
-      high: 90,
-    },
-    {
-      x: 40,
-      y: 80,
-      low: 60,
-      high: 100,
-    },
-  ]);
-
-  const handleChange = (event) => {
-    const newData = [...data];
-    newData[event.target.name] = event.target.value;
-    setData(newData);
-  };
-
-  return (
-    <div>
-      <AnyChart width={1000} height={500} type="rangeAreaChart" data={data}>
-        <anychart.scales.linear
-          y={[
-            {
-              id: "y",
-              title: "Value",
-              minimum: 0,
-              maximum: 100,
-            },
-            {
-              id: "low",
-              overlay: true,
-              color: "#999",
-              stroke: {
-                width: 1,
-              },
-            },
-            {
-              id: "high",
-              overlay: true,
-              color: "#aaa",
-              stroke: {
-                width: 1,
-              },
-            },
-          ]}
-        />
-
-        <anychart.chart.series.rangeArea
-          id="rangeArea"
-          area={true}
-          fill="#ff0000"
-          data={[{ x: "x", low: "low", high: "high" }]}
-        />
-      </AnyChart>
-
-      <button
-        onClick={() => handleChange({ target: { name: "low", value: 10 } })}
-      >
-        Change Low Value
-      </button>
-
-      <button
-        onClick={() => handleChange({ target: { name: "high", value: 90 } })}
-      >
-        Change High Value
-      </button>
-    </div>
-  );
-};
 export default Index;
 function Index() {
   const [gotras, setGotras] = useState(null);
@@ -259,8 +172,6 @@ function Index() {
       {gotras && gotras.length === 0 && (
         <MUIDataTable columns={columns} options={options} />
       )}
-      wegdsd wgsdf
-      <RangeAreaChart />
     </Layout>
   );
 }
