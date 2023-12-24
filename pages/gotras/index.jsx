@@ -10,16 +10,7 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Legend,
-  Area,
-  AreaChart,
-} from "recharts";
+import { AreaChart, XAxis, YAxis, CartesianGrid, Area, Legend } from "recharts";
 
 const RangeAreaChart = () => {
   // Data for the range area chart
@@ -31,7 +22,12 @@ const RangeAreaChart = () => {
   ];
 
   return (
-    <LineChart width={600} height={400} data={data}>
+    <AreaChart
+      width={600}
+      height={400}
+      data={data}
+      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+    >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="date" />
       <YAxis />
@@ -64,7 +60,7 @@ const RangeAreaChart = () => {
         stroke="#82ca9d"
         fill="#82ca9d"
       />
-    </LineChart>
+    </AreaChart>
   );
 };
 
