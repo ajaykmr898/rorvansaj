@@ -10,76 +10,100 @@ import AddIcon from "@mui/icons-material/AddOutlined";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
 import { Button } from "@mui/material";
 
-import {
-  AreaChart,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Area,
-  Legend,
-  ReferenceArea,
-} from "recharts";
+import { useRef } from 'react';
+import Chart from 'chart.js';
 
 const RangeAreaChart = () => {
-  // Data for the range area chart
-  const data = [
-    { date: "2023-01-01", low1: 5, high1: 7, low2: 8, high2: 10 },
-    { date: "2023-01-02", low1: 2, high1: 6, low2: 4, high2: 8 },
-    { date: "2023-01-03", low1: 0, high1: 4, low2: 14, high2: 26 },
-    // Add more data as needed
-  ];
-  const minLow1 = Math.min(...data.map((entry) => entry.low1));
+  const dataRef = useRef([]);
+  const [data, setData] = useState([]);
+
+  const handleChange = (newData) => {
+    setData(newData);
+    dataRef.current = newData;
+  };
+
+  const renderChart = () => {
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Range Area',
+          data: dataRef.current.map((date) => [
+            date.x,
+            date.low1,
+            date.high1,
+          ]),
+          fill: false,
+          borderColor: '#ffff00',
+          borderWidth: 2,
+        }],
+        xAxis: {
+          type: 'date',
+          categories: dataRef.current.map((date) => date.x),
+        },
+        yAxes: [
+          { id: 'low1', title: 'Low 1', min: 0 },
+          { id: 'high1', title: 'High 1', min: 0 },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          xAxes: [{
+            type: 'time',
+            tooltip: true,
+            time: { parser: 'iso8601' },
+          }],
+          yAxes: [
+            { id: 'low1', ticks: { beginAtZero: true } },
+            { id: 'high1', ticks: { beginAtZero: true } },
+          ],
+        },
+      },
+      plugins: ['afterDatasetsDraw'],
+    });
+
+    chart.options.afterDatasetsDraw = (chart) => {
+      const ctx = chart.ctx;
+      const rangeArea = Object.assign(chart.data.datasets[0], {
+        type: 'area',
+        borderWidth: 0,
+        fill: '#ffff00',
+      });
+
+      const rangePoints = [];
+      dataRef.current.forEach((date) => {
+        const range = date.high1 - date.low1;
+        rangePoints.push({ x: date.x, y: date.low1 + range / 2 });
+      });
+
+      const rangeAreaPath = ctx.createArea();
+      rangeAreaPath.moveTo(rangePoints[0].x, rangePoints[0].y);
+      for (let i = 1; i < rangePoints.length; i++) {
+        const dataPoint = rangePoints[i];
+        rangeAreaPath.lineTo(dataPoint.x, dataPoint.y);
+      }
+      rangeAreaPath.fill();
+      ctx.fillStyle = '#ffff00';
+      ctx.fill();
+    };
+  };
 
   return (
-    <AreaChart
-      width={600}
-      height={400}
-      data={data}
-      margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="date" />
-      <YAxis />
-      <Legend />
-      <Area
-        type="monotone"
-        dataKey="low1"
-        stackId="1"
-        fillOpacity={0}
-        stroke="#8884d8"
-      />
-      <Area
-        type="monotone"
-        dataKey="high1"
-        stackId="1"
-        fillOpacity={0}
-        stroke="#8884d8"
-      />
-      <Area
-        type="monotone"
-        dataKey="low2"
-        stackId="2"
-        fillOpacity={0}
-        stroke="#82ca9d"
-      />
-      <Area
-        type="monotone"
-        dataKey="high2"
-        stackId="2"
-        fillOpacity={0}
-        stroke="#82ca9d"
-      />
-      <Area
-        type="monotone"
-        dataKey="low1"
-        stackId="3"
-        fill="#64b5f6"
-        fillOpacity={0.3}
-        baseValue={minLow1}
-      />
-    </AreaChart>
+    <div>
+      <canvas id="myChart"></canvas>
+      <button onClick={() => handleChange([
+        { x: new Date('2023-01-01'), low1: 100, high1: 150, low2: 80, high2: 120 },
+        { x: new Date('2023-01-02'), low1: 110, high1: 160, low2: 90, high2: 130 },
+        { x: new Date('2023-01-03'), low1: 120, high1: 170, low2: 100, high2: 140 },
+      ])}>Change Data</button>
+    </div>
   );
 };
+
+export default RangeAreaChart;
+
 
 export default Index;
 function Index() {
