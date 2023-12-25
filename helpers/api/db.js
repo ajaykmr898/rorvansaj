@@ -10,6 +10,7 @@ import { answersModel } from "./tables/answers";
 import { questionsOptionsModel } from "./tables/questions-options";
 import { marriageRequestsModel } from "./tables/marriage-requests";
 import { gotrasModel } from "./tables/gotras";
+import { chartsModel } from "./tables/charts";
 
 const Schema = mongoose.Schema;
 mongoose.connect(process.env.MONGODB_URI);
@@ -27,4 +28,5 @@ export const db = {
   QuestionsOptions: questionsOptionsModel(),
   MarriageRequests: marriageRequestsModel(),
   Gotras: gotrasModel(),
+  Charts: chartsModel(),
 };
