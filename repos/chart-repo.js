@@ -7,7 +7,9 @@ export const chartsRepo = {
 };
 
 async function getAll() {
-  return await Charts.find({});
+  const cursor = Charts.find({});
+  cursor.sort("curDate"); // ASC order
+  return cursor;
 }
 
 async function create(params) {

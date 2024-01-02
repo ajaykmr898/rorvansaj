@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import * as React from "react";
-import { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
@@ -10,11 +9,11 @@ export { Chart };
 function Chart(props) {
   const router = useRouter();
   const defaultTheme = createTheme();
-  const { dataOC, dataHL } = props.data;
-  console.log(props.data);
+  let { dataOC, dataHL, deltaOC, deltaHL } = props.data;
+
   highchartsMore(Highcharts); // Data for the area range chart
 
-  const options = {
+  const options1 = {
     chart: {
       type: "arearange",
       zoomType: "x",
@@ -54,9 +53,53 @@ function Chart(props) {
       },
     ],
   };
+
+  const options2 = {
+    chart: {
+      type: "line",
+      zoomType: "x",
+    },
+    title: {
+      text: "Line Chart",
+    },
+    xAxis: {
+      type: "datetime",
+      title: {
+        text: "Date",
+      },
+    },
+    yAxis: {
+      title: {
+        text: "Value",
+      },
+    },
+    plotOptions: {
+      line: {
+        lineWidth: 2,
+        marker: {
+          enabled: true,
+          radius: 4,
+        },
+      },
+    },
+    series: [
+      {
+        name: "Delta Open/Close",
+        data: deltaOC,
+        zIndex: 1,
+      },
+      {
+        name: "Delta High/Low",
+        data: deltaHL,
+        zIndex: 1,
+      },
+    ],
+  };
+
   return (
     <ThemeProvider theme={defaultTheme}>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <HighchartsReact highcharts={Highcharts} options={options1} />
+      <HighchartsReact highcharts={Highcharts} options={options2} />
     </ThemeProvider>
   );
 }

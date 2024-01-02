@@ -12,6 +12,8 @@ async function getAll() {
   let res = await fetchWrapper.get(baseUrl);
   let dataOC = [];
   let dataHL = [];
+  let deltaOC = [];
+  let deltaHL = [];
   (res?.data || []).map((v, i) => {
     /*dataOC.push({
       x: moment(v.curDate).valueOf(),
@@ -34,8 +36,10 @@ async function getAll() {
       high: parseFloat(v.high),
       low: parseFloat(v.low),
     });
+    deltaOC.push([moment(v.curDate).valueOf(), parseFloat(v.deltaOC)]);
+    deltaHL.push([moment(v.curDate).valueOf(), parseFloat(v.deltaHL)]);
   });
-  return { dataOC, dataHL };
+  return { dataOC, dataHL, deltaOC, deltaHL };
 }
 
 async function create(params) {
